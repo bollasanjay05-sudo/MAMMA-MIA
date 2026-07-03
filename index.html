@@ -1,0 +1,1494 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mamma Mia Riga | Authentic Mediterranean Restaurant</title>
+    <meta
+      name="description"
+      content="Mamma Mia Riga is an authentic Mediterranean restaurant with colorful plates, seaside energy, seafood, citrus, olives, and warm hospitality."
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap");
+
+      :root {
+        --sea: #0078b8;
+        --deep-sea: #073c75;
+        --aqua: #00b8c8;
+        --sun: #ffd331;
+        --lemon: #f6ee50;
+        --coral: #ff5a45;
+        --tomato: #d72722;
+        --pink: #f58aac;
+        --leaf: #1d9a59;
+        --cream: #fff7df;
+        --ink: #12243a;
+        --white: #fffdf6;
+        --shadow: 0 24px 80px rgba(7, 60, 117, 0.24);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 15% 12%, rgba(255, 211, 49, 0.34), transparent 26rem),
+          radial-gradient(circle at 92% 8%, rgba(245, 138, 172, 0.32), transparent 24rem),
+          linear-gradient(180deg, #e8fbff 0%, #fff7df 42%, #f9f0ff 100%);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        overflow-x: hidden;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .shell {
+        min-height: 100vh;
+        position: relative;
+      }
+
+      .topbar {
+        align-items: center;
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        left: 50%;
+        max-width: 1180px;
+        padding: 1rem 1.25rem;
+        position: fixed;
+        top: 0;
+        transform: translateX(-50%);
+        width: min(100%, 1180px);
+        z-index: 50;
+      }
+
+      .brand-mark {
+        align-items: center;
+        color: var(--white);
+        display: inline-flex;
+        font-weight: 950;
+        gap: 0.65rem;
+        letter-spacing: 0;
+        text-decoration: none;
+        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.3);
+        text-transform: uppercase;
+      }
+
+      .brand-mark span:first-child {
+        align-items: center;
+        background: var(--sun);
+        border: 3px solid var(--white);
+        border-radius: 999px;
+        color: var(--deep-sea);
+        display: inline-flex;
+        height: 2.75rem;
+        justify-content: center;
+        width: 2.75rem;
+      }
+
+      .nav {
+        align-items: center;
+        background: rgba(255, 253, 246, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.72);
+        border-radius: 999px;
+        box-shadow: 0 12px 34px rgba(7, 60, 117, 0.16);
+        display: flex;
+        gap: 0.25rem;
+        padding: 0.35rem;
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+      }
+
+      .nav a,
+      .pill-link {
+        border-radius: 999px;
+        color: var(--deep-sea);
+        font-size: 0.9rem;
+        font-weight: 850;
+        padding: 0.7rem 0.95rem;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .pill-link {
+        background: var(--coral);
+        color: var(--white);
+        display: inline-flex;
+        box-shadow: 0 12px 28px rgba(215, 39, 34, 0.25);
+      }
+
+      .hero {
+        color: var(--white);
+        display: grid;
+        min-height: 92vh;
+        overflow: hidden;
+        padding: 7.75rem clamp(1rem, 5vw, 4rem) 4rem;
+        place-items: end start;
+        position: relative;
+      }
+
+      .hero::before {
+        background:
+          linear-gradient(90deg, rgba(4, 33, 72, 0.78) 0%, rgba(0, 120, 184, 0.28) 48%, rgba(255, 211, 49, 0.2) 100%),
+          url("assets/lemons-waves.jpg") center / cover;
+        content: "";
+        inset: 0;
+        position: absolute;
+        transform: scale(1.05);
+      }
+
+      .hero::after {
+        background:
+          radial-gradient(circle at 20% 28%, rgba(255, 255, 255, 0.24), transparent 8rem),
+          repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.13) 0 2px, transparent 2px 26px);
+        content: "";
+        inset: 0;
+        mix-blend-mode: screen;
+        opacity: 0.5;
+        position: absolute;
+      }
+
+      .wave-ribbon {
+        animation: drift 16s ease-in-out infinite alternate;
+        background:
+          radial-gradient(circle at 20% 60%, rgba(255, 255, 255, 0.68), transparent 0.6rem),
+          linear-gradient(90deg, rgba(0, 184, 200, 0.72), rgba(255, 211, 49, 0.68), rgba(245, 138, 172, 0.66));
+        border-radius: 999px;
+        filter: blur(0.2px);
+        height: 7rem;
+        left: -12%;
+        opacity: 0.72;
+        position: absolute;
+        top: 62%;
+        transform: rotate(-8deg);
+        width: 124%;
+        z-index: 1;
+      }
+
+      .floating-food {
+        inset: 0;
+        opacity: 0.76;
+        overflow: hidden;
+        pointer-events: none;
+        position: absolute;
+        z-index: 2;
+      }
+
+      .sticker {
+        align-items: center;
+        display: inline-flex;
+        justify-content: center;
+        position: absolute;
+        will-change: transform;
+      }
+
+      .sticker {
+        animation: floatFood var(--speed, 9s) ease-in-out infinite alternate;
+        filter: saturate(1.12) drop-shadow(0 16px 28px rgba(7, 60, 117, 0.25));
+        height: var(--size, clamp(4.5rem, 9vw, 9rem));
+        left: var(--x);
+        top: var(--y);
+        transform: rotate(var(--tilt, 0deg));
+        width: var(--size, clamp(4.5rem, 9vw, 9rem));
+      }
+
+      .sticker.wide {
+        width: var(--wide, clamp(8rem, 17vw, 16rem));
+      }
+
+      .sticker img {
+        height: 100%;
+        object-fit: contain;
+        pointer-events: none;
+        user-select: none;
+        width: 100%;
+        -webkit-user-drag: none;
+      }
+
+      .hero .sticker,
+      .aqua-band .sticker {
+        opacity: 0.82;
+      }
+
+      .hero-inner {
+        max-width: 1040px;
+        position: relative;
+        z-index: 4;
+      }
+
+      .eyebrow {
+        align-items: center;
+        display: inline-flex;
+        gap: 0.65rem;
+        font-size: 0.88rem;
+        font-weight: 950;
+        letter-spacing: 0.08em;
+        margin: 0 0 1rem;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        background: var(--sun);
+        border-radius: 999px;
+        content: "";
+        height: 0.8rem;
+        width: 0.8rem;
+      }
+
+      .text-pressure-wrap {
+        height: clamp(7rem, 22vw, 16rem);
+        max-width: min(100%, 58rem);
+        position: relative;
+      }
+
+      .text-pressure-title {
+        color: var(--white);
+        display: flex;
+        font-family: "Roboto Flex", Inter, ui-sans-serif, system-ui, sans-serif;
+        font-size: clamp(4.25rem, 13vw, 11rem);
+        font-variation-settings: "wght" 900, "wdth" 118, "ital" 0;
+        font-weight: 900;
+        justify-content: space-between;
+        letter-spacing: 0;
+        line-height: 0.8;
+        margin: 0;
+        text-shadow: 0 16px 56px rgba(4, 33, 72, 0.38);
+        text-transform: uppercase;
+        user-select: none;
+        white-space: nowrap;
+        width: 100%;
+      }
+
+      .pressure-char {
+        display: inline-block;
+        min-width: 0.12em;
+        transition: color 180ms ease;
+      }
+
+      .hero-copy {
+        display: grid;
+        gap: 1.25rem;
+        grid-template-columns: minmax(0, 1fr) auto;
+        margin-top: 1.5rem;
+        max-width: 960px;
+      }
+
+      .hero-copy p {
+        font-size: clamp(1.1rem, 2.2vw, 1.55rem);
+        font-weight: 780;
+        line-height: 1.36;
+        margin: 0;
+        max-width: 680px;
+      }
+
+      .hero-actions {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+
+      .music-dock {
+        align-items: center;
+        background: rgba(255, 253, 246, 0.86);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+        border-radius: 999px;
+        bottom: 1.2rem;
+        box-shadow: 0 16px 42px rgba(7, 60, 117, 0.2);
+        color: var(--deep-sea);
+        display: flex;
+        gap: 0.7rem;
+        left: 50%;
+        padding: 0.45rem 0.55rem 0.45rem 0.9rem;
+        position: fixed;
+        transform: translateX(-50%);
+        z-index: 60;
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+      }
+
+      .music-dock span {
+        font-size: 0.82rem;
+        font-weight: 900;
+        max-width: 15rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .music-toggle {
+        background: var(--deep-sea);
+        border: 0;
+        border-radius: 999px;
+        color: var(--white);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.86rem;
+        font-weight: 950;
+        min-height: 2.55rem;
+        padding: 0.65rem 1rem;
+        text-transform: uppercase;
+      }
+
+      .music-toggle[aria-pressed="true"] {
+        background: var(--coral);
+      }
+
+      .button {
+        align-items: center;
+        border: 0;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex;
+        font-weight: 900;
+        gap: 0.55rem;
+        justify-content: center;
+        min-height: 3.15rem;
+        padding: 0.9rem 1.25rem;
+        text-decoration: none;
+        transition: transform 180ms ease, box-shadow 180ms ease;
+      }
+
+      .button:hover {
+        box-shadow: 0 16px 38px rgba(7, 60, 117, 0.24);
+        transform: translateY(-2px);
+      }
+
+      .button.primary {
+        background: var(--sun);
+        color: var(--deep-sea);
+      }
+
+      .button.secondary {
+        background: rgba(255, 253, 246, 0.2);
+        border: 1px solid rgba(255, 253, 246, 0.54);
+        color: var(--white);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+      }
+
+      .not-italian {
+        align-self: end;
+        background: var(--white);
+        border: 4px solid var(--sun);
+        border-radius: 999px;
+        color: var(--deep-sea);
+        font-size: clamp(1rem, 1.7vw, 1.35rem);
+        font-weight: 1000;
+        padding: 1rem 1.25rem;
+        text-align: center;
+        transform: rotate(4deg);
+        width: min(12rem, 28vw);
+      }
+
+      .section {
+        margin: 0 auto;
+        max-width: 1180px;
+        padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 2rem);
+        position: relative;
+      }
+
+      .section-title {
+        display: grid;
+        gap: 0.85rem;
+        margin: 0 0 2.2rem;
+        max-width: 780px;
+      }
+
+      .section-title h2 {
+        color: var(--deep-sea);
+        font-size: clamp(2.3rem, 5.4vw, 5rem);
+        letter-spacing: 0;
+        line-height: 0.92;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .section-title p {
+        font-size: clamp(1rem, 1.8vw, 1.25rem);
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .split {
+        align-items: center;
+        display: grid;
+        gap: clamp(1.5rem, 4vw, 3rem);
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .image-stack {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 0.9fr 1.1fr;
+      }
+
+      .image-stack img,
+      .stack-card img,
+      .feature-card img {
+        border: 5px solid var(--white);
+        box-shadow: var(--shadow);
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .image-stack img:first-child {
+        aspect-ratio: 0.72;
+        border-radius: 8px;
+      }
+
+      .image-stack img:last-child {
+        aspect-ratio: 0.78;
+        border-radius: 8px;
+        margin-top: 3rem;
+      }
+
+      .detail-grid {
+        display: grid;
+        gap: 0.85rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 1.5rem;
+      }
+
+      .detail {
+        background: rgba(255, 253, 246, 0.74);
+        border: 1px solid rgba(7, 60, 117, 0.12);
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .detail b {
+        color: var(--tomato);
+        display: block;
+        font-size: 1.25rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .marquee {
+        background: var(--deep-sea);
+        color: var(--white);
+        display: flex;
+        font-size: clamp(1.8rem, 4vw, 3.5rem);
+        font-weight: 1000;
+        gap: 2rem;
+        overflow: hidden;
+        padding: 1rem 0;
+        text-transform: uppercase;
+      }
+
+      .marquee-track {
+        animation: scrollText 18s linear infinite;
+        display: flex;
+        flex: 0 0 auto;
+        gap: 2rem;
+        white-space: nowrap;
+      }
+
+      .feature-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .feature-card {
+        background: var(--white);
+        border: 1px solid rgba(7, 60, 117, 0.1);
+        border-radius: 8px;
+        box-shadow: 0 18px 50px rgba(7, 60, 117, 0.12);
+        overflow: hidden;
+      }
+
+      .feature-card img {
+        aspect-ratio: 1.08;
+        border: 0;
+        box-shadow: none;
+      }
+
+      .feature-card div {
+        padding: 1.15rem;
+      }
+
+      .feature-card h3 {
+        color: var(--deep-sea);
+        font-size: 1.3rem;
+        line-height: 1;
+        margin: 0 0 0.55rem;
+        text-transform: uppercase;
+      }
+
+      .feature-card p {
+        line-height: 1.55;
+        margin: 0;
+      }
+
+      .aqua-band {
+        background:
+          linear-gradient(135deg, rgba(0, 120, 184, 0.94), rgba(0, 184, 200, 0.78)),
+          url("assets/seafood-collage.png") center / cover;
+        color: var(--white);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .aqua-band::before {
+        animation: shimmer 11s ease-in-out infinite alternate;
+        background: repeating-radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.35) 0 2px, transparent 2px 22px);
+        content: "";
+        inset: 0;
+        opacity: 0.45;
+        position: absolute;
+      }
+
+      .aqua-content {
+        display: grid;
+        gap: 1.25rem;
+        grid-template-columns: minmax(0, 1fr) auto;
+        margin: 0 auto;
+        max-width: 1180px;
+        padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 2rem);
+        position: relative;
+        z-index: 4;
+      }
+
+      .aqua-content h2 {
+        font-size: clamp(2.4rem, 6vw, 6rem);
+        line-height: 0.88;
+        margin: 0;
+        max-width: 780px;
+        text-transform: uppercase;
+      }
+
+      .aqua-content p {
+        font-size: 1.2rem;
+        font-weight: 760;
+        line-height: 1.55;
+        margin: 0;
+        max-width: 570px;
+      }
+
+      .plate-badge {
+        align-items: center;
+        animation: bob 5s ease-in-out infinite;
+        aspect-ratio: 1;
+        background: var(--sun);
+        border: 6px solid var(--white);
+        border-radius: 999px;
+        color: var(--deep-sea);
+        display: flex;
+        font-size: clamp(1.25rem, 2vw, 1.8rem);
+        font-weight: 1000;
+        justify-content: center;
+        padding: 1rem;
+        text-align: center;
+        text-transform: uppercase;
+        width: min(13rem, 26vw);
+      }
+
+      .cook-section {
+        background:
+          radial-gradient(circle at 18% 18%, rgba(255, 211, 49, 0.46), transparent 20rem),
+          radial-gradient(circle at 88% 12%, rgba(255, 90, 69, 0.32), transparent 18rem),
+          linear-gradient(135deg, var(--cream), #e8fbff 62%, #fff0f5);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .cook-section::before {
+        background: repeating-linear-gradient(90deg, rgba(0, 120, 184, 0.1) 0 12px, transparent 12px 25px);
+        content: "";
+        inset: 0;
+        opacity: 0.42;
+        position: absolute;
+      }
+
+      .cook-inner {
+        align-items: center;
+        display: grid;
+        gap: clamp(1.5rem, 5vw, 4rem);
+        grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 1fr);
+        margin: 0 auto;
+        max-width: 1180px;
+        padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 2rem);
+        position: relative;
+        z-index: 2;
+      }
+
+      .cook-copy {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .cook-kicker {
+        color: var(--tomato);
+        font-size: 0.95rem;
+        font-weight: 1000;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .cook-copy h2 {
+        color: var(--deep-sea);
+        font-size: clamp(2.7rem, 7vw, 7rem);
+        letter-spacing: 0;
+        line-height: 0.86;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .cook-copy p {
+        font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+        font-weight: 760;
+        line-height: 1.55;
+        margin: 0;
+        max-width: 36rem;
+      }
+
+      .cook-jingle {
+        color: var(--coral);
+        font-size: clamp(1.4rem, 3vw, 2.4rem);
+        font-weight: 1000;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .cook-media {
+        background: var(--deep-sea);
+        border: 7px solid var(--white);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        transform: rotate(2deg);
+      }
+
+      .cook-media img {
+        aspect-ratio: 0.78;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .stack-gallery {
+        display: grid;
+        gap: clamp(1.5rem, 5vw, 4rem);
+        grid-template-columns: minmax(17rem, 28rem) minmax(0, 1fr);
+        min-height: 30rem;
+        align-items: center;
+      }
+
+      .stack-container {
+        aspect-ratio: 0.88;
+        max-width: 28rem;
+        perspective: 780px;
+        position: relative;
+        width: min(100%, 28rem);
+      }
+
+      .stack-card {
+        appearance: none;
+        background: var(--white);
+        border: 0;
+        border-radius: 8px;
+        box-shadow: 0 24px 70px rgba(7, 60, 117, 0.22);
+        cursor: grab;
+        height: 100%;
+        left: 0;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        transform-origin: 90% 90%;
+        transition:
+          transform 580ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          opacity 420ms ease,
+          filter 420ms ease;
+        width: 100%;
+      }
+
+      .stack-card:active {
+        cursor: grabbing;
+      }
+
+      .stack-card img {
+        aspect-ratio: 0.88;
+        border: 0;
+        box-shadow: none;
+        pointer-events: none;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      .stack-copy {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .stack-copy h2 {
+        color: var(--deep-sea);
+        font-size: clamp(2.2rem, 5vw, 4.8rem);
+        line-height: 0.92;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .stack-copy p {
+        font-size: clamp(1rem, 1.7vw, 1.22rem);
+        line-height: 1.6;
+        margin: 0;
+        max-width: 34rem;
+      }
+
+      .stack-hint {
+        color: var(--tomato);
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .contact {
+        background:
+          linear-gradient(180deg, rgba(255, 253, 246, 0.82), rgba(255, 247, 223, 0.92)),
+          url("assets/tile-collage.jpg") center / cover;
+        border-top: 8px solid var(--sun);
+      }
+
+      .contact-panel {
+        background: rgba(255, 253, 246, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.74);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        display: grid;
+        gap: 1.25rem;
+        margin-left: auto;
+        max-width: 720px;
+        padding: clamp(1.25rem, 4vw, 2.25rem);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+      }
+
+      .contact-panel h2 {
+        color: var(--deep-sea);
+        font-size: clamp(2.3rem, 5.5vw, 5.2rem);
+        line-height: 0.9;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .contact-list {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .contact-list a,
+      .contact-list span {
+        background: var(--white);
+        border: 1px solid rgba(7, 60, 117, 0.12);
+        border-radius: 8px;
+        font-weight: 850;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        padding: 1rem;
+        text-decoration: none;
+      }
+
+      footer {
+        align-items: center;
+        background: var(--deep-sea);
+        color: var(--white);
+        display: flex;
+        flex-wrap: wrap;
+        font-weight: 760;
+        gap: 1rem;
+        justify-content: space-between;
+        padding: 1.25rem clamp(1rem, 4vw, 2rem);
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      @keyframes drift {
+        from {
+          transform: translate3d(-2%, 0, 0) rotate(-8deg);
+        }
+        to {
+          transform: translate3d(4%, -1rem, 0) rotate(-4deg);
+        }
+      }
+
+      @keyframes scrollText {
+        to {
+          transform: translateX(calc(-100% - 2rem));
+        }
+      }
+
+      @keyframes shimmer {
+        to {
+          transform: translate3d(2rem, -1rem, 0);
+        }
+      }
+
+      @keyframes bob {
+        50% {
+          transform: translateY(-0.8rem) rotate(-3deg);
+        }
+      }
+
+      @keyframes floatFood {
+        from {
+          transform: translate3d(0, 0, 0) rotate(var(--tilt, 0deg));
+        }
+        to {
+          transform: translate3d(var(--dx, 1rem), var(--dy, -1.4rem), 0) rotate(calc(var(--tilt, 0deg) + var(--turn, 9deg)));
+        }
+      }
+
+      @media (max-width: 860px) {
+        .topbar {
+          align-items: flex-start;
+          position: absolute;
+        }
+
+        .nav {
+          display: none;
+        }
+
+        .hero {
+          min-height: 94vh;
+          padding-top: 6.75rem;
+        }
+
+        .hero-copy,
+        .split,
+        .cook-inner,
+        .aqua-content {
+          grid-template-columns: 1fr;
+        }
+
+        .not-italian {
+          justify-self: start;
+          width: min(12rem, 70vw);
+        }
+
+        .feature-grid,
+        .stack-gallery,
+        .contact-list {
+          grid-template-columns: 1fr;
+        }
+
+        .image-stack img:last-child {
+          margin-top: 0;
+        }
+
+        .stack-gallery {
+          min-height: auto;
+        }
+
+        .plate-badge {
+          width: 11rem;
+        }
+
+        .sticker {
+          height: var(--size, 4.7rem);
+          width: var(--size, 4.7rem);
+        }
+
+        .sticker.wide {
+          width: var(--wide, 7.6rem);
+        }
+
+        .cook-media {
+          transform: none;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .brand-mark span:last-child {
+          max-width: 8.5rem;
+        }
+
+        h1 {
+          font-size: clamp(3.5rem, 21vw, 5.5rem);
+        }
+
+        .hero-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .button,
+        .pill-link {
+          width: 100%;
+        }
+
+        .music-dock {
+          bottom: 0.75rem;
+          max-width: calc(100% - 1rem);
+        }
+
+        .music-dock span {
+          max-width: 9.5rem;
+        }
+
+        .detail-grid,
+        .image-stack {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <main class="shell">
+        <header class="topbar">
+          <a class="brand-mark" href="#top" aria-label="Mamma Mia Riga home">
+            <span>MM</span>
+            <span>Mamma Mia Riga</span>
+          </a>
+          <nav class="nav" aria-label="Primary navigation">
+            <a href="#spirit">Spirit</a>
+            <a href="#plates">Plates</a>
+            <a href="#contact">Contact</a>
+            <a class="pill-link" href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">Instagram</a>
+          </nav>
+        </header>
+        <div class="music-dock" aria-label="Mediterranean background music">
+          <span data-track-name>Mediterranean BGM</span>
+          <button class="music-toggle" type="button" aria-pressed="false">Play</button>
+        </div>
+
+        <section class="hero" id="top">
+          <div class="wave-ribbon" aria-hidden="true"></div>
+          <div class="floating-food" aria-hidden="true">
+            <span class="sticker wide" style="--x: 68%; --y: 12%; --tilt: -9deg; --dx: -1.2rem; --dy: 1rem; --turn: 12deg; --speed: 8s; --wide: clamp(9rem, 18vw, 17rem); --size: clamp(4.7rem, 9vw, 8rem)"><img src="assets/float-lobster.gif" alt="" /></span>
+            <span class="sticker" style="--x: 60%; --y: 35%; --tilt: 9deg; --dx: 1.4rem; --dy: -1rem; --turn: -12deg; --speed: 7.5s"><img src="assets/float-shrimp.gif" alt="" /></span>
+            <span class="sticker" style="--x: 82%; --y: 54%; --tilt: 14deg; --dx: -1rem; --dy: -1.2rem; --turn: 10deg; --speed: 9.2s"><img src="assets/float-orange.gif" alt="" /></span>
+            <span class="sticker" style="--x: 7%; --y: 21%; --tilt: -7deg; --dx: 1rem; --dy: -0.8rem; --turn: 12deg; --speed: 8.6s"><img src="assets/float-lemon.gif" alt="" /></span>
+            <span class="sticker" style="--x: 13%; --y: 67%; --tilt: 11deg; --dx: 0.8rem; --dy: -1.3rem; --turn: -9deg; --speed: 10s"><img src="assets/float-lime.gif" alt="" /></span>
+            <span class="sticker" style="--x: 75%; --y: 75%; --tilt: -11deg; --dx: -1rem; --dy: -1.2rem; --turn: 13deg; --speed: 9.7s"><img src="assets/float-vinyl.gif" alt="" /></span>
+            <span class="sticker" style="--x: 50%; --y: 8%; --tilt: 6deg; --dx: 1rem; --dy: 0.8rem; --turn: -8deg; --speed: 10.5s"><img src="assets/float-plate.gif" alt="" /></span>
+          </div>
+          <div class="hero-inner">
+            <p class="eyebrow">Authentic Mediterranean restaurant in Riga</p>
+            <div class="text-pressure-wrap">
+              <h1 class="text-pressure-title" data-pressure-text="Mamma Mia">Mamma Mia</h1>
+            </div>
+            <div class="hero-copy">
+              <div>
+                <p>
+                  Sunlit seafood, citrus, olives, tiled tables, warm bread, and colorful plates
+                  with the rhythm of the coast.
+                </p>
+                <div class="hero-actions">
+                  <a class="button primary" href="mailto:mammamiarestaurant2020@gmail.com">Book by email</a>
+                  <a class="button secondary" href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">@mammamiariga</a>
+                </div>
+              </div>
+              <div class="not-italian">Mediterranean. Not Italian.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section split" id="spirit">
+          <div class="section-title reveal">
+            <h2>Coastal color, generous table.</h2>
+            <p>
+              Mamma Mia is built around Mediterranean energy: bright lemons, blue ceramics,
+              grilled seafood, fresh herbs, good wine, and food made for sharing.
+            </p>
+            <div class="detail-grid">
+              <div class="detail"><b>Sea</b>Fish, prawns, lobster notes, sardines, and salt-air flavor.</div>
+              <div class="detail"><b>Sun</b>Citrus, tomatoes, olive oil, basil, and golden aperitivo tones.</div>
+              <div class="detail"><b>Tiles</b>Blue patterns, handmade-table feeling, and saturated color.</div>
+              <div class="detail"><b>Riga</b>A Mediterranean escape connected through @mammamiariga.</div>
+            </div>
+          </div>
+          <div class="image-stack reveal">
+            <img src="assets/table-feast.jpg" alt="Mediterranean table with pizza, pasta, and colorful dishes" />
+            <img src="assets/seafood-collage.png" alt="Aquatic Mediterranean collage with seafood, olives, citrus, and tiles" />
+          </div>
+        </section>
+
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track">
+            <span>Olives</span><span>Citrus</span><span>Seafood</span><span>Tiles</span><span>Spritz</span><span>Fresh Herbs</span>
+          </div>
+          <div class="marquee-track">
+            <span>Olives</span><span>Citrus</span><span>Seafood</span><span>Tiles</span><span>Spritz</span><span>Fresh Herbs</span>
+          </div>
+        </div>
+
+        <section class="section" id="plates">
+          <div class="section-title reveal">
+            <h2>Made for seaside appetite.</h2>
+            <p>
+              A landing page direction full of motion, warmth, and edible color: more ocean
+              breeze than white-tablecloth, more shared feast than quiet formality.
+            </p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card reveal">
+              <img src="assets/orange-collage.jpg" alt="Orange and blue Mediterranean collage" />
+              <div>
+                <h3>Aperitivo glow</h3>
+                <p>Orange, coral, and deep blue for drinks, evenings, and summer rituals.</p>
+              </div>
+            </article>
+            <article class="feature-card reveal">
+              <img src="assets/lemons-waves.jpg" alt="Lemon and wave patterned Mediterranean artwork" />
+              <div>
+                <h3>Lemon sea</h3>
+                <p>Aquatic movement, lemon brightness, and tile patterns across the experience.</p>
+              </div>
+            </article>
+            <article class="feature-card reveal">
+              <img src="assets/tile-collage.jpg" alt="Colorful Mediterranean tile collage" />
+              <div>
+                <h3>Pattern table</h3>
+                <p>Color-rich surfaces that make every plate feel like part of the artwork.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="aqua-band">
+          <div class="floating-food" aria-hidden="true">
+            <span class="sticker" style="--x: 6%; --y: 18%; --tilt: 13deg; --dx: 1.2rem; --dy: 0.9rem; --turn: -10deg; --speed: 8.8s"><img src="assets/float-shrimp.gif" alt="" /></span>
+            <span class="sticker" style="--x: 84%; --y: 17%; --tilt: -15deg; --dx: -1rem; --dy: 1rem; --turn: 14deg; --speed: 9.4s"><img src="assets/float-lemon.gif" alt="" /></span>
+            <span class="sticker" style="--x: 77%; --y: 66%; --tilt: 8deg; --dx: -1rem; --dy: -1rem; --turn: -12deg; --speed: 10.3s"><img src="assets/float-orange.gif" alt="" /></span>
+            <span class="sticker" style="--x: 48%; --y: 12%; --tilt: 10deg; --dx: -0.8rem; --dy: 1rem; --turn: -12deg; --speed: 10s"><img src="assets/float-plate.gif" alt="" /></span>
+          </div>
+          <div class="aqua-content reveal">
+            <div>
+              <h2>A little wave of holiday, right at dinner.</h2>
+              <p>
+                Bright transitions, drifting water textures, and citrus-toned calls to action make
+                the page feel alive while keeping the focus on the restaurant.
+              </p>
+            </div>
+            <div class="plate-badge">Color on every plate</div>
+          </div>
+        </section>
+
+        <section class="cook-section">
+          <div class="cook-inner reveal">
+            <div class="cook-copy">
+              <span class="cook-kicker">One little chance</span>
+              <h2>Let us cook for you.</h2>
+              <p>
+                Give us a chance and let the kitchen do the singing: hot pans,
+                bright sauce, seafood, herbs, lemon, and plates made to share.
+              </p>
+              <div class="cook-jingle">Come in hungry. Leave humming.</div>
+              <a class="button primary" href="mailto:mammamiarestaurant2020@gmail.com">Let us cook</a>
+            </div>
+            <div class="cook-media">
+              <img src="assets/float-wok.gif" alt="Chef cooking in a wok with flames" />
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="stack-gallery reveal">
+            <div class="stack-container" data-stack>
+              <button class="stack-card" type="button" aria-label="Show next photo">
+                <img src="assets/seafood-collage.png" alt="Seafood and Mediterranean ingredient collage" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next photo">
+                <img src="assets/table-feast.jpg" alt="Shared Mediterranean restaurant table" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next photo">
+                <img src="assets/orange-collage.jpg" alt="Orange Mediterranean collage with drink and citrus" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next photo">
+                <img src="assets/dolce-collage.jpg" alt="Colorful citrus and Mediterranean moodboard collage" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next photo">
+                <img src="assets/lemons-waves.jpg" alt="Lemon and blue wave Mediterranean pattern" />
+              </button>
+            </div>
+            <div class="stack-copy">
+              <h2>Swipe the table mood.</h2>
+              <p>
+                The gallery now behaves like a stacked pile of Mediterranean postcards:
+                tap a photo and it slips to the back while the next plate, tile, citrus, or seafood moment rises forward.
+              </p>
+              <span class="stack-hint">Tap the top photo</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section contact" id="contact">
+          <div class="contact-panel reveal">
+            <h2>Come hungry. Leave sunlit.</h2>
+            <p>
+              For bookings, collaborations, menus, or fresh daily details, connect directly with
+              Mamma Mia Riga.
+            </p>
+            <div class="contact-list">
+              <a href="mailto:mammamiarestaurant2020@gmail.com">mammamiarestaurant2020@gmail.com</a>
+              <a href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">@mammamiariga</a>
+              <span>Authentic Mediterranean restaurant</span>
+              <span>Riga</span>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <span>Mamma Mia Riga</span>
+          <span>Authentic Mediterranean. Not Italian.</span>
+        </footer>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/framer-motion@10/dist/framer-motion.js"></script>
+    <script>
+      (function () {
+        var MotionLib = window.Motion || window.FramerMotion;
+        var framerAnimate = MotionLib && MotionLib.animate;
+
+        function reveal(node, keyframes, options) {
+          node.style.opacity = "1";
+          node.style.transform = "none";
+          if (framerAnimate) {
+            try {
+              framerAnimate(node, keyframes, options);
+              return;
+            } catch (error) {
+              // Fall through to the native animation path if a CDN build differs.
+            }
+          }
+
+          node.animate(
+            [
+              { opacity: keyframes.opacity && keyframes.opacity[0], transform: keyframes.transform && keyframes.transform[0] },
+              { opacity: keyframes.opacity && keyframes.opacity[1], transform: keyframes.transform && keyframes.transform[1] }
+            ],
+            {
+              delay: (options.delay || 0) * 1000,
+              duration: (options.duration || 0.7) * 1000,
+              easing: "cubic-bezier(.2,.8,.2,1)",
+              fill: "both"
+            }
+          );
+        }
+
+        function getPressureValue(distance, maxDistance, minValue, maxValue) {
+          var value = maxValue - Math.abs((maxValue * distance) / maxDistance);
+          return Math.max(minValue, value + minValue);
+        }
+
+        function initTextPressure() {
+          var title = document.querySelector(".text-pressure-title");
+          var wrap = document.querySelector(".text-pressure-wrap");
+          if (!title || !wrap) return;
+
+          var text = title.dataset.pressureText || title.textContent || "";
+          title.textContent = "";
+          var spans = text.split("").map(function (char) {
+            var span = document.createElement("span");
+            span.className = "pressure-char";
+            span.dataset.char = char;
+            span.textContent = char === " " ? "\u00A0" : char;
+            title.appendChild(span);
+            return span;
+          });
+
+          var cursor = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+          var mouse = { x: cursor.x, y: cursor.y };
+          var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+          window.addEventListener("pointermove", function (event) {
+            cursor.x = event.clientX;
+            cursor.y = event.clientY;
+          });
+
+          window.addEventListener(
+            "touchmove",
+            function (event) {
+              if (!event.touches[0]) return;
+              cursor.x = event.touches[0].clientX;
+              cursor.y = event.touches[0].clientY;
+            },
+            { passive: true }
+          );
+
+          function animatePressure() {
+            mouse.x += (cursor.x - mouse.x) / 14;
+            mouse.y += (cursor.y - mouse.y) / 14;
+
+            var titleRect = title.getBoundingClientRect();
+            var maxDistance = Math.max(1, titleRect.width / 2);
+
+            spans.forEach(function (span) {
+              var rect = span.getBoundingClientRect();
+              var center = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+              var dx = mouse.x - center.x;
+              var dy = mouse.y - center.y;
+              var distance = Math.sqrt(dx * dx + dy * dy);
+              var width = Math.floor(getPressureValue(distance, maxDistance, 20, 150));
+              var weight = Math.floor(getPressureValue(distance, maxDistance, 140, 860));
+              var italic = getPressureValue(distance, maxDistance, 0, 1).toFixed(2);
+              span.style.fontVariationSettings = "'wght' " + weight + ", 'wdth' " + width + ", 'ital' " + italic;
+            });
+
+            if (!reducedMotion) requestAnimationFrame(animatePressure);
+          }
+
+          animatePressure();
+        }
+
+        function initStacks() {
+          document.querySelectorAll("[data-stack]").forEach(function (stack) {
+            var cards = Array.from(stack.querySelectorAll(".stack-card"));
+            if (!cards.length) return;
+
+            cards.forEach(function (card, index) {
+              card.dataset.baseRotate = ((index % 2 === 0 ? -1 : 1) * (3 + index * 1.3)).toFixed(2);
+            });
+
+            function updateStack() {
+              cards.forEach(function (card, index) {
+                var fromTop = cards.length - 1 - index;
+                var rotate = Number(card.dataset.baseRotate) + fromTop * 3.5;
+                var scale = Math.max(0.76, 1 - fromTop * 0.055);
+                var translateX = fromTop * -0.55;
+                var translateY = fromTop * 0.65;
+                card.style.zIndex = String(index + 1);
+                card.style.opacity = String(Math.max(0.58, 1 - fromTop * 0.08));
+                card.style.filter = fromTop > 0 ? "saturate(" + Math.max(0.86, 1 - fromTop * 0.04) + ")" : "saturate(1.1)";
+                card.style.transform =
+                  "translate3d(" + translateX + "rem, " + translateY + "rem, " + -fromTop * 10 + "px) rotateZ(" + rotate + "deg) scale(" + scale + ")";
+              });
+            }
+
+            function sendToBack(card) {
+              var index = cards.indexOf(card);
+              if (index === -1) return;
+              cards.splice(index, 1);
+              cards.unshift(card);
+              updateStack();
+            }
+
+            cards.forEach(function (card) {
+              card.addEventListener("click", function () {
+                sendToBack(card);
+              });
+            });
+
+            updateStack();
+            setInterval(function () {
+              sendToBack(cards[cards.length - 1]);
+            }, 3400);
+          });
+        }
+
+        function initMediterraneanBgm() {
+          var button = document.querySelector(".music-toggle");
+          var label = document.querySelector("[data-track-name]");
+          if (!button || !label) return;
+
+          var audioContext;
+          var masterGain;
+          var delayNode;
+          var feedbackGain;
+          var padNodes = [];
+          var timers = [];
+          var playing = false;
+          var playlist = [
+            "Aegean Evening",
+            "Lemon Courtyard",
+            "Blue Tile Dinner",
+            "Harbor After Sunset"
+          ];
+          var trackIndex = 0;
+          var scale = [293.66, 349.23, 392.0, 440.0, 523.25, 587.33, 698.46];
+          var pattern = [0, 2, 4, 1, 3, 5, 4, 2, 6, 3, 1, 0];
+
+          function createContext() {
+            audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+            masterGain = audioContext.createGain();
+            masterGain.gain.value = 0.035;
+
+            delayNode = audioContext.createDelay(1.4);
+            delayNode.delayTime.value = 0.32;
+            feedbackGain = audioContext.createGain();
+            feedbackGain.gain.value = 0.18;
+
+            delayNode.connect(feedbackGain);
+            feedbackGain.connect(delayNode);
+            delayNode.connect(masterGain);
+            masterGain.connect(audioContext.destination);
+          }
+
+          function pluck(frequency, when) {
+            var osc = audioContext.createOscillator();
+            var gain = audioContext.createGain();
+            var filter = audioContext.createBiquadFilter();
+
+            osc.type = "triangle";
+            osc.frequency.setValueAtTime(frequency, when);
+            filter.type = "lowpass";
+            filter.frequency.setValueAtTime(1500, when);
+            filter.frequency.exponentialRampToValueAtTime(520, when + 0.8);
+
+            gain.gain.setValueAtTime(0.0001, when);
+            gain.gain.exponentialRampToValueAtTime(0.12, when + 0.025);
+            gain.gain.exponentialRampToValueAtTime(0.0001, when + 1.15);
+
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+            gain.connect(delayNode);
+            osc.start(when);
+            osc.stop(when + 1.25);
+          }
+
+          function startPad() {
+            [146.83, 220.0].forEach(function (frequency, index) {
+              var osc = audioContext.createOscillator();
+              var gain = audioContext.createGain();
+              var filter = audioContext.createBiquadFilter();
+
+              osc.type = "sine";
+              osc.frequency.value = frequency;
+              filter.type = "lowpass";
+              filter.frequency.value = 480;
+              gain.gain.value = 0.012 + index * 0.005;
+
+              osc.connect(filter);
+              filter.connect(gain);
+              gain.connect(masterGain);
+              osc.start();
+              padNodes.push({ osc: osc, gain: gain });
+            });
+          }
+
+          function scheduleMusic() {
+            var step = 0;
+            var playStep = function () {
+              if (!playing) return;
+              var now = audioContext.currentTime;
+              var note = scale[pattern[step % pattern.length]];
+              var octaveLift = step % 7 === 0 ? 2 : 1;
+              pluck(note * octaveLift, now + 0.02);
+              if (step % 4 === 0) pluck(scale[(step + 3) % scale.length] * 0.5, now + 0.08);
+              step += 1;
+            };
+
+            playStep();
+            timers.push(setInterval(playStep, 780));
+            timers.push(
+              setInterval(function () {
+                trackIndex = (trackIndex + 1) % playlist.length;
+                label.textContent = playlist[trackIndex];
+              }, 10500)
+            );
+          }
+
+          function stopMusic() {
+            playing = false;
+            button.setAttribute("aria-pressed", "false");
+            button.textContent = "Play";
+            label.textContent = "Mediterranean BGM";
+            timers.forEach(clearInterval);
+            timers = [];
+            padNodes.forEach(function (node) {
+              try {
+                node.gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.25);
+                node.osc.stop(audioContext.currentTime + 0.35);
+              } catch (error) {}
+            });
+            padNodes = [];
+          }
+
+          function startMusic() {
+            createContext();
+            audioContext.resume();
+            playing = true;
+            trackIndex = 0;
+            label.textContent = playlist[trackIndex];
+            button.setAttribute("aria-pressed", "true");
+            button.textContent = "Pause";
+            startPad();
+            scheduleMusic();
+          }
+
+          button.addEventListener("click", function () {
+            if (playing) {
+              stopMusic();
+              return;
+            }
+            startMusic();
+          });
+        }
+
+        initTextPressure();
+        initStacks();
+        initMediterraneanBgm();
+
+        document.querySelectorAll(".reveal").forEach(function (node, index) {
+          reveal(
+            node,
+            { opacity: [0, 1], transform: ["translateY(30px)", "translateY(0)"] },
+            { delay: 0.1 + index * 0.07, duration: 0.78, ease: [0.2, 0.8, 0.2, 1] }
+          );
+        });
+
+        document.querySelectorAll(".feature-card, .image-stack img").forEach(function (node) {
+          node.addEventListener("pointermove", function (event) {
+            var rect = node.getBoundingClientRect();
+            var x = (event.clientX - rect.left) / rect.width - 0.5;
+            var y = (event.clientY - rect.top) / rect.height - 0.5;
+            node.style.transform = "perspective(900px) rotateX(" + (-y * 5).toFixed(2) + "deg) rotateY(" + (x * 5).toFixed(2) + "deg) translateY(-4px)";
+          });
+          node.addEventListener("pointerleave", function () {
+            node.style.transform = "";
+          });
+        });
+
+        var heroTitle = document.querySelector("h1");
+        if (heroTitle) {
+          reveal(
+            heroTitle,
+            { opacity: [0, 1], transform: ["translateY(32px) scale(.96)", "translateY(0) scale(1)"] },
+            { duration: 0.9, ease: [0.16, 1, 0.3, 1] }
+          );
+        }
+      })();
+    </script>
+  </body>
+</html>
