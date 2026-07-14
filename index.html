@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mamma Mia Riga | Authentic Mediterranean Restaurant</title>
+    <title>Mamma Mia Riga | Restaurant & Pizzeria</title>
+    <link rel="icon" href="assets/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="assets/mamma-mia-favicon.png" />
     <meta
       name="description"
-      content="Mamma Mia Riga is an authentic Mediterranean restaurant with colorful plates, seaside energy, seafood, citrus, olives, and warm hospitality."
+      content="Mamma Mia Restaurant & Pizzeria in Riga serves authentic Mediterranean plates, seafood, pizza, desserts, wine, and warm hospitality."
     />
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap");
-
       :root {
         --sea: #0078b8;
         --deep-sea: #073c75;
@@ -145,7 +145,7 @@
       .hero::before {
         background:
           linear-gradient(90deg, rgba(4, 33, 72, 0.78) 0%, rgba(0, 120, 184, 0.28) 48%, rgba(255, 211, 49, 0.2) 100%),
-          url("assets/lemons-waves.jpg") center / cover;
+          url("assets/mamma-mia-terrace.webp") center / cover;
         content: "";
         inset: 0;
         position: absolute;
@@ -259,7 +259,7 @@
       .text-pressure-title {
         color: var(--white);
         display: flex;
-        font-family: "Roboto Flex", Inter, ui-sans-serif, system-ui, sans-serif;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         font-size: clamp(4.25rem, 13vw, 11rem);
         font-variation-settings: "wght" 900, "wdth" 118, "ital" 0;
         font-weight: 900;
@@ -314,12 +314,21 @@
         display: flex;
         gap: 0.7rem;
         left: 50%;
-        padding: 0.45rem 0.55rem 0.45rem 0.9rem;
+        padding: 0.35rem 0.55rem 0.35rem 0.45rem;
         position: fixed;
         transform: translateX(-50%);
         z-index: 60;
         -webkit-backdrop-filter: blur(14px);
         backdrop-filter: blur(14px);
+      }
+
+      .music-icon {
+        aspect-ratio: 1;
+        border-radius: 999px;
+        box-shadow: 0 8px 18px rgba(7, 60, 117, 0.22);
+        height: 2.55rem;
+        object-fit: cover;
+        width: 2.55rem;
       }
 
       .music-dock span {
@@ -541,7 +550,7 @@
       .aqua-band {
         background:
           linear-gradient(135deg, rgba(0, 120, 184, 0.94), rgba(0, 184, 200, 0.78)),
-          url("assets/seafood-collage.png") center / cover;
+          url("assets/mamma-mia-table.webp") center / cover;
         color: var(--white);
         overflow: hidden;
         position: relative;
@@ -587,7 +596,7 @@
         align-items: center;
         animation: bob 5s ease-in-out infinite;
         aspect-ratio: 1;
-        background: var(--sun);
+        background: transparent;
         border: 6px solid var(--white);
         border-radius: 999px;
         color: var(--deep-sea);
@@ -595,10 +604,45 @@
         font-size: clamp(1.25rem, 2vw, 1.8rem);
         font-weight: 1000;
         justify-content: center;
+        overflow: visible;
         padding: 1rem;
+        position: relative;
         text-align: center;
+        text-shadow: 0 2px 0 rgba(255, 253, 246, 0.9);
         text-transform: uppercase;
         width: min(13rem, 26vw);
+      }
+
+      .plate-badge::before,
+      .plate-badge::after {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        content: "";
+        pointer-events: none;
+        position: absolute;
+      }
+
+      .plate-badge::before {
+        background-image: url("assets/orange-sticker.gif");
+        inset: -0.55rem;
+        z-index: -1;
+      }
+
+      .plate-badge::after {
+        background-image: url("assets/lime-sticker.gif");
+        height: 72%;
+        left: -24%;
+        opacity: 0.94;
+        top: -16%;
+        transform: rotate(-18deg);
+        width: 72%;
+        z-index: -2;
+      }
+
+      .plate-badge span {
+        position: relative;
+        z-index: 1;
       }
 
       .cook-section {
@@ -760,10 +804,19 @@
         text-transform: uppercase;
       }
 
+      .menu-stack {
+        aspect-ratio: 0.72;
+        max-width: 24rem;
+      }
+
+      .menu-stack .stack-card img {
+        aspect-ratio: 0.72;
+      }
+
       .contact {
         background:
           linear-gradient(180deg, rgba(255, 253, 246, 0.82), rgba(255, 247, 223, 0.92)),
-          url("assets/tile-collage.jpg") center / cover;
+          url("assets/mamma-mia-dining-room.webp") center / cover;
         border-top: 8px solid var(--sun);
       }
 
@@ -805,6 +858,79 @@
         overflow-wrap: anywhere;
         padding: 1rem;
         text-decoration: none;
+      }
+
+      .info-grid {
+        display: grid;
+        gap: 0.85rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .info-card {
+        background: var(--white);
+        border: 1px solid rgba(7, 60, 117, 0.12);
+        border-radius: 8px;
+        display: grid;
+        gap: 0.45rem;
+        padding: 1rem;
+      }
+
+      .info-card b {
+        color: var(--tomato);
+        font-size: 0.88rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .info-card span {
+        line-height: 1.5;
+      }
+
+      .hours-panel {
+        background: var(--white);
+        border: 1px solid rgba(7, 60, 117, 0.12);
+        border-radius: 8px;
+        display: grid;
+        gap: 0.7rem;
+        padding: 1rem;
+      }
+
+      .hours-panel h3 {
+        color: var(--tomato);
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      .hours-list {
+        display: grid;
+        gap: 0.42rem;
+        margin: 0;
+      }
+
+      .hours-row {
+        align-items: center;
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+      }
+
+      .hours-row span:first-child {
+        font-weight: 900;
+      }
+
+      .hours-row.current {
+        color: var(--deep-sea);
+        font-weight: 1000;
+      }
+
+      .kitchen-note {
+        background: rgba(255, 211, 49, 0.24);
+        border-radius: 8px;
+        color: var(--deep-sea);
+        font-weight: 900;
+        padding: 0.85rem;
       }
 
       footer {
@@ -889,7 +1015,8 @@
 
         .feature-grid,
         .stack-gallery,
-        .contact-list {
+        .contact-list,
+        .info-grid {
           grid-template-columns: 1fr;
         }
 
@@ -981,11 +1108,14 @@
           <nav class="nav" aria-label="Primary navigation">
             <a href="#spirit">Spirit</a>
             <a href="#plates">Plates</a>
+            <a href="#menu">Menu</a>
+            <a href="#hours">Hours</a>
             <a href="#contact">Contact</a>
             <a class="pill-link" href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">Instagram</a>
           </nav>
         </header>
         <div class="music-dock" aria-label="Mediterranean background music">
+          <img class="music-icon" loading="lazy" decoding="async" src="assets/vinyl-sticker.gif" alt="" aria-hidden="true" />
           <span data-track-name>Mediterranean BGM</span>
           <button class="music-toggle" type="button" aria-pressed="false">Play</button>
         </div>
@@ -993,31 +1123,24 @@
         <section class="hero" id="top">
           <div class="wave-ribbon" aria-hidden="true"></div>
           <div class="floating-food" aria-hidden="true">
-            <span class="sticker wide" style="--x: 68%; --y: 12%; --tilt: -9deg; --dx: -1.2rem; --dy: 1rem; --turn: 12deg; --speed: 8s; --wide: clamp(9rem, 18vw, 17rem); --size: clamp(4.7rem, 9vw, 8rem)"><img src="assets/float-lobster.gif" alt="" /></span>
-            <span class="sticker" style="--x: 60%; --y: 35%; --tilt: 9deg; --dx: 1.4rem; --dy: -1rem; --turn: -12deg; --speed: 7.5s"><img src="assets/float-shrimp.gif" alt="" /></span>
-            <span class="sticker" style="--x: 82%; --y: 54%; --tilt: 14deg; --dx: -1rem; --dy: -1.2rem; --turn: 10deg; --speed: 9.2s"><img src="assets/float-orange.gif" alt="" /></span>
-            <span class="sticker" style="--x: 7%; --y: 21%; --tilt: -7deg; --dx: 1rem; --dy: -0.8rem; --turn: 12deg; --speed: 8.6s"><img src="assets/float-lemon.gif" alt="" /></span>
-            <span class="sticker" style="--x: 13%; --y: 67%; --tilt: 11deg; --dx: 0.8rem; --dy: -1.3rem; --turn: -9deg; --speed: 10s"><img src="assets/float-lime.gif" alt="" /></span>
-            <span class="sticker" style="--x: 75%; --y: 75%; --tilt: -11deg; --dx: -1rem; --dy: -1.2rem; --turn: 13deg; --speed: 9.7s"><img src="assets/float-vinyl.gif" alt="" /></span>
-            <span class="sticker" style="--x: 50%; --y: 8%; --tilt: 6deg; --dx: 1rem; --dy: 0.8rem; --turn: -8deg; --speed: 10.5s"><img src="assets/float-plate.gif" alt="" /></span>
           </div>
           <div class="hero-inner">
-            <p class="eyebrow">Authentic Mediterranean restaurant in Riga</p>
+            <p class="eyebrow">Mamma Mia Restaurant & Pizzeria in Riga</p>
             <div class="text-pressure-wrap">
               <h1 class="text-pressure-title" data-pressure-text="Mamma Mia">Mamma Mia</h1>
             </div>
             <div class="hero-copy">
               <div>
                 <p>
-                  Sunlit seafood, citrus, olives, tiled tables, warm bread, and colorful plates
-                  with the rhythm of the coast.
+                  Sunlit seafood, pizza, fresh herbs, warm bread, desserts, wine, and colorful
+                  plates with the rhythm of the coast.
                 </p>
                 <div class="hero-actions">
-                  <a class="button primary" href="mailto:mammamiarestaurant2020@gmail.com">Book by email</a>
+                  <a class="button primary" href="https://wa.me/263307986?text=Hello%20Mamma%20Mia%2C%20I%20would%20like%20to%20book%20a%20table." target="_blank" rel="noreferrer">Book on WhatsApp</a>
                   <a class="button secondary" href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">@mammamiariga</a>
                 </div>
               </div>
-              <div class="not-italian">Mediterranean. Not Italian.</div>
+              <div class="not-italian">Mediterranean.</div>
             </div>
           </div>
         </section>
@@ -1026,8 +1149,8 @@
           <div class="section-title reveal">
             <h2>Coastal color, generous table.</h2>
             <p>
-              Mamma Mia is built around Mediterranean energy: bright lemons, blue ceramics,
-              grilled seafood, fresh herbs, good wine, and food made for sharing.
+              Mamma Mia is built around Mediterranean energy: bright tables, blue ceramics,
+              grilled seafood, fresh herbs, good wine, pizza, and food made for sharing.
             </p>
             <div class="detail-grid">
               <div class="detail"><b>Sea</b>Fish, prawns, lobster notes, sardines, and salt-air flavor.</div>
@@ -1037,8 +1160,8 @@
             </div>
           </div>
           <div class="image-stack reveal">
-            <img src="assets/table-feast.jpg" alt="Mediterranean table with pizza, pasta, and colorful dishes" />
-            <img src="assets/seafood-collage.png" alt="Aquatic Mediterranean collage with seafood, olives, citrus, and tiles" />
+            <img loading="lazy" decoding="async" src="assets/mamma-mia-dining-room.webp" alt="Warm Mamma Mia dining room with wine shelves and set tables" />
+            <img loading="lazy" decoding="async" src="assets/mamma-mia-burrata.jpg" alt="Burrata with tomatoes, basil, olive oil, and wine at Mamma Mia" />
           </div>
         </section>
 
@@ -1061,24 +1184,24 @@
           </div>
           <div class="feature-grid">
             <article class="feature-card reveal">
-              <img src="assets/orange-collage.jpg" alt="Orange and blue Mediterranean collage" />
+              <img loading="lazy" decoding="async" src="assets/mamma-mia-mussels.jpg" alt="Mussels served with toast at Mamma Mia" />
               <div>
-                <h3>Aperitivo glow</h3>
-                <p>Orange, coral, and deep blue for drinks, evenings, and summer rituals.</p>
+                <h3>Seafood warmth</h3>
+                <p>Mussels, pasta, fish, herbs, and coastal plates served with generous comfort.</p>
               </div>
             </article>
             <article class="feature-card reveal">
-              <img src="assets/lemons-waves.jpg" alt="Lemon and wave patterned Mediterranean artwork" />
+              <img loading="lazy" decoding="async" src="assets/mamma-mia-dessert.jpg" alt="Dessert with ice cream, mint, and sauce at Mamma Mia" />
               <div>
-                <h3>Lemon sea</h3>
-                <p>Aquatic movement, lemon brightness, and tile patterns across the experience.</p>
+                <h3>Dessert table</h3>
+                <p>Sweet finishes, coffee, and the relaxed pace of a long Mediterranean meal.</p>
               </div>
             </article>
             <article class="feature-card reveal">
-              <img src="assets/tile-collage.jpg" alt="Colorful Mediterranean tile collage" />
+              <img loading="lazy" decoding="async" src="assets/mamma-mia-coffee.jpg" alt="Coffee and cream-topped dessert at Mamma Mia" />
               <div>
-                <h3>Pattern table</h3>
-                <p>Color-rich surfaces that make every plate feel like part of the artwork.</p>
+                <h3>Coffee ritual</h3>
+                <p>Espresso, tiramisu energy, and small details that make the table linger.</p>
               </div>
             </article>
           </div>
@@ -1086,20 +1209,16 @@
 
         <section class="aqua-band">
           <div class="floating-food" aria-hidden="true">
-            <span class="sticker" style="--x: 6%; --y: 18%; --tilt: 13deg; --dx: 1.2rem; --dy: 0.9rem; --turn: -10deg; --speed: 8.8s"><img src="assets/float-shrimp.gif" alt="" /></span>
-            <span class="sticker" style="--x: 84%; --y: 17%; --tilt: -15deg; --dx: -1rem; --dy: 1rem; --turn: 14deg; --speed: 9.4s"><img src="assets/float-lemon.gif" alt="" /></span>
-            <span class="sticker" style="--x: 77%; --y: 66%; --tilt: 8deg; --dx: -1rem; --dy: -1rem; --turn: -12deg; --speed: 10.3s"><img src="assets/float-orange.gif" alt="" /></span>
-            <span class="sticker" style="--x: 48%; --y: 12%; --tilt: 10deg; --dx: -0.8rem; --dy: 1rem; --turn: -12deg; --speed: 10s"><img src="assets/float-plate.gif" alt="" /></span>
           </div>
           <div class="aqua-content reveal">
             <div>
               <h2>A little wave of holiday, right at dinner.</h2>
               <p>
-                Bright transitions, drifting water textures, and citrus-toned calls to action make
-                the page feel alive while keeping the focus on the restaurant.
+                Real table photography, warm interiors, and generous plates keep the page focused
+                on the restaurant people can actually visit.
               </p>
             </div>
-            <div class="plate-badge">Color on every plate</div>
+            <div class="plate-badge"><span>Color on every plate</span></div>
           </div>
         </section>
 
@@ -1113,10 +1232,10 @@
                 bright sauce, seafood, herbs, lemon, and plates made to share.
               </p>
               <div class="cook-jingle">Come in hungry. Leave humming.</div>
-              <a class="button primary" href="mailto:mammamiarestaurant2020@gmail.com">Let us cook</a>
+              <a class="button primary" href="https://wa.me/263307986?text=Hello%20Mamma%20Mia%2C%20I%20would%20like%20to%20book%20a%20table." target="_blank" rel="noreferrer">Book on WhatsApp</a>
             </div>
             <div class="cook-media">
-              <img src="assets/float-wok.gif" alt="Chef cooking in a wok with flames" />
+              <img loading="lazy" decoding="async" src="assets/cook-wok.gif" alt="Chef cooking with a wok and flames" />
             </div>
           </div>
         </section>
@@ -1125,56 +1244,150 @@
           <div class="stack-gallery reveal">
             <div class="stack-container" data-stack>
               <button class="stack-card" type="button" aria-label="Show next photo">
-                <img src="assets/seafood-collage.png" alt="Seafood and Mediterranean ingredient collage" />
+                <img loading="lazy" decoding="async" src="assets/mamma-mia-duck.jpg" alt="Sliced duck with roasted vegetables at Mamma Mia" />
               </button>
               <button class="stack-card" type="button" aria-label="Show next photo">
-                <img src="assets/table-feast.jpg" alt="Shared Mediterranean restaurant table" />
+                <img loading="lazy" decoding="async" src="assets/mamma-mia-table.webp" alt="Shared Mamma Mia table with plated dishes and desserts" />
               </button>
               <button class="stack-card" type="button" aria-label="Show next photo">
-                <img src="assets/orange-collage.jpg" alt="Orange Mediterranean collage with drink and citrus" />
+                <img loading="lazy" decoding="async" src="assets/mamma-mia-baked-dish.jpg" alt="Baked Mediterranean dish with basil and toasted bread" />
               </button>
               <button class="stack-card" type="button" aria-label="Show next photo">
-                <img src="assets/dolce-collage.jpg" alt="Colorful citrus and Mediterranean moodboard collage" />
+                <img loading="lazy" decoding="async" src="assets/mamma-mia-fish.jpg" alt="Whole fish with vegetables and sauce at Mamma Mia" />
               </button>
               <button class="stack-card" type="button" aria-label="Show next photo">
-                <img src="assets/lemons-waves.jpg" alt="Lemon and blue wave Mediterranean pattern" />
+                <img loading="lazy" decoding="async" src="assets/mamma-mia-salad.jpg" alt="Fresh green salad with artichokes and shaved cheese" />
               </button>
             </div>
             <div class="stack-copy">
               <h2>Swipe the table mood.</h2>
               <p>
-                The gallery now behaves like a stacked pile of Mediterranean postcards:
-                tap a photo and it slips to the back while the next plate, tile, citrus, or seafood moment rises forward.
+                The gallery behaves like a stacked pile of Mamma Mia postcards:
+                tap a photo and it slips to the back while the next plate or room moment rises forward.
               </p>
               <span class="stack-hint">Tap the top photo</span>
             </div>
           </div>
         </section>
 
-        <section class="section contact" id="contact">
+        <section class="section" id="menu">
+          <div class="stack-gallery reveal">
+            <div class="stack-container menu-stack" data-stack>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-1.webp" alt="Mamma Mia side orders and kids menu" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-2.webp" alt="Mamma Mia main course menu" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-3.webp" alt="Mamma Mia pasta and gnocchi menu" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-4.webp" alt="Mamma Mia desserts menu" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-5.webp" alt="Mamma Mia pizza menu" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-6.webp" alt="Mamma Mia starters menu" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-7.webp" alt="Mamma Mia pizza menu page two" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-8.webp" alt="Mamma Mia starters menu page two" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-9.webp" alt="Mamma Mia salads and soups menu" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-10.webp" alt="Mamma Mia dessert menu page two" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-11.webp" alt="Mamma Mia starters menu page three" loading="lazy" decoding="async" />
+              </button>
+              <button class="stack-card" type="button" aria-label="Show next menu page">
+                <img src="assets/menu-12.webp" alt="Mamma Mia main course menu page two" loading="lazy" decoding="async" />
+              </button>
+            </div>
+            <div class="stack-copy">
+              <h2>Swipe the menu.</h2>
+              <p>
+                The full menu now uses the same stacked-card motion:
+                tap a page and the next starters, pizza, pasta, main course, or dessert sheet rises forward.
+              </p>
+              <span class="stack-hint">Tap the top menu</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section contact" id="hours">
           <div class="contact-panel reveal">
             <h2>Come hungry. Leave sunlit.</h2>
             <p>
-              For bookings, collaborations, menus, or fresh daily details, connect directly with
-              Mamma Mia Riga.
+              Mamma Mia Restaurant & Pizzeria is open Tuesday through Sunday, with the kitchen
+              serving from 3-9:15 pm.
+            </p>
+            <div class="hours-panel" aria-label="Opening hours">
+              <h3>Opening hours</h3>
+              <div class="hours-list">
+                <div class="hours-row current"><span>Tuesday</span><span>3-10 pm</span></div>
+                <div class="hours-row"><span>Wednesday</span><span>3-10 pm</span></div>
+                <div class="hours-row"><span>Thursday</span><span>3-10 pm</span></div>
+                <div class="hours-row"><span>Friday</span><span>3-10:30 pm</span></div>
+                <div class="hours-row"><span>Saturday</span><span>12:15-10 pm</span></div>
+                <div class="hours-row"><span>Sunday</span><span>12-5 pm</span></div>
+                <div class="hours-row"><span>Monday</span><span>Closed</span></div>
+              </div>
+              <div class="kitchen-note">Kitchen: 3-9:15 pm</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section contact" id="contact">
+          <div class="contact-panel reveal">
+            <h2>Book the table.</h2>
+            <p>
+              Family owned and proudly hands-on, Mamma Mia cooks with fresh ingredients at the
+              heart of everyday meals. From a simple plate of pasta to a generous seafood dish or
+              an intriguing dessert, the food is handmade by professionals who treat the table like
+              a warm Mediterranean welcome.
             </p>
             <div class="contact-list">
               <a href="mailto:mammamiarestaurant2020@gmail.com">mammamiarestaurant2020@gmail.com</a>
+              <a href="https://wa.me/263307986?text=Hello%20Mamma%20Mia%2C%20I%20would%20like%20to%20book%20a%20table." target="_blank" rel="noreferrer">WhatsApp: +263 30 7986</a>
               <a href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">@mammamiariga</a>
-              <span>Authentic Mediterranean restaurant</span>
-              <span>Riga</span>
+              <span>Krišjāņ Valdemāra Iela 34-25, Riga LV 1010 Latvia</span>
+              <span>Restaurant & Pizzeria</span>
+            </div>
+            <div class="info-grid" aria-label="Restaurant details">
+              <div class="info-card">
+                <b>Cuisines</b>
+                <span>Italian, Seafood, Mediterranean, European, Sicilian, Southern-Italian</span>
+              </div>
+              <div class="info-card">
+                <b>Meal types</b>
+                <span>Lunch, Dinner, Drinks</span>
+              </div>
+              <div class="info-card">
+                <b>Special diets</b>
+                <span>Vegetarian friendly, Vegan options</span>
+              </div>
+              <div class="info-card">
+                <b>Features</b>
+                <span>Reservations, Outdoor Seating, Table Service, Serves Alcohol, Free Wifi, Dog Friendly, Family style, Highchairs Available, Gift Cards Available, Accepts Credit Cards, Mastercard, Non-smoking restaurant</span>
+              </div>
             </div>
           </div>
         </section>
 
         <footer>
           <span>Mamma Mia Riga</span>
-          <span>Authentic Mediterranean. Not Italian.</span>
+          <span>Authentic Mediterranean.</span>
         </footer>
       </main>
     </div>
 
-    <script src="https://unpkg.com/framer-motion@10/dist/framer-motion.js"></script>
     <script>
       (function () {
         var MotionLib = window.Motion || window.FramerMotion;
