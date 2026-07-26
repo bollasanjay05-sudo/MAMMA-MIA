@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mamma Mia Riga | Restaurant & Pizzeria</title>
     <link rel="icon" href="assets/favicon.ico" sizes="any" />
-    <link rel="apple-touch-icon" href="assets/mamma-mia-favicon.png" />
+    <link rel="apple-touch-icon" href="assets/mamma-mia-logo-color.png" />
     <meta
       name="description"
       content="Mamma Mia Restaurant & Pizzeria in Riga serves authentic Mediterranean plates, seafood, pizza, desserts, wine, and warm hospitality."
@@ -101,6 +101,16 @@
         width: 2.75rem;
       }
 
+      .brand-logo {
+        background: var(--white);
+        border: 3px solid var(--white);
+        border-radius: 999px;
+        box-shadow: 0 8px 22px rgba(7, 60, 117, 0.2);
+        height: 3.15rem;
+        object-fit: cover;
+        width: 3.15rem;
+      }
+
       .nav {
         align-items: center;
         background: rgba(255, 253, 246, 0.78);
@@ -145,7 +155,7 @@
       .hero::before {
         background:
           linear-gradient(90deg, rgba(4, 33, 72, 0.78) 0%, rgba(0, 120, 184, 0.28) 48%, rgba(255, 211, 49, 0.2) 100%),
-          url("assets/mamma-mia-terrace.webp") center / cover;
+          url("assets/mamma-mia-hero-interior.jpg") center / cover;
         content: "";
         inset: 0;
         position: absolute;
@@ -251,7 +261,7 @@
       }
 
       .text-pressure-wrap {
-        height: clamp(7rem, 22vw, 16rem);
+        height: clamp(5.4rem, 17vw, 12rem);
         max-width: min(100%, 58rem);
         position: relative;
       }
@@ -260,7 +270,7 @@
         color: var(--white);
         display: flex;
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        font-size: clamp(4.25rem, 13vw, 11rem);
+        font-size: clamp(3.25rem, 9.5vw, 7.8rem);
         font-variation-settings: "wght" 900, "wdth" 118, "ital" 0;
         font-weight: 900;
         justify-content: space-between;
@@ -390,20 +400,6 @@
         color: var(--white);
         -webkit-backdrop-filter: blur(12px);
         backdrop-filter: blur(12px);
-      }
-
-      .not-italian {
-        align-self: end;
-        background: var(--white);
-        border: 4px solid var(--sun);
-        border-radius: 999px;
-        color: var(--deep-sea);
-        font-size: clamp(1rem, 1.7vw, 1.35rem);
-        font-weight: 1000;
-        padding: 1rem 1.25rem;
-        text-align: center;
-        transform: rotate(4deg);
-        width: min(12rem, 28vw);
       }
 
       .section {
@@ -596,14 +592,16 @@
         align-items: center;
         animation: bob 5s ease-in-out infinite;
         aspect-ratio: 1;
-        background: transparent;
-        border: 6px solid var(--white);
+        background:
+          radial-gradient(circle at 50% 50%, rgba(255, 253, 246, 0.98) 0 58%, rgba(255, 211, 49, 0.28) 59% 100%);
+        border: 7px solid var(--white);
         border-radius: 999px;
         color: var(--deep-sea);
         display: flex;
         font-size: clamp(1.25rem, 2vw, 1.8rem);
         font-weight: 1000;
         justify-content: center;
+        box-shadow: 0 24px 60px rgba(7, 60, 117, 0.24);
         overflow: visible;
         padding: 1rem;
         position: relative;
@@ -611,33 +609,6 @@
         text-shadow: 0 2px 0 rgba(255, 253, 246, 0.9);
         text-transform: uppercase;
         width: min(13rem, 26vw);
-      }
-
-      .plate-badge::before,
-      .plate-badge::after {
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        content: "";
-        pointer-events: none;
-        position: absolute;
-      }
-
-      .plate-badge::before {
-        background-image: url("assets/orange-sticker.gif");
-        inset: -0.55rem;
-        z-index: -1;
-      }
-
-      .plate-badge::after {
-        background-image: url("assets/lime-sticker.gif");
-        height: 72%;
-        left: -24%;
-        opacity: 0.94;
-        top: -16%;
-        transform: rotate(-18deg);
-        width: 72%;
-        z-index: -2;
       }
 
       .plate-badge span {
@@ -1008,11 +979,6 @@
           grid-template-columns: 1fr;
         }
 
-        .not-italian {
-          justify-self: start;
-          width: min(12rem, 70vw);
-        }
-
         .feature-grid,
         .stack-gallery,
         .contact-list,
@@ -1102,7 +1068,7 @@
       <main class="shell">
         <header class="topbar">
           <a class="brand-mark" href="#top" aria-label="Mamma Mia Riga home">
-            <span>MM</span>
+            <img class="brand-logo" src="assets/mamma-mia-logo-color.png" alt="" />
             <span>Mamma Mia Riga</span>
           </a>
           <nav class="nav" aria-label="Primary navigation">
@@ -1116,7 +1082,7 @@
         </header>
         <div class="music-dock" aria-label="Mediterranean background music">
           <img class="music-icon" loading="lazy" decoding="async" src="assets/vinyl-sticker.gif" alt="" aria-hidden="true" />
-          <span data-track-name>Mediterranean BGM</span>
+          <span data-track-name>Mamma Mia Radio</span>
           <button class="music-toggle" type="button" aria-pressed="false">Play</button>
         </div>
 
@@ -1140,7 +1106,6 @@
                   <a class="button secondary" href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">@mammamiariga</a>
                 </div>
               </div>
-              <div class="not-italian">Mediterranean.</div>
             </div>
           </div>
         </section>
@@ -1348,10 +1313,11 @@
           <div class="contact-panel reveal">
             <h2>Book the table.</h2>
             <p>
-              Family owned and proudly hands-on, Mamma Mia cooks with fresh ingredients at the
-              heart of everyday meals. From a simple plate of pasta to a generous seafood dish or
-              an intriguing dessert, the food is handmade by professionals who treat the table like
-              a warm Mediterranean welcome.
+              Chef Maurizio Terracciano's menu is shaped by years of travel and inspired by Mediterranean
+              culinary heritage. The plates are designed to be simple, generous, and easy to share,
+              creating a warm, social atmosphere at the table. Mamma Mia brings together Italian coastal
+              cooking and modern Mediterranean sensibility, with bright Riviera flavors, gluten-free
+              options, fresh vegetables, fish, meat dishes, family-friendly kids' meals, and daily seasonal specials.
             </p>
             <div class="contact-list">
               <a href="mailto:mammamiarestaurant2020@gmail.com">mammamiarestaurant2020@gmail.com</a>
@@ -1542,10 +1508,11 @@
           var timers = [];
           var playing = false;
           var playlist = [
-            "Aegean Evening",
-            "Lemon Courtyard",
-            "Blue Tile Dinner",
-            "Harbor After Sunset"
+            "Mamma Mia Dinner",
+            "Riga Riviera",
+            "Pizza and Spritz",
+            "Maurizio Kitchen",
+            "Seafood Sunset"
           ];
           var trackIndex = 0;
           var scale = [293.66, 349.23, 392.0, 440.0, 523.25, 587.33, 698.46];
@@ -1554,7 +1521,7 @@
           function createContext() {
             audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
             masterGain = audioContext.createGain();
-            masterGain.gain.value = 0.035;
+            masterGain.gain.value = 0.098;
 
             delayNode = audioContext.createDelay(1.4);
             delayNode.delayTime.value = 0.32;
@@ -1636,7 +1603,7 @@
             playing = false;
             button.setAttribute("aria-pressed", "false");
             button.textContent = "Play";
-            label.textContent = "Mediterranean BGM";
+            label.textContent = "Mamma Mia Radio";
             timers.forEach(clearInterval);
             timers = [];
             padNodes.forEach(function (node) {
