@@ -1,8 +1,512 @@
+Pasted text(1).txt
+Document
+
+https://bollasanjay05-sudo.github.io/MAMMA-MIA/ 1:USE THIS PROMPT FOR SOMETHINGS ,2: ## Integrate the <BounceCards /> component from React Bits
+
+You are helping integrate an open-source React component into an existing application.
+
+### Component: BounceCards
+### Variant: JavaScript + CSS
+### Dependencies: gsap
+
+---
+
+### Usage Example
+```jsx
+import BounceCards from './BounceCards'
+
+const images = [
+"https://picsum.photos/400/400?grayscale",
+"https://picsum.photos/500/500?grayscale",
+"https://picsum.photos/600/600?grayscale",
+"https://picsum.photos/700/700?grayscale",
+"https://picsum.photos/300/300?grayscale"
+];
+
+const transformStyles = [
+"rotate(5deg) translate(-150px)",
+"rotate(0deg) translate(-70px)",
+"rotate(-5deg)",
+"rotate(5deg) translate(70px)",
+"rotate(-5deg) translate(150px)"
+];
+
+<BounceCards
+className="custom-bounceCards"
+images={images}
+containerWidth={500}
+containerHeight={250}
+animationDelay={1}
+animationStagger={0.08}
+easeType="elastic.out(1, 0.5)"
+transformStyles={transformStyles}
+enableHover={false}
+/>
+```
+
+### Props
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| className | string | — | Additional CSS classes for the container. |
+| images | string[] | [] | Array of image URLs to display. |
+| containerWidth | number | 400 | Width of the container (px). |
+| containerHeight | number | 400 | Height of the container (px). |
+| animationDelay | number | 0.5 | Delay (in seconds) before the animation starts. |
+| animationStagger | number | 0.06 | Time (in seconds) between each card's animation. |
+| easeType | string | elastic.out(1, 0.8) | Easing function for the bounce. |
+| transformStyles | string[] | various rotations/translations | Custom transforms for each card position. |
+| enableHover | boolean | false | If true, hovering pushes siblings aside and flattens the hovered card's rotation. |
+
+### Full Component Source
+```jsx
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import './BounceCards.css';
+
+export default function BounceCards({
+className = '',
+images = [],
+containerWidth = 400,
+containerHeight = 400,
+animationDelay = 0.5,
+animationStagger = 0.06,
+easeType = 'elastic.out(1, 0.8)',
+transformStyles = [
+'rotate(10deg) translate(-170px)',
+'rotate(5deg) translate(-85px)',
+'rotate(-3deg)',
+'rotate(-10deg) translate(85px)',
+'rotate(2deg) translate(170px)'
+],
+enableHover = false
+}) {
+const containerRef = useRef(null);
+useEffect(() => {
+const ctx = gsap.context(() => {
+gsap.fromTo(
+'.card',
+{ scale: 0 },
+{
+scale: 1,
+stagger: animationStagger,
+ease: easeType,
+delay: animationDelay
+}
+);
+}, containerRef);
+return () => ctx.revert();
+}, [animationStagger, easeType, animationDelay]);
+
+const getNoRotationTransform = transformStr => {
+const hasRotate = /rotate\([\s\S]*?\)/.test(transformStr);
+if (hasRotate) {
+return transformStr.replace(/rotate\([\s\S]*?\)/, 'rotate(0deg)');
+} else if (transformStr === 'none') {
+return 'rotate(0deg)';
+} else {
+return `${transformStr} rotate(0deg)`;
+}
+};
+
+const getPushedTransform = (baseTransform, offsetX) => {
+const translateRegex = /translate\(([-0-9.]+)px\)/;
+const match = baseTransform.match(translateRegex);
+if (match) {
+const currentX = parseFloat(match[1]);
+const newX = currentX + offsetX;
+return baseTransform.replace(translateRegex, `translate(${newX}px)`);
+} else {
+return baseTransform === 'none' ? `translate(${offsetX}px)` : `${baseTransform} translate(${offsetX}px)`;
+}
+};
+
+const pushSiblings = hoveredIdx => {
+if (!enableHover || !containerRef.current) return;
+
+const q = gsap.utils.selector(containerRef);
+
+images.forEach((\_, i) => {
+  const target = q(\`.card-${i}\`);
+  gsap.killTweensOf(target);
+
+  const baseTransform = transformStyles[i] || 'none';
+
+  if (i === hoveredIdx) {
+    const noRotationTransform = getNoRotationTransform(baseTransform);
+    gsap.to(target, {
+      transform: noRotationTransform,
+      duration: 0.4,
+      ease: 'back.out(1.4)',
+      overwrite: 'auto'
+    });
+  } else {
+    const offsetX = i < hoveredIdx ? -160 : 160;
+    const pushedTransform = getPushedTransform(baseTransform, offsetX);
+
+    const distance = Math.abs(hoveredIdx - i);
+    const delay = distance \* 0.05;
+
+    gsap.to(target, {
+      transform: pushedTransform,
+      duration: 0.4,
+      ease: 'back.out(1.4)',
+      delay,
+      overwrite: 'auto'
+    });
+  }
+});
+
+};
+
+const resetSiblings = () => {
+if (!enableHover || !containerRef.current) return;
+
+const q = gsap.utils.selector(containerRef);
+
+images.forEach((\_, i) => {
+  const target = q(\`.card-${i}\`);
+  gsap.killTweensOf(target);
+  const baseTransform = transformStyles[i] || 'none';
+  gsap.to(target, {
+    transform: baseTransform,
+    duration: 0.4,
+    ease: 'back.out(1.4)',
+    overwrite: 'auto'
+  });
+});
+
+};
+
+return (
+<div
+className={`bounceCardsContainer ${className}`}
+ref={containerRef}
+style={{
+position: 'relative',
+width: containerWidth,
+height: containerHeight
+}}
+>
+{images.map((src, idx) => (
+<div
+key={idx}
+className={`card card-${idx}`}
+style={{
+transform: transformStyles[idx] ?? 'none'
+}}
+onMouseEnter={() => pushSiblings(idx)}
+onMouseLeave={resetSiblings}
+>
+<img className="image" src={src} alt={`card-${idx}`} />
+</div>
+))}
+</div>
+);
+}
+
+```
+
+### Component CSS
+```css
+.bounceCardsContainer {
+position: relative;
+display: flex;
+justify-content: center;
+align-items: center;
+width: 400px;
+height: 400px;
+}
+
+.card {
+position: absolute;
+width: 200px;
+aspect-ratio: 1;
+border: 5px solid #fff;
+border-radius: 25px;
+overflow: hidden;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card .image {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+```
+
+### Integration Instructions
+1. Install any listed dependencies.
+2. Copy the component source into the appropriate directory in the project.
+3. Import the CSS file alongside the component.
+4. Import and render the component using the usage example above as a starting point.
+5. Adjust props as needed for the specific use case — refer to the props table for all available options.
+
+### More from React Bits
+The full library index, including everything reactbits.dev offers, is at https://reactbits.dev/llms.txt — fetch it if this component is not the right fit or the project needs more pieces.
+USE THIS FOR MENU IMAGES ,3: ## Integrate the <BounceCards /> component from React Bits
+
+You are helping integrate an open-source React component into an existing application.
+
+Component: BounceCards
+Variant: JavaScript + CSS
+Dependencies: gsap
+Usage Example
+import BounceCards from './BounceCards'
+
+const images = [
+  "https://picsum.photos/400/400?grayscale",
+  "https://picsum.photos/500/500?grayscale",
+  "https://picsum.photos/600/600?grayscale",
+  "https://picsum.photos/700/700?grayscale",
+  "https://picsum.photos/300/300?grayscale"
+];
+
+const transformStyles = [
+  "rotate(5deg) translate(-150px)",
+  "rotate(0deg) translate(-70px)",
+  "rotate(-5deg)",
+  "rotate(5deg) translate(70px)",
+  "rotate(-5deg) translate(150px)"
+];
+
+<BounceCards
+  className="custom-bounceCards"
+  images={images}
+  containerWidth={500}
+  containerHeight={250}
+  animationDelay={1}
+  animationStagger={0.08}
+  easeType="elastic.out(1, 0.5)"
+  transformStyles={transformStyles}
+  enableHover={false}
+/>
+Props
+Prop	Type	Default	Description
+className	string	—	Additional CSS classes for the container.
+images	string[]	[]	Array of image URLs to display.
+containerWidth	number	400	Width of the container (px).
+containerHeight	number	400	Height of the container (px).
+animationDelay	number	0.5	Delay (in seconds) before the animation starts.
+animationStagger	number	0.06	Time (in seconds) between each card's animation.
+easeType	string	elastic.out(1, 0.8)	Easing function for the bounce.
+transformStyles	string[]	various rotations/translations	Custom transforms for each card position.
+enableHover	boolean	false	If true, hovering pushes siblings aside and flattens the hovered card's rotation.
+Full Component Source
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import './BounceCards.css';
+
+export default function BounceCards({
+  className = '',
+  images = [],
+  containerWidth = 400,
+  containerHeight = 400,
+  animationDelay = 0.5,
+  animationStagger = 0.06,
+  easeType = 'elastic.out(1, 0.8)',
+  transformStyles = [
+    'rotate(10deg) translate(-170px)',
+    'rotate(5deg) translate(-85px)',
+    'rotate(-3deg)',
+    'rotate(-10deg) translate(85px)',
+    'rotate(2deg) translate(170px)'
+  ],
+  enableHover = false
+}) {
+  const containerRef = useRef(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        '.card',
+        { scale: 0 },
+        {
+          scale: 1,
+          stagger: animationStagger,
+          ease: easeType,
+          delay: animationDelay
+        }
+      );
+    }, containerRef);
+    return () => ctx.revert();
+  }, [animationStagger, easeType, animationDelay]);
+
+  const getNoRotationTransform = transformStr => {
+    const hasRotate = /rotate\([\s\S]*?\)/.test(transformStr);
+    if (hasRotate) {
+      return transformStr.replace(/rotate\([\s\S]*?\)/, 'rotate(0deg)');
+    } else if (transformStr === 'none') {
+      return 'rotate(0deg)';
+    } else {
+      return `${transformStr} rotate(0deg)`;
+    }
+  };
+
+  const getPushedTransform = (baseTransform, offsetX) => {
+    const translateRegex = /translate\(([-0-9.]+)px\)/;
+    const match = baseTransform.match(translateRegex);
+    if (match) {
+      const currentX = parseFloat(match[1]);
+      const newX = currentX + offsetX;
+      return baseTransform.replace(translateRegex, `translate(${newX}px)`);
+    } else {
+      return baseTransform === 'none' ? `translate(${offsetX}px)` : `${baseTransform} translate(${offsetX}px)`;
+    }
+  };
+
+  const pushSiblings = hoveredIdx => {
+    if (!enableHover || !containerRef.current) return;
+
+    const q = gsap.utils.selector(containerRef);
+
+    images.forEach((_, i) => {
+      const target = q(`.card-${i}`);
+      gsap.killTweensOf(target);
+
+      const baseTransform = transformStyles[i] || 'none';
+
+      if (i === hoveredIdx) {
+        const noRotationTransform = getNoRotationTransform(baseTransform);
+        gsap.to(target, {
+          transform: noRotationTransform,
+          duration: 0.4,
+          ease: 'back.out(1.4)',
+          overwrite: 'auto'
+        });
+      } else {
+        const offsetX = i < hoveredIdx ? -160 : 160;
+        const pushedTransform = getPushedTransform(baseTransform, offsetX);
+
+        const distance = Math.abs(hoveredIdx - i);
+        const delay = distance * 0.05;
+
+        gsap.to(target, {
+          transform: pushedTransform,
+          duration: 0.4,
+          ease: 'back.out(1.4)',
+          delay,
+          overwrite: 'auto'
+        });
+      }
+    });
+  };
+
+  const resetSiblings = () => {
+    if (!enableHover || !containerRef.current) return;
+
+    const q = gsap.utils.selector(containerRef);
+
+    images.forEach((_, i) => {
+      const target = q(`.card-${i}`);
+      gsap.killTweensOf(target);
+      const baseTransform = transformStyles[i] || 'none';
+      gsap.to(target, {
+        transform: baseTransform,
+        duration: 0.4,
+        ease: 'back.out(1.4)',
+        overwrite: 'auto'
+      });
+    });
+  };
+
+  return (
+    <div
+      className={`bounceCardsContainer ${className}`}
+      ref={containerRef}
+      style={{
+        position: 'relative',
+        width: containerWidth,
+        height: containerHeight
+      }}
+    >
+      {images.map((src, idx) => (
+        <div
+          key={idx}
+          className={`card card-${idx}`}
+          style={{
+            transform: transformStyles[idx] ?? 'none'
+          }}
+          onMouseEnter={() => pushSiblings(idx)}
+          onMouseLeave={resetSiblings}
+        >
+          <img className="image" src={src} alt={`card-${idx}`} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+Component CSS
+.bounceCardsContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 400px;
+}
+
+.card {
+  position: absolute;
+  width: 200px;
+  aspect-ratio: 1;
+  border: 5px solid #fff;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card .image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+Integration Instructions
+Install any listed dependencies.
+Copy the component source into the appropriate directory in the project.
+Import the CSS file alongside the component.
+Import and render the component using the usage example above as a starting point.
+Adjust props as needed for the specific use case — refer to the props table for all available options.
+More from React Bits
+
+The full library index, including everything reactbits.dev offers, is at https://reactbits.dev/llms.txt — fetch it if this component is not the right fit or the project needs more pieces.
+ADD THIS IMAGES
+
+The BounceCards pizza menu is fully integrated and tested locally.
+
+Added 3 animated card groups with all 14 pizza photos
+Optimized images to WebP
+Added hover, tap, keyboard, mobile, and reduced-motion support
+Preserved the existing swipeable full menu
+No missing assets or duplicate IDs
+Saved in commit: Add animated BounceCards pizza showcase
+
+The live website is not updated yet because publishing will make these uploaded photos public on GitHub Pages.
+
+Please confirm: “Yes, publish to the public MAMMA-MIA GitHub website.”
+
+GIVE ME FULL INDEX HTML FILE SO I CAN PASTE AND ADDD NICE FEATURES
+
+Your complete files are ready:
+
+index.html — full HTML, CSS and JavaScript.
+MAMMA-MIA-complete.zip — complete website with required images.
+
+Added animated BounceCards, expanding navigation, pizza search, photo zoom, menu-page browsing, and mobile styling—all 15 supplied photos included.
+
+Replace your entire existing index.html, then upload the ZIP’s assets folder beside it. No React installation needed.
+
+Code checks passed; visual browser verification was blocked. Nothing has been published.
+
+If helpful, I can remind you to test the mobile site after uploading.
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#073c75" />
     <title>Mamma Mia Riga | Restaurant & Pizzeria</title>
     <link rel="icon" href="assets/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="assets/mamma-mia-logo-color.png" />
@@ -784,6 +1288,80 @@
         aspect-ratio: 0.72;
       }
 
+      .pizza-showcase { overflow: hidden; }
+      .pizza-showcase .section-title { margin-bottom: clamp(2.5rem, 6vw, 5rem); }
+      .bounce-menu-grid { display: grid; gap: clamp(4rem, 9vw, 7rem); }
+      .bounce-menu-row {
+        align-items: center;
+        display: grid;
+        gap: clamp(1.5rem, 5vw, 4rem);
+        grid-template-columns: minmax(14rem, 0.72fr) minmax(26rem, 1.28fr);
+      }
+      .bounce-menu-row:nth-child(even) .bounce-menu-copy { order: 2; }
+      .bounce-menu-copy { display: grid; gap: 0.8rem; }
+      .bounce-menu-copy span {
+        color: var(--tomato);
+        font-size: 0.8rem;
+        font-weight: 1000;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .bounce-menu-copy h3 {
+        color: var(--deep-sea);
+        font-size: clamp(2rem, 4.5vw, 4rem);
+        line-height: 0.92;
+        margin: 0;
+        text-transform: uppercase;
+      }
+      .bounce-menu-copy p { line-height: 1.6; margin: 0; }
+      .bounceCardsContainer {
+        align-items: center;
+        display: flex;
+        height: clamp(18rem, 34vw, 25rem);
+        justify-content: center;
+        min-width: 0;
+        position: relative;
+        width: 100%;
+      }
+      .bounce-card {
+        background: var(--white);
+        border: 5px solid var(--white);
+        border-radius: 25px;
+        box-shadow: 0 18px 46px rgba(7, 60, 117, 0.25);
+        height: clamp(11.5rem, 21vw, 15.5rem);
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        transform-origin: center;
+        width: clamp(11.5rem, 21vw, 15.5rem);
+        will-change: transform;
+      }
+      .bounce-card img {
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+        user-select: none;
+        width: 100%;
+        -webkit-user-drag: none;
+      }
+      .bounce-card:focus-visible { outline: 4px solid var(--sun); outline-offset: 5px; }
+      .bounce-card-label {
+        background: rgba(7, 60, 117, 0.88);
+        border-radius: 999px;
+        bottom: 0.65rem;
+        color: var(--white);
+        font-size: 0.72rem;
+        font-weight: 900;
+        left: 50%;
+        max-width: calc(100% - 1rem);
+        overflow: hidden;
+        padding: 0.42rem 0.7rem;
+        position: absolute;
+        text-overflow: ellipsis;
+        transform: translateX(-50%);
+        white-space: nowrap;
+      }
+
       .contact {
         background:
           linear-gradient(180deg, rgba(255, 253, 246, 0.82), rgba(255, 247, 223, 0.92)),
@@ -917,8 +1495,8 @@
       }
 
       .reveal {
-        opacity: 0;
-        transform: translateY(24px);
+        opacity: 1;
+        transform: none;
       }
 
       @keyframes drift {
@@ -981,9 +1559,18 @@
 
         .feature-grid,
         .stack-gallery,
+        .bounce-menu-row,
         .contact-list,
         .info-grid {
           grid-template-columns: 1fr;
+        }
+
+        .bounce-menu-row:nth-child(even) .bounce-menu-copy { order: 0; }
+        .bounce-menu-copy { text-align: center; }
+        .bounceCardsContainer { height: 19rem; }
+        .bounce-card {
+          height: clamp(9rem, 38vw, 12rem);
+          width: clamp(9rem, 38vw, 12rem);
         }
 
         .image-stack img:last-child {
@@ -1061,23 +1648,219 @@
           transform: none;
         }
       }
+      /* Paste-ready edition: all site styles and interactions live in this file.
+         Keep the supplied assets/ folder alongside index.html. */
+      [hidden] { display: none !important; }
+      html { scroll-padding-top: 7rem; }
+      body { overflow-x: clip; }
+      button, input, select { font: inherit; }
+      button, a { -webkit-tap-highlight-color: transparent; }
+      a, button, input, select { touch-action: manipulation; }
+      :focus-visible { outline: 3px solid var(--sea); outline-offset: 5px; }
+      .sr-only {
+        position: absolute; width: 1px; height: 1px; padding: 0;
+        overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+      }
+      .skip-link {
+        position: fixed; top: 0.75rem; left: 1rem; z-index: 200;
+        padding: 0.8rem 1rem; background: var(--sun); color: var(--deep-sea);
+        border-radius: 10px; font-weight: 800; transform: translateY(-200%);
+      }
+      .skip-link:focus { transform: none; }
+      .scroll-progress {
+        position: fixed; inset: 0 0 auto; height: 3px; z-index: 110;
+        background: var(--coral); transform: scaleX(0); transform-origin: left;
+      }
+      .topbar {
+        display: block; top: 1rem; padding: 0; width: min(calc(100% - 2rem), 1040px);
+        position: fixed;
+      }
+      .card-nav {
+        background: rgba(255, 253, 246, 0.97); border: 1px solid rgba(7, 60, 117, 0.12);
+        border-radius: 20px; padding: 0.5rem;
+        box-shadow: 0 8px 40px rgba(7, 60, 117, 0.14);
+      }
+      .card-nav-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+      .nav-toggle {
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.65rem;
+        border: 0; background: transparent; color: var(--deep-sea); font-weight: 900;
+        min-height: 48px; padding: 0.5rem 0.9rem; border-radius: 12px; cursor: pointer;
+      }
+      .nav-toggle:hover { background: #e5f4fb; }
+      .hamburger { width: 22px; display: grid; gap: 6px; }
+      .hamburger i { height: 2px; background: currentColor; transition: transform 200ms; }
+      .nav-toggle[aria-expanded="true"] .hamburger i:first-child { transform: translateY(4px) rotate(45deg); }
+      .nav-toggle[aria-expanded="true"] .hamburger i:last-child { transform: translateY(-4px) rotate(-45deg); }
+      .card-nav .brand-mark { color: var(--deep-sea); text-shadow: none; font-size: 1rem; }
+      .card-nav .brand-logo { height: 44px; width: 44px; border-width: 2px; }
+      .nav-book { background: var(--deep-sea); color: white; padding: 0.85rem 1.2rem; border-radius: 12px; font-weight: 850; text-decoration: none; }
+      .card-nav-content {
+        display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem;
+        padding-top: 0.7rem; max-height: calc(100svh - 7rem); overflow-y: auto;
+      }
+      .nav-card { padding: 1.25rem; border-radius: 14px; display: flex; flex-direction: column; gap: 1.3rem; }
+      .nav-card:nth-child(1) { background: var(--deep-sea); color: var(--white); }
+      .nav-card:nth-child(2) { background: var(--sun); color: var(--deep-sea); }
+      .nav-card:nth-child(3) { background: #f5abc2; color: #38243b; }
+      .nav-card-label { font-size: 0.8rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.8; }
+      .nav-card-links { display: grid; gap: 0.3rem; }
+      .nav-card a { padding: 0.5rem 0; font-size: 1.15rem; font-weight: 800; text-decoration: none; }
+      .nav-card a::before { content: "↗"; display: inline-block; margin-right: 0.5rem; }
+      .nav-card a:hover { text-decoration: underline; text-underline-offset: 5px; }
+      .hero { min-height: 90svh; }
+      .hero-actions { margin-top: 1.5rem; }
+      .text-pressure-wrap { height: auto; }
+      .text-pressure-title { font-size: clamp(3.35rem, 11.5vw, 9.5rem); line-height: 0.96; letter-spacing: -0.045em; }
+      .hero-copy { margin-top: 1.2rem; }
+      .section-title .eyebrow { color: var(--tomato); font-size: 0.8rem; }
+      .pizza-showcase { overflow: visible; }
+      .pizza-showcase .section-title { margin-bottom: 1.5rem; }
+      .menu-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem; }
+      .search-field { display: grid; gap: 0.4rem; flex: 1 1 270px; max-width: 420px; font-weight: 800; }
+      .search-field input, .menu-picker {
+        border: 1px solid rgba(7, 60, 117, 0.25); background: var(--white);
+        color: var(--deep-sea); border-radius: 12px; min-height: 48px; padding: 0.8rem 1rem;
+        width: 100%;
+      }
+      .menu-toolbar output { font-size: 0.85rem; color: var(--deep-sea); }
+      .text-link { color: var(--deep-sea); font-weight: 850; text-underline-offset: 5px; }
+      .small-button, .icon-button {
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        background: var(--white); color: var(--deep-sea); border: 1px solid rgba(7, 60, 117, 0.2);
+        border-radius: 999px; padding: 0.75rem 1rem; min-height: 44px; font-weight: 850; cursor: pointer;
+      }
+      .small-button:hover, .icon-button:hover { background: #e5f4fb; }
+      .small-button:disabled { opacity: 0.4; cursor: default; }
+      .bounce-menu-row:nth-child(even) { grid-template-columns: minmax(26rem, 1.28fr) minmax(14rem, 0.72fr); }
+      .bounceCardsContainer { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; height: auto; }
+      .bounce-card { position: relative; display: block; width: 100%; height: auto; aspect-ratio: 1; cursor: zoom-in; color: var(--white); }
+      .bounceCardsContainer.is-enhanced { display: flex; height: 350px; }
+      .is-enhanced .bounce-card { position: absolute; width: clamp(170px, 21vw, 225px); height: clamp(170px, 21vw, 225px); }
+      .bounce-card-label { max-width: calc(100% - 0.75rem); }
+      .bounce-menu-grid.is-searching { gap: 2rem; }
+      .is-searching .bounce-menu-row { display: block; }
+      .is-searching .bounce-menu-copy { margin-bottom: 1.5rem; order: 0; text-align: left; }
+      .is-searching .bounce-menu-copy h3 { font-size: 1.6rem; }
+      .is-searching .bounce-menu-copy p { display: none; }
+      .is-searching .bounceCardsContainer { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 225px)); height: auto; gap: 1.5rem; }
+      .is-searching .bounce-card { position: relative; transform: none !important; width: 100%; height: auto; opacity: 1 !important; }
+      .no-results { padding: 2rem; background: var(--white); border: 1px solid #c7d7e4; border-radius: 16px; }
+      .menu-book { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+      .menu-page-link { display: block; background: var(--white); border-radius: 14px; padding: 0.6rem; box-shadow: var(--shadow); cursor: zoom-in; }
+      .menu-page-link img { width: 100%; height: auto; aspect-ratio: 0.72; object-fit: contain; border-radius: 8px; }
+      .menu-reader-tools { display: grid; gap: 1rem; }
+      .menu-reader-tools h2 { color: var(--deep-sea); text-transform: uppercase; font-size: clamp(2.3rem, 5vw, 4.4rem); line-height: 0.95; margin: 0; }
+      .menu-reader-tools p { margin: 0; line-height: 1.6; }
+      .menu-select-label { font-weight: 800; display: grid; gap: 0.5rem; }
+      .reader-controls { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+      .reader-controls output { flex: 1; text-align: center; font-size: 0.85rem; color: var(--deep-sea); }
+      .menu-links { display: grid; gap: 0.75rem; }
+      .menu-downloads { padding: 1rem; border: 1px solid #c7d7e4; border-radius: 12px; }
+      .menu-downloads summary { font-weight: 850; cursor: pointer; }
+      .stack-container { touch-action: pan-y; }
+      .stack-container:not(.is-enhanced) { display: grid; gap: 1rem; aspect-ratio: auto; }
+      .stack-container:not(.is-enhanced) .stack-card { position: relative; aspect-ratio: 0.88; }
+      .stack-card { transform-origin: center; cursor: zoom-in; }
+      .stack-card img { object-fit: cover; }
+      .stack-caption { font-size: 0.85rem; color: var(--deep-sea); }
+      .music-dock { left: 1rem; transform: none; }
+      .back-top { position: fixed; bottom: 1.2rem; right: 1rem; z-index: 55; width: 48px; height: 48px; text-decoration: none; box-shadow: var(--shadow); }
+      .hours-row.current { background: #e5f4fb; padding: 0.5rem; border-radius: 6px; }
+      footer { padding-bottom: 6rem; }
+      .image-dialog {
+        width: min(1080px, calc(100% - 1.25rem)); max-width: none; max-height: 94svh;
+        margin: auto; padding: 1rem; border: 1px solid #496481; border-radius: 18px;
+        background: #08243c; color: var(--white); box-shadow: 0 25px 100px #0009;
+      }
+      .image-dialog::backdrop { background: rgba(3, 17, 29, 0.88); backdrop-filter: blur(8px); }
+      body.viewer-open { overflow: hidden; }
+      .viewer-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 0.8rem; }
+      .viewer-top h2 { font-size: clamp(1rem, 2.8vw, 1.4rem); margin: 0; }
+      .viewer-figure { margin: 0; height: min(65svh, 720px); background: #031626; border-radius: 10px; overflow: auto; }
+      .viewer-figure img { width: 100%; height: 100%; object-fit: contain; }
+      .viewer-figure.is-zoomed img { width: max(100%, 1400px); max-width: none; height: auto; object-fit: initial; }
+      .viewer-controls { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 0.65rem; padding-top: 0.8rem; }
+      .viewer-actions { display: flex; align-items: center; gap: 0.5rem; }
+      .viewer-controls .text-link { color: var(--white); font-size: 0.8rem; }
+      .viewer-counter { margin: 0; font-size: 0.85rem; }
+      .viewer-error { padding: 1rem; }
+      @media (max-width: 860px) {
+        .bounce-menu-row, .bounce-menu-row:nth-child(even), .menu-book { grid-template-columns: minmax(0, 1fr); }
+        .bounce-menu-grid { gap: 2.5rem; }
+        .bounceCardsContainer.is-enhanced { height: 300px; }
+        .is-enhanced .bounce-card { width: clamp(140px, 38vw, 215px); height: clamp(140px, 38vw, 215px); }
+        .menu-page-link { max-width: 480px; width: 100%; justify-self: center; }
+        .menu-reader-tools { order: -1; }
+      }
+      @media (max-width: 600px) {
+        .topbar { top: 0.65rem; width: calc(100% - 1.25rem); }
+        .card-nav { border-radius: 15px; }
+        .card-nav-top { gap: 0.4rem; }
+        .nav-toggle { padding: 0.5rem; }
+        .nav-toggle .toggle-label, .card-nav .brand-mark span { display: none; }
+        .card-nav .brand-logo { width: 46px; height: 46px; }
+        .nav-book { padding: 0.8rem 0.85rem; font-size: 0.8rem; }
+        .card-nav-content { grid-template-columns: 1fr; }
+        .nav-card { padding: 0.8rem 1rem; gap: 0.4rem; }
+        .nav-card-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.3rem; }
+        .nav-card a { font-size: 0.94rem; min-height: 40px; }
+        .hero { min-height: 85svh; padding-top: 9rem; }
+        .text-pressure-title { font-size: clamp(3rem, 13.5vw, 5rem); }
+        .hero-copy p { font-size: 1.12rem; }
+        .music-dock { left: 0.65rem; max-width: calc(100% - 5rem); bottom: 0.75rem; gap: 0.4rem; }
+        .music-dock span { font-size: 0.68rem; max-width: 8.5rem; }
+        .music-icon { width: 2.1rem; height: 2.1rem; }
+        .music-toggle { padding: 0.65rem 0.8rem; }
+        .back-top { bottom: 0.9rem; right: 0.65rem; }
+        .bounceCardsContainer.is-enhanced { height: 255px; }
+        .is-searching .bounceCardsContainer { grid-template-columns: repeat(2, minmax(0, 1fr)); height: auto; gap: 0.8rem; }
+        .is-searching .bounce-card { width: 100%; height: auto; }
+        .bounce-card-label { font-size: 0.64rem; padding: 0.4rem 0.5rem; }
+        .viewer-controls { justify-content: center; }
+        .viewer-actions { width: 100%; justify-content: center; }
+        .image-dialog { padding: 0.7rem; }
+        .viewer-figure { height: 57svh; }
+        .contact-panel h2 { overflow-wrap: anywhere; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .marquee-track, .wave-ribbon, .aqua-band::before { animation: none !important; }
+        .pressure-char { transform: none !important; }
+        .music-icon { display: none; }
+      }
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#menu">Skip to menu</a>
+    <div class="scroll-progress" aria-hidden="true"></div>
     <div id="root">
       <main class="shell">
         <header class="topbar">
-          <a class="brand-mark" href="#top" aria-label="Mamma Mia Riga home">
-            <img class="brand-logo" src="assets/mamma-mia-logo-color.png" alt="" />
-            <span>Mamma Mia Riga</span>
-          </a>
-          <nav class="nav" aria-label="Primary navigation">
-            <a href="#spirit">Spirit</a>
-            <a href="#plates">Plates</a>
-            <a href="#menu">Menu</a>
-            <a href="#hours">Hours</a>
-            <a href="#contact">Contact</a>
-            <a class="pill-link" href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">Instagram</a>
+          <nav class="card-nav" aria-label="Primary navigation">
+            <div class="card-nav-top">
+              <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="card-nav-content" aria-label="Open navigation" hidden>
+                <span class="hamburger" aria-hidden="true"><i></i><i></i></span>
+                <span class="toggle-label">Explore</span>
+              </button>
+              <a class="brand-mark" href="#top" aria-label="Mamma Mia Riga home">
+                <img class="brand-logo" src="assets/mamma-mia-logo-color.png" alt="" width="44" height="44" />
+                <span>Mamma Mia Riga</span>
+              </a>
+              <a class="nav-book" href="#contact">Book a table ↗</a>
+            </div>
+            <div class="card-nav-content" id="card-nav-content">
+              <div class="nav-card">
+                <span class="nav-card-label">01 / Taste</span>
+                <div class="nav-card-links"><a href="#menu">Our pizzas</a><a href="#full-menu">Full menu</a></div>
+              </div>
+              <div class="nav-card">
+                <span class="nav-card-label">02 / Discover</span>
+                <div class="nav-card-links"><a href="#spirit">Our spirit</a><a href="#plates">At the table</a></div>
+              </div>
+              <div class="nav-card">
+                <span class="nav-card-label">03 / Visit</span>
+                <div class="nav-card-links"><a href="#hours">Opening hours</a><a href="#contact">Find &amp; book</a></div>
+              </div>
+            </div>
           </nav>
         </header>
         <div class="music-dock" aria-label="Mediterranean background music">
@@ -1103,7 +1886,7 @@
                 </p>
                 <div class="hero-actions">
                   <a class="button primary" href="https://wa.me/37126307986?text=Hello%20Mamma%20Mia%2C%20I%20would%20like%20to%20book%20a%20table." target="_blank" rel="noreferrer">Book on WhatsApp</a>
-                  <a class="button secondary" href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">@mammamiariga</a>
+                  <a class="button secondary" href="#menu">Explore the pizzas ↓</a>
                 </div>
               </div>
             </div>
@@ -1143,8 +1926,8 @@
           <div class="section-title reveal">
             <h2>Made for seaside appetite.</h2>
             <p>
-              A landing page direction full of motion, warmth, and edible color: more ocean
-              breeze than white-tablecloth, more shared feast than quiet formality.
+              Start with something from the sea, stay for another plate, and finish on a sweet note.
+              Good food is even better with good company.
             </p>
           </div>
           <div class="feature-grid">
@@ -1179,8 +1962,8 @@
             <div>
               <h2>A little wave of holiday, right at dinner.</h2>
               <p>
-                Real table photography, warm interiors, and generous plates keep the page focused
-                on the restaurant people can actually visit.
+                A table full of colour, a glass raised to good company, and a little Mediterranean
+                sunshine in the heart of Riga.
               </p>
             </div>
             <div class="plate-badge"><span>Color on every plate</span></div>
@@ -1200,7 +1983,7 @@
               <a class="button primary" href="https://wa.me/37126307986?text=Hello%20Mamma%20Mia%2C%20I%20would%20like%20to%20book%20a%20table." target="_blank" rel="noreferrer">Book on WhatsApp</a>
             </div>
             <div class="cook-media">
-              <img loading="lazy" decoding="async" src="assets/cook-wok.gif" alt="Chef cooking with a wok and flames" />
+              <img loading="lazy" decoding="async" src="assets/mamma-mia-fresh-fish.webp" alt="Mamma Mia fresh fish with herbs, lemon, and chef's knives on a blue background" width="900" height="1200" />
             </div>
           </div>
         </section>
@@ -1208,80 +1991,147 @@
         <section class="section">
           <div class="stack-gallery reveal">
             <div class="stack-container" data-stack>
-              <button class="stack-card" type="button" aria-label="Show next photo">
+              <a class="stack-card" href="assets/mamma-mia-duck.jpg" aria-label="View table photo">
                 <img loading="lazy" decoding="async" src="assets/mamma-mia-duck.jpg" alt="Sliced duck with roasted vegetables at Mamma Mia" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next photo">
+              </a>
+              <a class="stack-card" href="assets/mamma-mia-table.webp" aria-label="View table photo">
                 <img loading="lazy" decoding="async" src="assets/mamma-mia-table.webp" alt="Shared Mamma Mia table with plated dishes and desserts" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next photo">
+              </a>
+              <a class="stack-card" href="assets/mamma-mia-baked-dish.jpg" aria-label="View table photo">
                 <img loading="lazy" decoding="async" src="assets/mamma-mia-baked-dish.jpg" alt="Baked Mediterranean dish with basil and toasted bread" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next photo">
+              </a>
+              <a class="stack-card" href="assets/mamma-mia-fish.jpg" aria-label="View table photo">
                 <img loading="lazy" decoding="async" src="assets/mamma-mia-fish.jpg" alt="Whole fish with vegetables and sauce at Mamma Mia" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next photo">
+              </a>
+              <a class="stack-card" href="assets/mamma-mia-salad.jpg" aria-label="View table photo">
                 <img loading="lazy" decoding="async" src="assets/mamma-mia-salad.jpg" alt="Fresh green salad with artichokes and shaved cheese" />
-              </button>
+              </a>
             </div>
             <div class="stack-copy">
-              <h2>Swipe the table mood.</h2>
+              <h2>A taste of the table.</h2>
               <p>
-                The gallery behaves like a stacked pile of Mamma Mia postcards:
-                tap a photo and it slips to the back while the next plate or room moment rises forward.
+                A few moments from Mamma Mia. Browse the photographs, then tap one for a closer look.
               </p>
-              <span class="stack-hint">Tap the top photo</span>
+              <div class="reader-controls" data-gallery-controls hidden>
+                <button class="small-button" type="button" data-gallery-prev aria-label="Previous table photo">← Previous</button>
+                <button class="small-button" type="button" data-gallery-next aria-label="Next table photo">Next →</button>
+              </div>
+              <span class="stack-caption" data-gallery-caption aria-live="polite"></span>
             </div>
           </div>
         </section>
 
-        <section class="section" id="menu">
-          <div class="stack-gallery reveal">
-            <div class="stack-container menu-stack" data-stack>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-1.webp" alt="Mamma Mia side orders and kids menu" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-2.webp" alt="Mamma Mia main course menu" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-3.webp" alt="Mamma Mia pasta and gnocchi menu" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-4.webp" alt="Mamma Mia desserts menu" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-5.webp" alt="Mamma Mia pizza menu" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-6.webp" alt="Mamma Mia starters menu" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-7.webp" alt="Mamma Mia pizza menu page two" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-8.webp" alt="Mamma Mia starters menu page two" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-9.webp" alt="Mamma Mia salads and soups menu" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-10.webp" alt="Mamma Mia dessert menu page two" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-11.webp" alt="Mamma Mia starters menu page three" loading="lazy" decoding="async" />
-              </button>
-              <button class="stack-card" type="button" aria-label="Show next menu page">
-                <img src="assets/menu-12.webp" alt="Mamma Mia main course menu page two" loading="lazy" decoding="async" />
-              </button>
-            </div>
-            <div class="stack-copy">
-              <h2>Swipe the menu.</h2>
-              <p>
-                The full menu now uses the same stacked-card motion:
-                tap a page and the next starters, pizza, pasta, main course, or dessert sheet rises forward.
-              </p>
-              <span class="stack-hint">Tap the top menu</span>
+        <section class="section pizza-showcase" id="menu">
+          <div class="section-title reveal">
+            <p class="eyebrow">Made to make you hungry</p>
+            <h2>Meet the pizza menu.</h2>
+            <p>Hover to spread the cards. Tap any photograph for a closer look at your next favourite.</p>
+          </div>
+          <div class="menu-toolbar" data-menu-toolbar hidden>
+            <label class="search-field" for="pizza-search">Find your favourite pizza
+              <input id="pizza-search" type="search" placeholder="Try Margherita, Napoli, Calzone…" autocomplete="off" />
+            </label>
+            <button class="small-button" id="clear-search" type="button" hidden>Clear search</button>
+            <output id="pizza-count" for="pizza-search" aria-live="polite">14 photographs</output>
+            <a class="text-link" href="#full-menu">View the full menu ↗</a>
+          </div>
+          <p class="no-results" id="no-pizza-results" hidden>No matching pizza. Try another name or clear the search.</p>
+          <div class="bounce-menu-grid">
+            <article class="bounce-menu-row reveal">
+              <div class="bounce-menu-copy">
+                <span>House favourites</span>
+                <h3>Big flavour. Zero shyness.</h3>
+                <p>Porchetta Royal, Napoli, Tuna Bliss, Veggie Vibes, and Quattro Formaggi.</p>
+              </div>
+              <div class="bounceCardsContainer" data-bounce-cards aria-label="House favourite pizzas">
+                <a class="bounce-card" href="assets/pizza-porchetta-royal.webp" data-transform="rotate(5deg) translateX(-150px)" aria-label="Porchetta Royal"><img src="assets/pizza-porchetta-royal.webp" alt="Porchetta Royal pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Porchetta Royal</span></a>
+                <a class="bounce-card" href="assets/pizza-napoli.webp" data-transform="rotate(0deg) translateX(-70px)" aria-label="Napoli"><img src="assets/pizza-napoli.webp" alt="Napoli pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Napoli</span></a>
+                <a class="bounce-card" href="assets/pizza-tuna-bliss.webp" data-transform="rotate(-5deg)" aria-label="Tuna Bliss"><img src="assets/pizza-tuna-bliss.webp" alt="Tuna Bliss pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Tuna Bliss</span></a>
+                <a class="bounce-card" href="assets/pizza-veggie-vibes.webp" data-transform="rotate(5deg) translateX(70px)" aria-label="Veggie Vibes"><img src="assets/pizza-veggie-vibes.webp" alt="Veggie Vibes pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Veggie Vibes</span></a>
+                <a class="bounce-card" href="assets/pizza-quattro-formaggi.webp" data-transform="rotate(-5deg) translateX(150px)" aria-label="Quattro Formaggi"><img src="assets/pizza-quattro-formaggi.webp" alt="Quattro Formaggi pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Quattro Formaggi</span></a>
+              </div>
+            </article>
+            <article class="bounce-menu-row reveal">
+              <div class="bounce-menu-copy">
+                <span>Bold &amp; crispy</span>
+                <h3>Crust with character.</h3>
+                <p>Mare Crunch, Diavola, Nonno Franco, Mortadella &amp; Pistachio, and Calzone.</p>
+              </div>
+              <div class="bounceCardsContainer" data-bounce-cards aria-label="Bold and crispy pizzas">
+                <a class="bounce-card" href="assets/pizza-mare-crunch.webp" data-transform="rotate(-6deg) translateX(-150px)" aria-label="Mare Crunch"><img src="assets/pizza-mare-crunch.webp" alt="Mare Crunch pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Mare Crunch</span></a>
+                <a class="bounce-card" href="assets/pizza-diavola.webp" data-transform="rotate(4deg) translateX(-70px)" aria-label="Diavola"><img src="assets/pizza-diavola.webp" alt="Diavola pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Diavola</span></a>
+                <a class="bounce-card" href="assets/pizza-nonno-franco.webp" data-transform="rotate(-3deg)" aria-label="Nonno Franco"><img src="assets/pizza-nonno-franco.webp" alt="Nonno Franco pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Nonno Franco</span></a>
+                <a class="bounce-card" href="assets/pizza-mortadella-pistachio.webp" data-transform="rotate(6deg) translateX(70px)" aria-label="Mortadella and Pistachio"><img src="assets/pizza-mortadella-pistachio.webp" alt="Mortadella and pistachio pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Mortadella &amp; Pistachio</span></a>
+                <a class="bounce-card" href="assets/pizza-calzone.webp" data-transform="rotate(-4deg) translateX(150px)" aria-label="Calzone"><img src="assets/pizza-calzone.webp" alt="Folded Calzone pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Calzone</span></a>
+              </div>
+            </article>
+            <article class="bounce-menu-row reveal">
+              <div class="bounce-menu-copy">
+                <span>Mamma Mia classics</span>
+                <h3>The whole table says wow.</h3>
+                <p>Margherita and signature Mamma Mia creations, served with a little coastal theatre.</p>
+              </div>
+              <div class="bounceCardsContainer" data-bounce-cards aria-label="Mamma Mia classic pizzas">
+                <a class="bounce-card" href="assets/pizza-margherita.webp" data-transform="rotate(6deg) translateX(-112px)" aria-label="Margherita"><img src="assets/pizza-margherita.webp" alt="Margherita pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Margherita</span></a>
+                <a class="bounce-card" href="assets/pizza-mamma-mia.webp" data-transform="rotate(-4deg) translateX(-38px)" aria-label="Mamma Mia signature pizza"><img src="assets/pizza-mamma-mia.webp" alt="Mamma Mia signature pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Mamma Mia</span></a>
+                <a class="bounce-card" href="assets/pizza-cover.webp" data-transform="rotate(3deg) translateX(38px)" aria-label="Mamma Mia pizza selection"><img src="assets/pizza-cover.webp" alt="Mamma Mia pizza selection" loading="lazy" decoding="async" /><span class="bounce-card-label">Pizza Selection</span></a>
+                <a class="bounce-card" href="assets/pizza-close-up.webp" data-transform="rotate(-6deg) translateX(112px)" aria-label="Mamma Mia close up"><img src="assets/pizza-close-up.webp" alt="Close-up of Mamma Mia pizzas" loading="lazy" decoding="async" /><span class="bounce-card-label">From the Oven</span></a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="full-menu">
+          <div class="menu-book reveal">
+            <a class="menu-page-link" id="menu-preview" href="assets/menu-1.webp" aria-label="Enlarge the current menu page">
+              <img id="menu-page-image" src="assets/menu-1.webp" alt="Mamma Mia side orders and kids menu" loading="lazy" decoding="async" />
+            </a>
+            <div class="menu-reader-tools">
+              <p class="eyebrow">The full menu</p>
+              <h2>Every craving,<br />covered.</h2>
+              <p>Pizza, pasta, seafood and a little something sweet. Choose a page, then open it full-screen to read every detail.</p>
+              <div data-menu-reader-controls hidden>
+                <label class="menu-select-label" for="menu-page">Choose a menu page
+                  <select class="menu-picker" id="menu-page">
+                    <option value="0">Side orders &amp; kids</option>
+                    <option value="1">Main courses · 1</option>
+                    <option value="2">Pasta &amp; gnocchi</option>
+                    <option value="3">Desserts · 1</option>
+                    <option value="4">Pizza · 1</option>
+                    <option value="5">Starters · 1</option>
+                    <option value="6">Pizza · 2</option>
+                    <option value="7">Starters · 2</option>
+                    <option value="8">Salads &amp; soups</option>
+                    <option value="9">Desserts · 2</option>
+                    <option value="10">Starters · 3</option>
+                    <option value="11">Main courses · 2</option>
+                  </select>
+                </label>
+                <div class="reader-controls" style="margin-top:1rem">
+                  <button class="small-button" id="menu-prev" type="button" aria-label="Previous menu page">← Previous</button>
+                  <output id="menu-counter" aria-live="polite">1 / 12</output>
+                  <button class="small-button" id="menu-next" type="button" aria-label="Next menu page">Next →</button>
+                </div>
+              </div>
+              <button class="button primary" id="menu-enlarge" type="button" hidden>Read full-screen ↗</button>
+              <details class="menu-downloads">
+                <summary>Open individual menu pages</summary>
+                <ul class="menu-links">
+                  <li><a href="assets/menu-1.webp" target="_blank" rel="noopener">Side orders &amp; kids</a></li>
+                  <li><a href="assets/menu-2.webp" target="_blank" rel="noopener">Main courses · 1</a></li>
+                  <li><a href="assets/menu-3.webp" target="_blank" rel="noopener">Pasta &amp; gnocchi</a></li>
+                  <li><a href="assets/menu-4.webp" target="_blank" rel="noopener">Desserts · 1</a></li>
+                  <li><a href="assets/menu-5.webp" target="_blank" rel="noopener">Pizza · 1</a></li>
+                  <li><a href="assets/menu-6.webp" target="_blank" rel="noopener">Starters · 1</a></li>
+                  <li><a href="assets/menu-7.webp" target="_blank" rel="noopener">Pizza · 2</a></li>
+                  <li><a href="assets/menu-8.webp" target="_blank" rel="noopener">Starters · 2</a></li>
+                  <li><a href="assets/menu-9.webp" target="_blank" rel="noopener">Salads &amp; soups</a></li>
+                  <li><a href="assets/menu-10.webp" target="_blank" rel="noopener">Desserts · 2</a></li>
+                  <li><a href="assets/menu-11.webp" target="_blank" rel="noopener">Starters · 3</a></li>
+                  <li><a href="assets/menu-12.webp" target="_blank" rel="noopener">Main courses · 2</a></li>
+                </ul>
+              </details>
+              <p style="font-size:0.85rem">For ingredients, allergens, current prices and availability, please ask the team.</p>
             </div>
           </div>
         </section>
@@ -1296,7 +2146,7 @@
             <div class="hours-panel" aria-label="Opening hours">
               <h3>Opening hours</h3>
               <div class="hours-list">
-                <div class="hours-row current"><span>Tuesday</span><span>3-10 pm</span></div>
+                <div class="hours-row"><span>Tuesday</span><span>3-10 pm</span></div>
                 <div class="hours-row"><span>Wednesday</span><span>3-10 pm</span></div>
                 <div class="hours-row"><span>Thursday</span><span>3-10 pm</span></div>
                 <div class="hours-row"><span>Friday</span><span>3-10:30 pm</span></div>
@@ -1323,7 +2173,8 @@
               <a href="mailto:mammamiarestaurant2020@gmail.com">mammamiarestaurant2020@gmail.com</a>
               <a href="https://wa.me/37126307986?text=Hello%20Mamma%20Mia%2C%20I%20would%20like%20to%20book%20a%20table." target="_blank" rel="noreferrer">WhatsApp: +371 26307986</a>
               <a href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">@mammamiariga</a>
-              <span>Krišjāņ Valdemāra Iela 34-25, Riga LV 1010 Latvia</span>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=Mamma%20Mia%20Krisjana%20Valdemara%2034%20Riga" target="_blank" rel="noopener noreferrer">Krišjāņ Valdemāra Iela 34-25, Riga LV 1010 Latvia · Directions ↗</a>
+              <a href="tel:+37126307986">Call +371 26307986</a>
               <span>Restaurant & Pizzeria</span>
             </div>
             <div class="info-grid" aria-label="Restaurant details">
@@ -1354,321 +2205,472 @@
       </main>
     </div>
 
+    <a class="back-top icon-button" href="#top" aria-label="Back to top" hidden>↑</a>
+    <dialog class="image-dialog" id="image-viewer" aria-labelledby="viewer-title">
+      <div class="viewer-top">
+        <h2 id="viewer-title">Mamma Mia photographs</h2>
+        <button class="icon-button" id="viewer-close" type="button" aria-label="Close photo viewer" autofocus>✕</button>
+      </div>
+      <figure class="viewer-figure" id="viewer-figure">
+        <img id="viewer-image" alt="" />
+      </figure>
+      <p class="viewer-error" id="viewer-error" role="status" hidden>This image could not load. Check the assets folder or open the original.</p>
+      <div class="viewer-controls">
+        <div class="viewer-actions">
+          <button class="small-button" id="viewer-prev" type="button" aria-label="Previous image">← Previous</button>
+          <p class="viewer-counter" id="viewer-counter" aria-live="polite"></p>
+          <button class="small-button" id="viewer-next" type="button" aria-label="Next image">Next →</button>
+        </div>
+        <div class="viewer-actions">
+          <button class="small-button" id="viewer-zoom" type="button" aria-pressed="false">Zoom in</button>
+          <a class="text-link" id="viewer-original" href="#" target="_blank" rel="noopener">Open original ↗</a>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- BounceCards and CardNav are adapted from the React Bits examples you supplied.
+         GSAP is optional at runtime: native animation and readable static fallbacks are included. -->
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script>
-      (function () {
-        var MotionLib = window.Motion || window.FramerMotion;
-        var framerAnimate = MotionLib && MotionLib.animate;
+      (() => {
+        "use strict";
+        const $ = (selector, root = document) => root.querySelector(selector);
+        const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+        const motion = matchMedia("(prefers-reduced-motion: reduce)");
+        const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
+        const wrap = (index, length) => (index + length) % length;
+        const photoOf = (element) => {
+          const img = $("img", element);
+          return { src: img.getAttribute("src"), alt: img.alt, title: $(".bounce-card-label", element)?.textContent || img.alt };
+        };
 
-        function reveal(node, keyframes, options) {
-          node.style.opacity = "1";
-          node.style.transform = "none";
-          if (framerAnimate) {
-            try {
-              framerAnimate(node, keyframes, options);
-              return;
-            } catch (error) {
-              // Fall through to the native animation path if a CDN build differs.
+        function revealOnScroll() {
+          if (!("IntersectionObserver" in window) || motion.matches) return;
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(({ target, isIntersecting }) => {
+              if (!isIntersecting) return;
+              if (!motion.matches && target.animate) {
+                target.animate(
+                  [{ opacity: 0, transform: "translateY(22px)" }, { opacity: 1, transform: "none" }],
+                  { duration: 650, easing: "cubic-bezier(.2,.8,.2,1)" }
+                );
+              }
+              observer.unobserve(target);
+            });
+          }, { threshold: 0.12 });
+          $$(".reveal").forEach((node) => observer.observe(node));
+        }
+
+        function initNavigation() {
+          const toggle = $(".nav-toggle");
+          const content = $("#card-nav-content");
+          const navigation = $(".card-nav");
+          content.hidden = true;
+          toggle.hidden = false;
+          function setOpen(open, restoreFocus = false) {
+            toggle.setAttribute("aria-expanded", String(open));
+            toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+            content.hidden = !open;
+            if (open && !motion.matches) {
+              $$(".nav-card", content).forEach((card, index) => {
+                card.getAnimations().forEach((animation) => animation.cancel());
+                card.animate(
+                  [{ opacity: 0, transform: "translateY(16px)" }, { opacity: 1, transform: "none" }],
+                  { duration: 350, delay: index * 65, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" }
+                );
+              });
             }
+            if (!open && restoreFocus) toggle.focus({ preventScroll: true });
           }
-
-          node.animate(
-            [
-              { opacity: keyframes.opacity && keyframes.opacity[0], transform: keyframes.transform && keyframes.transform[0] },
-              { opacity: keyframes.opacity && keyframes.opacity[1], transform: keyframes.transform && keyframes.transform[1] }
-            ],
-            {
-              delay: (options.delay || 0) * 1000,
-              duration: (options.duration || 0.7) * 1000,
-              easing: "cubic-bezier(.2,.8,.2,1)",
-              fill: "both"
+          toggle.addEventListener("click", () => setOpen(content.hidden));
+          navigation.addEventListener("click", (event) => {
+            const link = event.target.closest("a");
+            if (!link) return;
+            setOpen(false);
+            if (link.hash && link.origin === location.origin) {
+              const target = document.getElementById(link.hash.slice(1));
+              if (target) {
+                target.tabIndex = -1;
+                target.focus({ preventScroll: true });
+              }
             }
-          );
+          });
+          document.addEventListener("pointerdown", (event) => {
+            if (!content.hidden && !navigation.contains(event.target)) setOpen(false);
+          });
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !content.hidden) setOpen(false, true);
+          });
+          navigation.addEventListener("focusout", (event) => {
+            if (event.relatedTarget && !navigation.contains(event.relatedTarget)) setOpen(false);
+          });
         }
 
-        function getPressureValue(distance, maxDistance, minValue, maxValue) {
-          var value = maxValue - Math.abs((maxValue * distance) / maxDistance);
-          return Math.max(minValue, value + minValue);
+        const viewer = $("#image-viewer");
+        const canView = typeof viewer.showModal === "function";
+        let viewerItems = [], viewerIndex = 0, viewerReturnFocus = null, viewerOnChange = null;
+
+        function setZoom(zoom) {
+          $("#viewer-figure").classList.toggle("is-zoomed", zoom);
+          $("#viewer-zoom").setAttribute("aria-pressed", String(zoom));
+          $("#viewer-zoom").textContent = zoom ? "Zoom out" : "Zoom in";
+          $("#viewer-figure").scrollTo(0, 0);
+        }
+        function renderViewer() {
+          const item = viewerItems[viewerIndex];
+          setZoom(false);
+          $("#viewer-error").hidden = true;
+          $("#viewer-image").src = item.src;
+          $("#viewer-image").alt = item.alt;
+          $("#viewer-title").textContent = item.title;
+          $("#viewer-original").href = item.src;
+          $("#viewer-counter").textContent = (viewerIndex + 1) + " / " + viewerItems.length;
+          $("#viewer-prev").disabled = $("#viewer-next").disabled = viewerItems.length < 2;
+          if (viewerOnChange) viewerOnChange(viewerIndex);
+        }
+        function openViewer(items, index, onChange = null) {
+          if (!canView || !items.length) return false;
+          viewerItems = items;
+          viewerIndex = index;
+          viewerOnChange = onChange;
+          viewerReturnFocus = document.activeElement;
+          renderViewer();
+          viewer.showModal();
+          document.body.classList.add("viewer-open");
+          return true;
+        }
+        function moveViewer(direction) {
+          viewerIndex = wrap(viewerIndex + direction, viewerItems.length);
+          renderViewer();
+        }
+        if (canView) {
+          $("#viewer-close").addEventListener("click", () => viewer.close());
+          $("#viewer-prev").addEventListener("click", () => moveViewer(-1));
+          $("#viewer-next").addEventListener("click", () => moveViewer(1));
+          $("#viewer-zoom").addEventListener("click", () => setZoom($("#viewer-zoom").getAttribute("aria-pressed") !== "true"));
+          $("#viewer-image").addEventListener("error", () => { $("#viewer-error").hidden = false; });
+          viewer.addEventListener("click", (event) => { if (event.target === viewer) viewer.close(); });
+          viewer.addEventListener("close", () => {
+            document.body.classList.remove("viewer-open");
+            const returnTarget = viewerReturnFocus?.getAttribute("aria-hidden") === "true"
+              ? $("[data-stack] .stack-card[tabindex='0']") : viewerReturnFocus;
+            if (returnTarget?.isConnected) returnTarget.focus({ preventScroll: true });
+          });
+          viewer.addEventListener("keydown", (event) => {
+            if ($("#viewer-zoom").getAttribute("aria-pressed") === "true") return;
+            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+              event.preventDefault();
+              moveViewer(event.key === "ArrowLeft" ? -1 : 1);
+            }
+          });
         }
 
-        function initTextPressure() {
-          var title = document.querySelector(".text-pressure-title");
-          var wrap = document.querySelector(".text-pressure-wrap");
-          if (!title || !wrap) return;
-
-          var text = title.dataset.pressureText || title.textContent || "";
-          title.textContent = "";
-          var spans = text.split("").map(function (char) {
-            var span = document.createElement("span");
-            span.className = "pressure-char";
-            span.dataset.char = char;
-            span.textContent = char === " " ? "\u00A0" : char;
-            title.appendChild(span);
-            return span;
+        function initBounceCards() {
+          const allCards = $$(".bounce-card");
+          const galleryItems = allCards.map(photoOf);
+          const grid = $(".bounce-menu-grid");
+          const layouts = [];
+          allCards.forEach((card, index) => {
+            card.setAttribute("aria-label", "View " + galleryItems[index].title);
+            card.addEventListener("click", (event) => {
+              if (openViewer(galleryItems, index)) event.preventDefault();
+            });
           });
 
-          var cursor = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-          var mouse = { x: cursor.x, y: cursor.y };
-          var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-          window.addEventListener("pointermove", function (event) {
-            cursor.x = event.clientX;
-            cursor.y = event.clientY;
-          });
-
-          window.addEventListener(
-            "touchmove",
-            function (event) {
-              if (!event.touches[0]) return;
-              cursor.x = event.touches[0].clientX;
-              cursor.y = event.touches[0].clientY;
-            },
-            { passive: true }
-          );
-
-          function animatePressure() {
-            mouse.x += (cursor.x - mouse.x) / 14;
-            mouse.y += (cursor.y - mouse.y) / 14;
-
-            var titleRect = title.getBoundingClientRect();
-            var maxDistance = Math.max(1, titleRect.width / 2);
-
-            spans.forEach(function (span) {
-              var rect = span.getBoundingClientRect();
-              var center = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
-              var dx = mouse.x - center.x;
-              var dy = mouse.y - center.y;
-              var distance = Math.sqrt(dx * dx + dy * dy);
-              var width = Math.floor(getPressureValue(distance, maxDistance, 20, 150));
-              var weight = Math.floor(getPressureValue(distance, maxDistance, 140, 860));
-              var italic = getPressureValue(distance, maxDistance, 0, 1).toFixed(2);
-              span.style.fontVariationSettings = "'wght' " + weight + ", 'wdth' " + width + ", 'ital' " + italic;
-            });
-
-            if (!reducedMotion) requestAnimationFrame(animatePressure);
-          }
-
-          animatePressure();
-        }
-
-        function initStacks() {
-          document.querySelectorAll("[data-stack]").forEach(function (stack) {
-            var cards = Array.from(stack.querySelectorAll(".stack-card"));
-            if (!cards.length) return;
-
-            cards.forEach(function (card, index) {
-              card.dataset.baseRotate = ((index % 2 === 0 ? -1 : 1) * (3 + index * 1.3)).toFixed(2);
-            });
-
-            function updateStack() {
-              cards.forEach(function (card, index) {
-                var fromTop = cards.length - 1 - index;
-                var rotate = Number(card.dataset.baseRotate) + fromTop * 3.5;
-                var scale = Math.max(0.76, 1 - fromTop * 0.055);
-                var translateX = fromTop * -0.55;
-                var translateY = fromTop * 0.65;
+          $$("[data-bounce-cards]").forEach((container) => {
+            const cards = $$(".bounce-card", container);
+            container.classList.add("is-enhanced");
+            const bases = cards.map((card) => ({
+              x: Number((card.dataset.transform.match(/translateX\(([-0-9.]+)px\)/) || [0, 0])[1]),
+              rotation: Number((card.dataset.transform.match(/rotate\(([-0-9.]+)deg\)/) || [0, 0])[1])
+            }));
+            const maxBase = Math.max(1, ...bases.map((base) => Math.abs(base.x)));
+            let positions = [], available = 0;
+            function pose(card, x, rotation, scale = 1, animate = false, delay = 0) {
+              card.getAnimations().forEach((animation) => animation.cancel());
+              if (window.gsap) {
+                gsap.killTweensOf(card);
+                const props = { x, rotation, scale, opacity: 1, visibility: "visible" };
+                if (animate && !motion.matches) gsap.to(card, { ...props, duration: 0.4, ease: "back.out(1.4)", delay, overwrite: true });
+                else gsap.set(card, props);
+              } else {
+                const transform = "translateX(" + x + "px) rotate(" + rotation + "deg) scale(" + scale + ")";
+                const previous = getComputedStyle(card).transform;
+                card.getAnimations().forEach((animation) => animation.cancel());
+                card.style.transform = transform;
+                card.style.opacity = "1";
+                if (animate && !motion.matches && card.animate) {
+                  card.animate([{ transform: previous }, { transform }], { duration: 350, easing: "cubic-bezier(.2,.8,.2,1)" });
+                }
+              }
+            }
+            function layout() {
+              if (grid.classList.contains("is-searching")) {
+                cards.forEach((card) => {
+                  if (window.gsap) gsap.killTweensOf(card);
+                  card.getAnimations().forEach((animation) => animation.cancel());
+                  card.style.transform = "none";
+                  card.style.opacity = "1";
+                });
+                return;
+              }
+              available = Math.max(0, (container.clientWidth - cards[0].offsetWidth - 24) / 2);
+              const spread = Math.min(1, available / maxBase);
+              positions = bases.map((base) => base.x * spread);
+              cards.forEach((card, index) => {
                 card.style.zIndex = String(index + 1);
-                card.style.opacity = String(Math.max(0.58, 1 - fromTop * 0.08));
-                card.style.filter = fromTop > 0 ? "saturate(" + Math.max(0.86, 1 - fromTop * 0.04) + ")" : "saturate(1.1)";
-                card.style.transform =
-                  "translate3d(" + translateX + "rem, " + translateY + "rem, " + -fromTop * 10 + "px) rotateZ(" + rotate + "deg) scale(" + scale + ")";
+                pose(card, positions[index], bases[index].rotation);
               });
             }
-
-            function sendToBack(card) {
-              var index = cards.indexOf(card);
-              if (index === -1) return;
-              cards.splice(index, 1);
-              cards.unshift(card);
-              updateStack();
-            }
-
-            cards.forEach(function (card) {
-              card.addEventListener("click", function () {
-                sendToBack(card);
+            function reset() {
+              if (grid.classList.contains("is-searching")) return;
+              cards.forEach((card, index) => {
+                card.style.zIndex = String(index + 1);
+                pose(card, positions[index], bases[index].rotation, 1, true);
               });
+            }
+            function spread(hovered) {
+              if (grid.classList.contains("is-searching") || !finePointer.matches || innerWidth < 861 || motion.matches) return;
+              cards.forEach((card, index) => {
+                const selected = index === hovered;
+                const push = selected ? 0 : (index < hovered ? -1 : 1) * 65;
+                const x = Math.max(-available, Math.min(available, positions[index] + push));
+                card.style.zIndex = String(selected ? 20 : index + 1);
+                pose(card, x, selected ? 0 : bases[index].rotation, selected ? 1.05 : 0.94, true, Math.abs(hovered - index) * 0.035);
+              });
+            }
+            cards.forEach((card, index) => {
+              card.addEventListener("pointerenter", (event) => { if (event.pointerType === "mouse") spread(index); });
+              card.addEventListener("focus", () => spread(index));
             });
-
-            updateStack();
-            setInterval(function () {
-              sendToBack(cards[cards.length - 1]);
-            }, 3400);
+            container.addEventListener("pointerleave", reset);
+            container.addEventListener("focusout", (event) => { if (!container.contains(event.relatedTarget)) reset(); });
+            layouts.push(layout);
+            layout();
+            if ("IntersectionObserver" in window) {
+              const observer = new IntersectionObserver((entries) => {
+                if (!entries.some((entry) => entry.isIntersecting)) return;
+                observer.disconnect();
+                if (motion.matches || grid.classList.contains("is-searching")) return;
+                if (window.gsap) {
+                  gsap.fromTo(cards, { scale: 0.3, opacity: 0 }, {
+                    scale: 1, opacity: 1, stagger: 0.08, duration: 1,
+                    ease: "elastic.out(1, 0.5)", overwrite: "auto"
+                  });
+                } else {
+                  cards.forEach((card, index) => {
+                    const base = card.style.transform;
+                    card.animate([
+                      { transform: base + " scale(.65)", opacity: 0 },
+                      { transform: base + " scale(1.04)", opacity: 1, offset: 0.72 },
+                      { transform: base, opacity: 1 }
+                    ], { duration: 750, delay: index * 80, fill: "backwards", easing: "cubic-bezier(.2,.8,.2,1)" });
+                  });
+                }
+              }, { threshold: 0.25 });
+              observer.observe(container);
+            }
           });
+          const search = $("#pizza-search");
+          const normalise = (text) => text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+          function filterPizzas() {
+            const query = normalise(search.value.trim());
+            grid.classList.toggle("is-searching", Boolean(query));
+            let count = 0;
+            allCards.forEach((card, index) => {
+              const matches = normalise(galleryItems[index].title).includes(query);
+              card.hidden = !matches;
+              if (matches) count++;
+            });
+            $$(".bounce-menu-row").forEach((row) => {
+              row.hidden = !$$(".bounce-card", row).some((card) => !card.hidden);
+            });
+            $("#clear-search").hidden = !query;
+            $("#no-pizza-results").hidden = count > 0;
+            $("#pizza-count").textContent = count + (count === 1 ? " photograph" : " photographs");
+            layouts.forEach((layout) => layout());
+          }
+          $("[data-menu-toolbar]").hidden = false;
+          search.addEventListener("input", filterPizzas);
+          $("#clear-search").addEventListener("click", () => {
+            search.value = "";
+            filterPizzas();
+            search.focus();
+          });
+          let resizeFrame;
+          window.addEventListener("resize", () => {
+            cancelAnimationFrame(resizeFrame);
+            resizeFrame = requestAnimationFrame(() => layouts.forEach((layout) => layout()));
+          });
+          motion.addEventListener("change", () => layouts.forEach((layout) => layout()));
         }
 
-        function initMediterraneanBgm() {
-          var button = document.querySelector(".music-toggle");
-          var label = document.querySelector("[data-track-name]");
-          if (!button || !label) return;
-
-          var audioContext;
-          var masterGain;
-          var delayNode;
-          var feedbackGain;
-          var padNodes = [];
-          var timers = [];
-          var playing = false;
-          var playlist = [
-            "Mamma Mia Dinner",
-            "Riga Riviera",
-            "Pizza and Spritz",
-            "Maurizio Kitchen",
-            "Seafood Sunset"
-          ];
-          var trackIndex = 0;
-          var scale = [293.66, 349.23, 392.0, 440.0, 523.25, 587.33, 698.46];
-          var pattern = [0, 2, 4, 1, 3, 5, 4, 2, 6, 3, 1, 0];
-
-          function createContext() {
-            audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
-            masterGain = audioContext.createGain();
-            masterGain.gain.value = 0.098;
-
-            delayNode = audioContext.createDelay(1.4);
-            delayNode.delayTime.value = 0.32;
-            feedbackGain = audioContext.createGain();
-            feedbackGain.gain.value = 0.18;
-
-            delayNode.connect(feedbackGain);
-            feedbackGain.connect(delayNode);
-            delayNode.connect(masterGain);
-            masterGain.connect(audioContext.destination);
+        function initMenuReader() {
+          const select = $("#menu-page");
+          const items = Array.from(select.options).map((option, index) => ({
+            src: "assets/menu-" + (index + 1) + ".webp",
+            title: option.textContent,
+            alt: "Mamma Mia menu: " + option.textContent
+          }));
+          let current = 0;
+          function show(index) {
+            current = wrap(index, items.length);
+            const item = items[current];
+            select.value = String(current);
+            $("#menu-page-image").src = item.src;
+            $("#menu-page-image").alt = item.alt;
+            $("#menu-preview").href = item.src;
+            $("#menu-counter").textContent = (current + 1) + " / " + items.length;
           }
+          $("#menu-prev").addEventListener("click", () => show(current - 1));
+          $("#menu-next").addEventListener("click", () => show(current + 1));
+          select.addEventListener("change", () => show(Number(select.value)));
+          $("#menu-preview").addEventListener("click", (event) => {
+            if (openViewer(items, current, show)) event.preventDefault();
+          });
+          $("#menu-enlarge").hidden = !canView;
+          $("#menu-enlarge").addEventListener("click", () => openViewer(items, current, show));
+          $("[data-menu-reader-controls]").hidden = false;
+          show(0);
+        }
 
-          function pluck(frequency, when) {
-            var osc = audioContext.createOscillator();
-            var gain = audioContext.createGain();
-            var filter = audioContext.createBiquadFilter();
-
-            osc.type = "triangle";
-            osc.frequency.setValueAtTime(frequency, when);
-            filter.type = "lowpass";
-            filter.frequency.setValueAtTime(1500, when);
-            filter.frequency.exponentialRampToValueAtTime(520, when + 0.8);
-
-            gain.gain.setValueAtTime(0.0001, when);
-            gain.gain.exponentialRampToValueAtTime(0.12, when + 0.025);
-            gain.gain.exponentialRampToValueAtTime(0.0001, when + 1.15);
-
-            osc.connect(filter);
-            filter.connect(gain);
-            gain.connect(masterGain);
-            gain.connect(delayNode);
-            osc.start(when);
-            osc.stop(when + 1.25);
+        function initTableGallery() {
+          const stack = $("[data-stack]");
+          const cards = $$(".stack-card", stack);
+          const items = cards.map(photoOf);
+          let current = 0, startX = 0, startY = 0, swiped = false;
+          stack.classList.add("is-enhanced");
+          function show(index) {
+            current = wrap(index, cards.length);
+            cards.forEach((card, i) => {
+              const distance = wrap(i - current, cards.length);
+              card.style.zIndex = String(cards.length - distance);
+              card.style.opacity = String(1 - distance * 0.07);
+              card.style.transform = "translate(" + (distance * 5) + "px," + (distance * 4) + "px) rotate(" + (distance ? (distance % 2 ? 1 : -1) * distance * 2 : -2) + "deg) scale(" + (1 - distance * 0.04) + ")";
+              card.style.pointerEvents = distance ? "none" : "auto";
+              card.tabIndex = distance ? -1 : 0;
+              card.setAttribute("aria-hidden", String(Boolean(distance)));
+              card.setAttribute("aria-label", "View " + items[i].alt);
+            });
+            $("[data-gallery-caption]").textContent = (current + 1) + " / " + cards.length + " · " + items[current].alt;
           }
+          cards.forEach((card, index) => card.addEventListener("click", (event) => {
+            if (swiped) { event.preventDefault(); swiped = false; return; }
+            if (openViewer(items, index, show)) event.preventDefault();
+          }));
+          $("[data-gallery-prev]").addEventListener("click", () => show(current - 1));
+          $("[data-gallery-next]").addEventListener("click", () => show(current + 1));
+          stack.addEventListener("pointerdown", (event) => { startX = event.clientX; startY = event.clientY; swiped = false; });
+          stack.addEventListener("pointerup", (event) => {
+            const dx = event.clientX - startX, dy = event.clientY - startY;
+            if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) { swiped = true; show(current + (dx < 0 ? 1 : -1)); }
+          });
+          $("[data-gallery-controls]").hidden = false;
+          show(0);
+        }
 
-          function startPad() {
-            [146.83, 220.0].forEach(function (frequency, index) {
-              var osc = audioContext.createOscillator();
-              var gain = audioContext.createGain();
-              var filter = audioContext.createBiquadFilter();
-
-              osc.type = "sine";
-              osc.frequency.value = frequency;
-              filter.type = "lowpass";
-              filter.frequency.value = 480;
-              gain.gain.value = 0.012 + index * 0.005;
-
-              osc.connect(filter);
-              filter.connect(gain);
-              gain.connect(masterGain);
-              osc.start();
-              padNodes.push({ osc: osc, gain: gain });
+        function initPageDetails() {
+          const progress = $(".scroll-progress");
+          const back = $(".back-top");
+          let frame = 0;
+          function update() {
+            frame = 0;
+            const max = document.documentElement.scrollHeight - innerHeight;
+            progress.style.transform = "scaleX(" + Math.min(1, Math.max(0, max ? scrollY / max : 0)) + ")";
+            back.hidden = scrollY < 650;
+          }
+          addEventListener("scroll", () => { if (!frame) frame = requestAnimationFrame(update); }, { passive: true });
+          addEventListener("resize", update);
+          update();
+          function highlightToday() {
+            const day = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Riga", weekday: "long" }).format(new Date());
+            $$(".hours-row").forEach((row) => {
+              const current = $("span", row).textContent === day;
+              row.classList.toggle("current", current);
+              if (current) row.setAttribute("aria-current", "date");
+              else row.removeAttribute("aria-current");
             });
           }
+          highlightToday();
+          document.addEventListener("visibilitychange", () => { if (!document.hidden) highlightToday(); });
+        }
 
-          function scheduleMusic() {
-            var step = 0;
-            var playStep = function () {
-              if (!playing) return;
-              var now = audioContext.currentTime;
-              var note = scale[pattern[step % pattern.length]];
-              var octaveLift = step % 7 === 0 ? 2 : 1;
-              pluck(note * octaveLift, now + 0.02);
-              if (step % 4 === 0) pluck(scale[(step + 3) % scale.length] * 0.5, now + 0.08);
-              step += 1;
-            };
-
-            playStep();
-            timers.push(setInterval(playStep, 780));
-            timers.push(
-              setInterval(function () {
-                trackIndex = (trackIndex + 1) % playlist.length;
-                label.textContent = playlist[trackIndex];
-              }, 10500)
-            );
-          }
-
-          function stopMusic() {
+        // Optional generated ambient melody. No microphone, recording, tracking or autoplay.
+        function initRadio() {
+          const button = $(".music-toggle");
+          const label = $("[data-track-name]");
+          const Audio = window.AudioContext || window.webkitAudioContext;
+          if (!Audio) { $(".music-dock").hidden = true; return; }
+          let context, master, timer = null, playing = false, starting = false, step = 0;
+          const notes = [293.66, 349.23, 392, 440, 523.25, 587.33, 698.46];
+          const pattern = [0, 2, 4, 1, 3, 5, 4, 2, 6, 3, 1, 0];
+          function stop() {
             playing = false;
+            clearInterval(timer);
+            timer = null;
+            if (context && master) {
+              master.gain.cancelScheduledValues(context.currentTime);
+              master.gain.setTargetAtTime(0, context.currentTime, 0.08);
+            }
             button.setAttribute("aria-pressed", "false");
             button.textContent = "Play";
             label.textContent = "Mamma Mia Radio";
-            timers.forEach(clearInterval);
-            timers = [];
-            padNodes.forEach(function (node) {
-              try {
-                node.gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.25);
-                node.osc.stop(audioContext.currentTime + 0.35);
-              } catch (error) {}
-            });
-            padNodes = [];
           }
-
-          function startMusic() {
-            createContext();
-            audioContext.resume();
-            playing = true;
-            trackIndex = 0;
-            label.textContent = playlist[trackIndex];
-            button.setAttribute("aria-pressed", "true");
-            button.textContent = "Pause";
-            startPad();
-            scheduleMusic();
+          function pluck() {
+            if (!playing) return;
+            const now = context.currentTime;
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            const filter = context.createBiquadFilter();
+            oscillator.type = "triangle";
+            oscillator.frequency.value = notes[pattern[step++ % pattern.length]];
+            filter.type = "lowpass"; filter.frequency.value = 1200;
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.exponentialRampToValueAtTime(0.13, now + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.15);
+            oscillator.connect(filter); filter.connect(gain); gain.connect(master);
+            oscillator.onended = () => { oscillator.disconnect(); filter.disconnect(); gain.disconnect(); };
+            oscillator.start(now); oscillator.stop(now + 1.2);
           }
-
-          button.addEventListener("click", function () {
-            if (playing) {
-              stopMusic();
-              return;
-            }
-            startMusic();
+          button.addEventListener("click", async () => {
+            if (starting) return;
+            if (playing) { stop(); return; }
+            starting = true;
+            try {
+              if (!context) {
+                context = new Audio();
+                master = context.createGain();
+                master.gain.value = 0;
+                master.connect(context.destination);
+              }
+              await context.resume();
+              if (document.hidden) return;
+              playing = true; step = 0;
+              master.gain.cancelScheduledValues(context.currentTime);
+              master.gain.setTargetAtTime(0.12, context.currentTime, 0.08);
+              button.setAttribute("aria-pressed", "true");
+              button.textContent = "Pause";
+              label.textContent = "Riviera melody";
+              pluck(); timer = setInterval(pluck, 780);
+            } catch (error) {
+              stop();
+              label.textContent = "Audio unavailable";
+            } finally { starting = false; }
           });
+          document.addEventListener("visibilitychange", () => { if (document.hidden) stop(); });
+          addEventListener("pagehide", stop);
         }
 
-        initTextPressure();
-        initStacks();
-        initMediterraneanBgm();
-
-        document.querySelectorAll(".reveal").forEach(function (node, index) {
-          reveal(
-            node,
-            { opacity: [0, 1], transform: ["translateY(30px)", "translateY(0)"] },
-            { delay: 0.1 + index * 0.07, duration: 0.78, ease: [0.2, 0.8, 0.2, 1] }
-          );
+        // Keep individual enhancements independent; the underlying content stays readable.
+        [initNavigation, initBounceCards, initMenuReader, initTableGallery, initPageDetails, initRadio, revealOnScroll].forEach((initialise) => {
+          try { initialise(); } catch (error) { console.error("Mamma Mia enhancement:", initialise.name, error); }
         });
-
-        document.querySelectorAll(".feature-card, .image-stack img").forEach(function (node) {
-          node.addEventListener("pointermove", function (event) {
-            var rect = node.getBoundingClientRect();
-            var x = (event.clientX - rect.left) / rect.width - 0.5;
-            var y = (event.clientY - rect.top) / rect.height - 0.5;
-            node.style.transform = "perspective(900px) rotateX(" + (-y * 5).toFixed(2) + "deg) rotateY(" + (x * 5).toFixed(2) + "deg) translateY(-4px)";
-          });
-          node.addEventListener("pointerleave", function () {
-            node.style.transform = "";
-          });
+        motion.addEventListener("change", () => {
+          if (motion.matches) $$(".nav-card, .reveal").forEach((node) => node.getAnimations().forEach((animation) => animation.cancel()));
         });
-
-        var heroTitle = document.querySelector("h1");
-        if (heroTitle) {
-          reveal(
-            heroTitle,
-            { opacity: [0, 1], transform: ["translateY(32px) scale(.96)", "translateY(0) scale(1)"] },
-            { duration: 0.9, ease: [0.16, 1, 0.3, 1] }
-          );
-        }
       })();
     </script>
   </body>
 </html>
+index.html
+HTML
