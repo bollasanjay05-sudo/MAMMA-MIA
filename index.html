@@ -1,16 +1,11 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#073c75" />
-    <title>Mamma Mia Riga | Restaurant & Pizzeria</title>
-    <link rel="icon" href="assets/favicon.ico" sizes="any" />
-    <link rel="apple-touch-icon" href="assets/mamma-mia-logo-color.png" />
-    <meta
-      name="description"
-      content="Mamma Mia Restaurant & Pizzeria in Riga serves authentic Mediterranean plates, seafood, pizza, desserts, wine, and warm hospitality."
-    />
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#073c75">
+    <title>Mamma Mia Riga | Restaurant &amp; Pizzeria</title>
+    <link rel="icon" href="assets/asset-01-6ffc6a6a3ed1.ico" sizes="any">
+    <link rel="apple-touch-icon" href="assets/asset-02-94e351084c82.png">
+    <meta name="description" content="Mamma Mia Restaurant &amp; Pizzeria in Riga serves authentic Mediterranean plates, seafood, pizza, desserts, wine, and warm hospitality.">
     <style>
       :root {
         --sea: #0078b8;
@@ -156,7 +151,7 @@
       .hero::before {
         background:
           linear-gradient(90deg, rgba(4, 33, 72, 0.78) 0%, rgba(0, 120, 184, 0.28) 48%, rgba(255, 211, 49, 0.2) 100%),
-          url("assets/mamma-mia-hero-interior.jpg") center / cover;
+          url("assets/asset-03-9a38ff00684c.jpg") center / cover;
         content: "";
         inset: 0;
         position: absolute;
@@ -231,8 +226,7 @@
         -webkit-user-drag: none;
       }
 
-      .hero .sticker,
-      .aqua-band .sticker {
+      .hero .sticker {
         opacity: 0.82;
       }
 
@@ -545,37 +539,66 @@
       }
 
       .aqua-band {
-        background:
-          linear-gradient(135deg, rgba(0, 120, 184, 0.94), rgba(0, 184, 200, 0.78)),
-          url("assets/mamma-mia-table.webp") center / cover;
+        background: #073c75;
         color: var(--white);
         overflow: hidden;
         position: relative;
+        isolation: isolate;
       }
 
       .aqua-band::before {
-        animation: shimmer 11s ease-in-out infinite alternate;
-        background: repeating-radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.35) 0 2px, transparent 2px 22px);
+        background: linear-gradient(90deg, rgba(4, 29, 56, 0.82) 0%, rgba(4, 29, 56, 0.64) 42%, rgba(4, 29, 56, 0.12) 78%);
         content: "";
         inset: 0;
-        opacity: 0.45;
         position: absolute;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .aqua-photo-link {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        display: block;
+        cursor: zoom-in;
+      }
+
+      .aqua-photo-link img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 58%;
+      }
+
+      .aqua-photo-link:focus-visible {
+        outline: 3px solid var(--sun);
+        outline-offset: -6px;
       }
 
       .aqua-content {
         display: grid;
         gap: 1.25rem;
-        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: center;
+        min-height: clamp(40rem, 54vw, 51rem);
         margin: 0 auto;
         max-width: 1180px;
-        padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 2rem);
+        padding: clamp(3rem, 5vw, 5rem) clamp(1rem, 4vw, 2rem);
         position: relative;
-        z-index: 4;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .aqua-copy {
+        display: grid;
+        gap: 1.5rem;
+        pointer-events: auto;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
       }
 
       .aqua-content h2 {
-        font-size: clamp(2.4rem, 6vw, 6rem);
-        line-height: 0.88;
+        font-size: clamp(2.8rem, 5vw, 4.7rem);
+        line-height: 0.96;
         margin: 0;
         max-width: 780px;
         text-transform: uppercase;
@@ -587,34 +610,6 @@
         line-height: 1.55;
         margin: 0;
         max-width: 570px;
-      }
-
-      .plate-badge {
-        align-items: center;
-        animation: bob 5s ease-in-out infinite;
-        aspect-ratio: 1;
-        background:
-          radial-gradient(circle at 50% 50%, rgba(255, 253, 246, 0.98) 0 58%, rgba(255, 211, 49, 0.28) 59% 100%);
-        border: 7px solid var(--white);
-        border-radius: 999px;
-        color: var(--deep-sea);
-        display: flex;
-        font-size: clamp(1.25rem, 2vw, 1.8rem);
-        font-weight: 1000;
-        justify-content: center;
-        box-shadow: 0 24px 60px rgba(7, 60, 117, 0.24);
-        overflow: visible;
-        padding: 1rem;
-        position: relative;
-        text-align: center;
-        text-shadow: 0 2px 0 rgba(255, 253, 246, 0.9);
-        text-transform: uppercase;
-        width: min(13rem, 26vw);
-      }
-
-      .plate-badge span {
-        position: relative;
-        z-index: 1;
       }
 
       .cook-section {
@@ -685,7 +680,12 @@
       }
 
       .cook-media {
-        background: var(--deep-sea);
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        background: var(--white);
         border: 7px solid var(--white);
         border-radius: 8px;
         box-shadow: var(--shadow);
@@ -693,12 +693,15 @@
         transform: rotate(2deg);
       }
 
-      .cook-media img {
-        aspect-ratio: 0.78;
-        height: 100%;
-        object-fit: cover;
-        width: 100%;
+      .kitchen-clip {
+        display: grid; gap: 1.25rem; margin: 0; width: 100%; max-width: 440px;
+        min-width: 0; justify-self: center;
       }
+      .kitchen-clip figcaption {
+        display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+        gap: 0.75rem 1rem; color: var(--deep-sea); text-align: center; line-height: 1.5;
+      }
+      .kitchen-clip a { font-size: 0.82rem; }
 
       .stack-gallery {
         display: grid;
@@ -862,7 +865,7 @@
       .contact {
         background:
           linear-gradient(180deg, rgba(255, 253, 246, 0.82), rgba(255, 247, 223, 0.92)),
-          url("assets/mamma-mia-dining-room.webp") center / cover;
+          url("assets/asset-04-e28033800ce1.webp") center / cover;
         border-top: 8px solid var(--sun);
       }
 
@@ -1078,10 +1081,6 @@
           min-height: auto;
         }
 
-        .plate-badge {
-          width: 11rem;
-        }
-
         .sticker {
           height: var(--size, 4.7rem);
           width: var(--size, 4.7rem);
@@ -1146,7 +1145,7 @@
         }
       }
       /* Paste-ready edition: all site styles and interactions live in this file.
-         Keep the supplied assets/ folder alongside index.html. */
+         All photographs and the cooking GIF are embedded in this file. */
       [hidden] { display: none !important; }
       html { scroll-padding-top: 7rem; }
       body { overflow-x: clip; }
@@ -1212,6 +1211,17 @@
       .section-title .eyebrow { color: var(--tomato); font-size: 0.8rem; }
       .pizza-showcase { overflow: visible; }
       .pizza-showcase .section-title { margin-bottom: 1.5rem; }
+      .pizza-intro {
+        display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        align-items: center; gap: clamp(1.5rem, 4vw, 3rem); margin-bottom: 2rem;
+      }
+      .pizza-intro .section-title { margin-bottom: 0; }
+      .pizza-intro-photo {
+        display: block; border: 6px solid var(--white); border-radius: 18px;
+        overflow: hidden; box-shadow: 0 16px 44px rgba(7, 60, 117, 0.14); cursor: zoom-in;
+      }
+      .pizza-intro-photo img { width: 100%; height: auto; aspect-ratio: 1500 / 844; object-fit: contain; }
+      .pizza-intro-photos { display: grid; gap: 1.25rem; min-width: 0; }
       .menu-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem; }
       .search-field { display: grid; gap: 0.4rem; flex: 1 1 270px; max-width: 420px; font-weight: 800; }
       .search-field input, .menu-picker {
@@ -1243,6 +1253,13 @@
       .is-searching .bounce-card { position: relative; transform: none !important; width: 100%; height: auto; opacity: 1 !important; }
       .no-results { padding: 2rem; background: var(--white); border: 1px solid #c7d7e4; border-radius: 16px; }
       .menu-book { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+      .menu-book-media { min-width: 0; width: 100%; display: grid; gap: 0.75rem; }
+      .menu-thumbnails { display: flex; gap: 0.5rem; overflow-x: auto; padding: 0.4rem; scrollbar-width: thin; position: relative; }
+      .menu-thumbnail { flex: 0 0 68px; padding: 4px; border: 2px solid transparent; border-radius: 8px; background: var(--white); color: var(--deep-sea); text-decoration: none; text-align: center; }
+      .menu-thumbnail img { width: 100%; height: 84px; object-fit: contain; }
+      .menu-thumbnail span { display: block; padding-top: 0.3rem; font-size: 0.75rem; font-weight: 850; }
+      .menu-thumbnail[aria-current="true"] { border-color: var(--deep-sea); background: #e5f4fb; }
+      .menu-thumbnail:hover { border-color: var(--sea); }
       .menu-page-link { display: block; background: var(--white); border-radius: 14px; padding: 0.6rem; box-shadow: var(--shadow); cursor: zoom-in; }
       .menu-page-link img { width: 100%; height: auto; aspect-ratio: 0.72; object-fit: contain; border-radius: 8px; }
       .menu-reader-tools { display: grid; gap: 1rem; }
@@ -1266,27 +1283,45 @@
       footer { padding-bottom: 6rem; }
       .image-dialog {
         width: min(1080px, calc(100% - 1.25rem)); max-width: none; max-height: 94svh;
-        margin: auto; padding: 1rem; border: 1px solid #496481; border-radius: 18px;
-        background: #08243c; color: var(--white); box-shadow: 0 25px 100px #0009;
+        margin: auto; padding: clamp(1rem, 2.5vw, 1.6rem);
+        border: 1px solid rgba(7, 60, 117, 0.15); border-radius: 18px;
+        background: var(--cream); color: var(--deep-sea);
+        box-shadow: 0 24px 80px rgba(7, 60, 117, 0.18); font-family: inherit;
       }
-      .image-dialog::backdrop { background: rgba(3, 17, 29, 0.88); backdrop-filter: blur(8px); }
+      .image-dialog::backdrop {
+        background: rgba(232, 244, 243, 0.9);
+        backdrop-filter: blur(4px);
+      }
       body.viewer-open { overflow: hidden; }
-      .viewer-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 0.8rem; }
-      .viewer-top h2 { font-size: clamp(1rem, 2.8vw, 1.4rem); margin: 0; }
-      .viewer-figure { margin: 0; height: min(65svh, 720px); background: #031626; border-radius: 10px; overflow: auto; }
+      .viewer-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; }
+      .viewer-heading { min-width: 0; }
+      .viewer-brand { display: block; color: var(--tomato); font-size: 0.7rem; font-weight: 850; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; }
+      .viewer-top h2 { color: var(--deep-sea); font-size: clamp(1.15rem, 2.8vw, 2rem); line-height: 1.12; font-weight: 900; margin: 0; }
+      .viewer-figure { margin: 0; height: min(65svh, 720px); background: var(--white); border: 1px solid rgba(7, 60, 117, 0.1); border-radius: 10px; overflow: auto; }
       .viewer-figure img { width: 100%; height: 100%; object-fit: contain; }
       .viewer-figure.is-zoomed img { width: max(100%, 1400px); max-width: none; height: auto; object-fit: initial; }
-      .viewer-controls { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 0.65rem; padding-top: 0.8rem; }
+      .viewer-controls { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 0.65rem; padding-top: 1rem; }
       .viewer-actions { display: flex; align-items: center; gap: 0.5rem; }
-      .viewer-controls .text-link { color: var(--white); font-size: 0.8rem; }
-      .viewer-counter { margin: 0; font-size: 0.85rem; }
+      .viewer-controls .text-link { color: var(--deep-sea); font-size: 0.8rem; }
+      .viewer-counter { margin: 0; color: var(--deep-sea); font-size: 0.85rem; font-weight: 750; }
+      .image-dialog .small-button, .image-dialog .icon-button { background: var(--white); border-color: rgba(7, 60, 117, 0.2); }
+      .image-dialog .small-button:hover, .image-dialog .icon-button:hover { background: #e5f4fb; }
+      .image-dialog .small-button[aria-pressed="true"] { background: var(--sun); }
       .viewer-error { padding: 1rem; }
       @media (max-width: 860px) {
+        .aqua-band::before { background: linear-gradient(180deg, rgba(4, 29, 56, 0.08) 0%, rgba(4, 29, 56, 0.38) 35%, rgba(4, 29, 56, 0.9) 100%); }
+        .aqua-photo-link img { object-position: center; }
+        .aqua-content { min-height: clamp(42rem, 120vw, 58rem); align-items: end; padding: 3rem 1.5rem; }
+        .aqua-copy { max-width: 38rem; }
+        .aqua-content h2 { font-size: clamp(2.5rem, 7vw, 4.3rem); }
+        .aqua-content p { font-size: 1.1rem; }
+        .pizza-intro { grid-template-columns: minmax(0, 1fr); }
         .bounce-menu-row, .bounce-menu-row:nth-child(even), .menu-book { grid-template-columns: minmax(0, 1fr); }
         .bounce-menu-grid { gap: 2.5rem; }
         .bounceCardsContainer.is-enhanced { height: 300px; }
         .is-enhanced .bounce-card { width: clamp(140px, 38vw, 215px); height: clamp(140px, 38vw, 215px); }
         .menu-page-link { max-width: 480px; width: 100%; justify-self: center; }
+        .menu-book-media { max-width: 480px; justify-self: center; }
         .menu-reader-tools { order: -1; }
       }
       @media (max-width: 600px) {
@@ -1325,7 +1360,7 @@
         .music-icon { display: none; }
       }
     </style>
-  </head>
+  <meta name="mamma-mia-build" content="fish-gif-fixed-v5"></head>
   <body>
     <a class="skip-link" href="#menu">Skip to menu</a>
     <div class="scroll-progress" aria-hidden="true"></div>
@@ -1334,12 +1369,12 @@
         <header class="topbar">
           <nav class="card-nav" aria-label="Primary navigation">
             <div class="card-nav-top">
-              <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="card-nav-content" aria-label="Open navigation" hidden>
+              <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="card-nav-content" aria-label="Open navigation" hidden="">
                 <span class="hamburger" aria-hidden="true"><i></i><i></i></span>
                 <span class="toggle-label">Explore</span>
               </button>
               <a class="brand-mark" href="#top" aria-label="Mamma Mia Riga home">
-                <img class="brand-logo" src="assets/mamma-mia-logo-color.png" alt="" width="44" height="44" />
+                <img class="brand-logo" src="assets/asset-02-94e351084c82.png" alt="" width="44" height="44" id="embedded-mamma-mia-logo-color-png" data-embedded-asset="mamma-mia-logo-color.png">
                 <span>Mamma Mia Riga</span>
               </a>
               <a class="nav-book" href="#contact">Book a table ↗</a>
@@ -1361,8 +1396,8 @@
           </nav>
         </header>
         <div class="music-dock" aria-label="Mediterranean background music">
-          <img class="music-icon" loading="lazy" decoding="async" src="assets/vinyl-sticker.gif" alt="" aria-hidden="true" />
-          <span data-track-name>Mamma Mia Radio</span>
+          <img class="music-icon" loading="lazy" decoding="async" src="assets/asset-05-1e17880ef526.gif" alt="" aria-hidden="true" id="embedded-vinyl-sticker-gif" data-embedded-asset="vinyl-sticker.gif">
+          <span data-track-name="">Mamma Mia Radio</span>
           <button class="music-toggle" type="button" aria-pressed="false">Play</button>
         </div>
 
@@ -1371,7 +1406,7 @@
           <div class="floating-food" aria-hidden="true">
           </div>
           <div class="hero-inner">
-            <p class="eyebrow">Mamma Mia Restaurant & Pizzeria in Riga</p>
+            <p class="eyebrow">Mamma Mia Restaurant &amp; Pizzeria in Riga</p>
             <div class="text-pressure-wrap">
               <h1 class="text-pressure-title" data-pressure-text="Mamma Mia">Mamma Mia</h1>
             </div>
@@ -1405,8 +1440,8 @@
             </div>
           </div>
           <div class="image-stack reveal">
-            <img loading="lazy" decoding="async" src="assets/mamma-mia-dining-room.webp" alt="Warm Mamma Mia dining room with wine shelves and set tables" />
-            <img loading="lazy" decoding="async" src="assets/mamma-mia-burrata.jpg" alt="Burrata with tomatoes, basil, olive oil, and wine at Mamma Mia" />
+            <img loading="lazy" decoding="async" src="assets/asset-04-e28033800ce1.webp" alt="Warm Mamma Mia dining room with wine shelves and set tables" id="embedded-mamma-mia-dining-room-webp" data-embedded-asset="mamma-mia-dining-room.webp">
+            <img loading="lazy" decoding="async" src="assets/asset-06-8de5dff94657.jpg" alt="Burrata with tomatoes, basil, olive oil, and wine at Mamma Mia" id="embedded-mamma-mia-burrata-jpg" data-embedded-asset="mamma-mia-burrata.jpg">
           </div>
         </section>
 
@@ -1429,21 +1464,21 @@
           </div>
           <div class="feature-grid">
             <article class="feature-card reveal">
-              <img loading="lazy" decoding="async" src="assets/mamma-mia-mussels.jpg" alt="Mussels served with toast at Mamma Mia" />
+              <img loading="lazy" decoding="async" src="assets/asset-07-3882c9bdc2fb.jpg" alt="Mussels served with toast at Mamma Mia" id="embedded-mamma-mia-mussels-jpg" data-embedded-asset="mamma-mia-mussels.jpg">
               <div>
                 <h3>Seafood warmth</h3>
                 <p>Mussels, pasta, fish, herbs, and coastal plates served with generous comfort.</p>
               </div>
             </article>
             <article class="feature-card reveal">
-              <img loading="lazy" decoding="async" src="assets/mamma-mia-dessert.jpg" alt="Dessert with ice cream, mint, and sauce at Mamma Mia" />
+              <img loading="lazy" decoding="async" src="assets/asset-08-790b36816384.jpg" alt="Dessert with ice cream, mint, and sauce at Mamma Mia" id="embedded-mamma-mia-dessert-jpg" data-embedded-asset="mamma-mia-dessert.jpg">
               <div>
                 <h3>Dessert table</h3>
                 <p>Sweet finishes, coffee, and the relaxed pace of a long Mediterranean meal.</p>
               </div>
             </article>
             <article class="feature-card reveal">
-              <img loading="lazy" decoding="async" src="assets/mamma-mia-coffee.jpg" alt="Coffee and cream-topped dessert at Mamma Mia" />
+              <img loading="lazy" decoding="async" src="assets/asset-09-6e78aa2828b6.jpg" alt="Coffee and cream-topped dessert at Mamma Mia" id="embedded-mamma-mia-coffee-jpg" data-embedded-asset="mamma-mia-coffee.jpg">
               <div>
                 <h3>Coffee ritual</h3>
                 <p>Espresso, tiramisu energy, and small details that make the table linger.</p>
@@ -1452,26 +1487,26 @@
           </div>
         </section>
 
-        <section class="aqua-band">
-          <div class="floating-food" aria-hidden="true">
-          </div>
+        <section class="aqua-band" aria-labelledby="holiday-title">
+          <a class="aqua-photo-link" href="#embedded-mamma-mia-holiday-fish-jpg" data-editorial-photo="" data-photo-title="Fresh. Simple. Italian." aria-label="View the fish and blue chopping board photograph" data-embedded-link="mamma-mia-holiday-fish.jpg">
+            <img src="assets/asset-10-330793607135.jpg" alt="Whole fish, chef's knife, lemon and fresh herbs on a blue chopping board" width="1086" height="1448" loading="lazy" decoding="async" id="embedded-mamma-mia-holiday-fish-jpg" data-embedded-asset="mamma-mia-holiday-fish.jpg">
+          </a>
           <div class="aqua-content reveal">
-            <div>
-              <h2>A little wave of holiday, right at dinner.</h2>
+            <div class="aqua-copy">
+              <h2 id="holiday-title">A little wave of holiday, right at dinner.</h2>
               <p>
                 A table full of colour, a glass raised to good company, and a little Mediterranean
                 sunshine in the heart of Riga.
               </p>
             </div>
-            <div class="plate-badge"><span>Color on every plate</span></div>
           </div>
         </section>
 
-        <section class="cook-section">
+        <section class="cook-section" aria-labelledby="cook-title">
           <div class="cook-inner reveal">
             <div class="cook-copy">
               <span class="cook-kicker">One little chance</span>
-              <h2>Let us cook for you.</h2>
+              <h2 id="cook-title">Let us cook for you.</h2>
               <p>
                 Give us a chance and let the kitchen do the singing: hot pans,
                 bright sauce, seafood, herbs, lemon, and plates made to share.
@@ -1479,29 +1514,41 @@
               <div class="cook-jingle">Come in hungry. Leave humming.</div>
               <a class="button primary" href="https://wa.me/37126307986?text=Hello%20Mamma%20Mia%2C%20I%20would%20like%20to%20book%20a%20table." target="_blank" rel="noreferrer">Book on WhatsApp</a>
             </div>
-            <div class="cook-media">
-              <img loading="lazy" decoding="async" src="assets/mamma-mia-fresh-fish.webp" alt="Mamma Mia fresh fish with herbs, lemon, and chef's knives on a blue background" width="900" height="1200" />
-            </div>
+            <figure class="kitchen-clip">
+              <picture>
+                <source media="(prefers-reduced-motion: reduce)" srcset="assets/asset-11-c1892e3a8985.webp">
+                <img class="cook-media" id="kitchen-gif" src="assets/asset-12-757470b4f884.gif" data-poster="assets/asset-11-c1892e3a8985.webp" width="384" height="480" alt="Chef tossing food in a hot wok" loading="lazy" decoding="async" data-embedded-asset="cook-wok-animated.gif">
+              </picture>
+              <figcaption>
+                <button class="small-button" id="kitchen-toggle" type="button" aria-controls="kitchen-gif" aria-pressed="false" hidden="">Play animation</button>
+              </figcaption>
+            </figure>
           </div>
         </section>
 
         <section class="section">
           <div class="stack-gallery reveal">
-            <div class="stack-container" data-stack>
-              <a class="stack-card" href="assets/mamma-mia-duck.jpg" aria-label="View table photo">
-                <img loading="lazy" decoding="async" src="assets/mamma-mia-duck.jpg" alt="Sliced duck with roasted vegetables at Mamma Mia" />
+            <div class="stack-container" data-stack="">
+              <a class="stack-card" href="#embedded-mamma-mia-duck-jpg" aria-label="View table photo" data-embedded-link="mamma-mia-duck.jpg">
+                <img loading="lazy" decoding="async" src="assets/asset-13-6b36ea783100.jpg" alt="Sliced duck with roasted vegetables at Mamma Mia" id="embedded-mamma-mia-duck-jpg" data-embedded-asset="mamma-mia-duck.jpg">
               </a>
-              <a class="stack-card" href="assets/mamma-mia-table.webp" aria-label="View table photo">
-                <img loading="lazy" decoding="async" src="assets/mamma-mia-table.webp" alt="Shared Mamma Mia table with plated dishes and desserts" />
+              <a class="stack-card" href="#embedded-mamma-mia-table-webp" aria-label="View table photo" data-embedded-link="mamma-mia-table.webp">
+                <img loading="lazy" decoding="async" src="assets/asset-14-fe1db9ec4ca3.webp" alt="Shared Mamma Mia table with plated dishes and desserts" id="embedded-mamma-mia-table-webp" data-embedded-asset="mamma-mia-table.webp">
               </a>
-              <a class="stack-card" href="assets/mamma-mia-baked-dish.jpg" aria-label="View table photo">
-                <img loading="lazy" decoding="async" src="assets/mamma-mia-baked-dish.jpg" alt="Baked Mediterranean dish with basil and toasted bread" />
+              <a class="stack-card" href="#embedded-mamma-mia-baked-dish-jpg" aria-label="View table photo" data-embedded-link="mamma-mia-baked-dish.jpg">
+                <img loading="lazy" decoding="async" src="assets/asset-15-7f869608aa62.jpg" alt="Baked Mediterranean dish with basil and toasted bread" id="embedded-mamma-mia-baked-dish-jpg" data-embedded-asset="mamma-mia-baked-dish.jpg">
               </a>
-              <a class="stack-card" href="assets/mamma-mia-fish.jpg" aria-label="View table photo">
-                <img loading="lazy" decoding="async" src="assets/mamma-mia-fish.jpg" alt="Whole fish with vegetables and sauce at Mamma Mia" />
+              <a class="stack-card" href="#embedded-mamma-mia-fish-jpg" aria-label="View table photo" data-embedded-link="mamma-mia-fish.jpg">
+                <img loading="lazy" decoding="async" src="assets/asset-16-503a09fca6dd.jpg" alt="Whole fish with vegetables and sauce at Mamma Mia" id="embedded-mamma-mia-fish-jpg" data-embedded-asset="mamma-mia-fish.jpg">
               </a>
-              <a class="stack-card" href="assets/mamma-mia-salad.jpg" aria-label="View table photo">
-                <img loading="lazy" decoding="async" src="assets/mamma-mia-salad.jpg" alt="Fresh green salad with artichokes and shaved cheese" />
+              <a class="stack-card" href="#embedded-mamma-mia-salad-jpg" aria-label="View table photo" data-embedded-link="mamma-mia-salad.jpg">
+                <img loading="lazy" decoding="async" src="assets/asset-17-aa2ca5569af3.jpg" alt="Fresh green salad with shaved cheese at Mamma Mia" id="embedded-mamma-mia-salad-jpg" data-embedded-asset="mamma-mia-salad.jpg">
+              </a>
+              <a class="stack-card" href="#embedded-mamma-mia-pasta-jpg" aria-label="View the seafood pasta photograph" data-embedded-link="mamma-mia-pasta.jpg">
+                <img loading="lazy" decoding="async" src="assets/asset-18-1bb245a976ee.jpg" alt="Seafood pasta served at a Mamma Mia table" id="embedded-mamma-mia-pasta-jpg" data-embedded-asset="mamma-mia-pasta.jpg">
+              </a>
+              <a class="stack-card" href="#embedded-mamma-mia-terrace-webp" aria-label="View the restaurant terrace photograph" data-embedded-link="mamma-mia-terrace.webp">
+                <img loading="lazy" decoding="async" src="assets/asset-19-e0eb060caf03.webp" alt="Mamma Mia outdoor tables beneath a striped awning" id="embedded-mamma-mia-terrace-webp" data-embedded-asset="mamma-mia-terrace.webp">
               </a>
             </div>
             <div class="stack-copy">
@@ -1509,30 +1556,40 @@
               <p>
                 A few moments from Mamma Mia. Browse the photographs, then tap one for a closer look.
               </p>
-              <div class="reader-controls" data-gallery-controls hidden>
-                <button class="small-button" type="button" data-gallery-prev aria-label="Previous table photo">← Previous</button>
-                <button class="small-button" type="button" data-gallery-next aria-label="Next table photo">Next →</button>
+              <div class="reader-controls" data-gallery-controls="" hidden="">
+                <button class="small-button" type="button" data-gallery-prev="" aria-label="Previous table photo">← Previous</button>
+                <button class="small-button" type="button" data-gallery-next="" aria-label="Next table photo">Next →</button>
               </div>
-              <span class="stack-caption" data-gallery-caption aria-live="polite"></span>
+              <span class="stack-caption" data-gallery-caption="" aria-live="polite"></span>
             </div>
           </div>
         </section>
 
         <section class="section pizza-showcase" id="menu">
-          <div class="section-title reveal">
-            <p class="eyebrow">Made to make you hungry</p>
-            <h2>Meet the pizza menu.</h2>
-            <p>Hover to spread the cards. Tap any photograph for a closer look at your next favourite.</p>
+          <div class="pizza-intro">
+            <div class="section-title reveal">
+              <p class="eyebrow">Made to make you hungry</p>
+              <h2>Meet the pizza menu.</h2>
+              <p>Hover to spread the cards. Tap any photograph for a closer look at your next favourite.</p>
+            </div>
+            <div class="pizza-intro-photos">
+              <a class="pizza-intro-photo reveal" href="#embedded-pizza-cover-webp" data-editorial-photo="" data-photo-title="The Mamma Mia pizza table" aria-label="View the full pizza selection photograph" data-embedded-link="pizza-cover.webp">
+                <img src="assets/asset-20-e7c2cc1b4ec2.webp" alt="Mamma Mia pizza selection arranged with tomatoes, olives and basil" width="1500" height="844" loading="lazy" decoding="async" id="embedded-pizza-cover-webp" data-embedded-asset="pizza-cover.webp">
+              </a>
+              <a class="pizza-intro-photo reveal" href="#embedded-pizza-close-up-webp" data-editorial-photo="" data-photo-title="From the Mamma Mia kitchen" aria-label="View the pizza close-up" data-embedded-link="pizza-close-up.webp">
+                <img loading="lazy" decoding="async" src="assets/asset-21-3ff2e02bb65d.webp" alt="Close-up of Mamma Mia pizzas with golden crusts and fresh basil" width="1500" height="844" id="embedded-pizza-close-up-webp" data-embedded-asset="pizza-close-up.webp">
+              </a>
+            </div>
           </div>
-          <div class="menu-toolbar" data-menu-toolbar hidden>
+          <div class="menu-toolbar" data-menu-toolbar="" hidden="">
             <label class="search-field" for="pizza-search">Find your favourite pizza
-              <input id="pizza-search" type="search" placeholder="Try Margherita, Napoli, Calzone…" autocomplete="off" />
+              <input id="pizza-search" type="search" placeholder="Try Margherita, Napoli, Calzone…" autocomplete="off">
             </label>
-            <button class="small-button" id="clear-search" type="button" hidden>Clear search</button>
-            <output id="pizza-count" for="pizza-search" aria-live="polite">14 photographs</output>
+            <button class="small-button" id="clear-search" type="button" hidden="">Clear search</button>
+            <output id="pizza-count" for="pizza-search" aria-live="polite">12 pizzas</output>
             <a class="text-link" href="#full-menu">View the full menu ↗</a>
           </div>
-          <p class="no-results" id="no-pizza-results" hidden>No matching pizza. Try another name or clear the search.</p>
+          <p class="no-results" id="no-pizza-results" hidden="">No matching pizza. Try another name or clear the search.</p>
           <div class="bounce-menu-grid">
             <article class="bounce-menu-row reveal">
               <div class="bounce-menu-copy">
@@ -1540,12 +1597,12 @@
                 <h3>Big flavour. Zero shyness.</h3>
                 <p>Porchetta Royal, Napoli, Tuna Bliss, Veggie Vibes, and Quattro Formaggi.</p>
               </div>
-              <div class="bounceCardsContainer" data-bounce-cards aria-label="House favourite pizzas">
-                <a class="bounce-card" href="assets/pizza-porchetta-royal.webp" data-transform="rotate(5deg) translateX(-150px)" aria-label="Porchetta Royal"><img src="assets/pizza-porchetta-royal.webp" alt="Porchetta Royal pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Porchetta Royal</span></a>
-                <a class="bounce-card" href="assets/pizza-napoli.webp" data-transform="rotate(0deg) translateX(-70px)" aria-label="Napoli"><img src="assets/pizza-napoli.webp" alt="Napoli pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Napoli</span></a>
-                <a class="bounce-card" href="assets/pizza-tuna-bliss.webp" data-transform="rotate(-5deg)" aria-label="Tuna Bliss"><img src="assets/pizza-tuna-bliss.webp" alt="Tuna Bliss pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Tuna Bliss</span></a>
-                <a class="bounce-card" href="assets/pizza-veggie-vibes.webp" data-transform="rotate(5deg) translateX(70px)" aria-label="Veggie Vibes"><img src="assets/pizza-veggie-vibes.webp" alt="Veggie Vibes pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Veggie Vibes</span></a>
-                <a class="bounce-card" href="assets/pizza-quattro-formaggi.webp" data-transform="rotate(-5deg) translateX(150px)" aria-label="Quattro Formaggi"><img src="assets/pizza-quattro-formaggi.webp" alt="Quattro Formaggi pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Quattro Formaggi</span></a>
+              <div class="bounceCardsContainer" data-bounce-cards="" aria-label="House favourite pizzas">
+                <a class="bounce-card" href="#embedded-pizza-porchetta-royal-webp" data-transform="rotate(5deg) translateX(-150px)" aria-label="Porchetta Royal" data-embedded-link="pizza-porchetta-royal.webp"><img src="assets/asset-22-00dcbb1d9f8f.webp" alt="Porchetta Royal pizza" loading="lazy" decoding="async" id="embedded-pizza-porchetta-royal-webp" data-embedded-asset="pizza-porchetta-royal.webp"><span class="bounce-card-label">Porchetta Royal</span></a>
+                <a class="bounce-card" href="#embedded-pizza-napoli-webp" data-transform="rotate(0deg) translateX(-70px)" aria-label="Napoli" data-embedded-link="pizza-napoli.webp"><img src="assets/asset-23-0de7e25aef0d.webp" alt="Napoli pizza" loading="lazy" decoding="async" id="embedded-pizza-napoli-webp" data-embedded-asset="pizza-napoli.webp"><span class="bounce-card-label">Napoli</span></a>
+                <a class="bounce-card" href="#embedded-pizza-tuna-bliss-webp" data-transform="rotate(-5deg)" aria-label="Tuna Bliss" data-embedded-link="pizza-tuna-bliss.webp"><img src="assets/asset-24-e925011f842e.webp" alt="Tuna Bliss pizza" loading="lazy" decoding="async" id="embedded-pizza-tuna-bliss-webp" data-embedded-asset="pizza-tuna-bliss.webp"><span class="bounce-card-label">Tuna Bliss</span></a>
+                <a class="bounce-card" href="#embedded-pizza-veggie-vibes-webp" data-transform="rotate(5deg) translateX(70px)" aria-label="Veggie Vibes" data-embedded-link="pizza-veggie-vibes.webp"><img src="assets/asset-25-ec61bea05534.webp" alt="Veggie Vibes pizza" loading="lazy" decoding="async" id="embedded-pizza-veggie-vibes-webp" data-embedded-asset="pizza-veggie-vibes.webp"><span class="bounce-card-label">Veggie Vibes</span></a>
+                <a class="bounce-card" href="#embedded-pizza-quattro-formaggi-webp" data-transform="rotate(-5deg) translateX(150px)" aria-label="Quattro Formaggi" data-embedded-link="pizza-quattro-formaggi.webp"><img src="assets/asset-26-2993683f2154.webp" alt="Quattro Formaggi pizza" loading="lazy" decoding="async" id="embedded-pizza-quattro-formaggi-webp" data-embedded-asset="pizza-quattro-formaggi.webp"><span class="bounce-card-label">Quattro Formaggi</span></a>
               </div>
             </article>
             <article class="bounce-menu-row reveal">
@@ -1554,25 +1611,23 @@
                 <h3>Crust with character.</h3>
                 <p>Mare Crunch, Diavola, Nonno Franco, Mortadella &amp; Pistachio, and Calzone.</p>
               </div>
-              <div class="bounceCardsContainer" data-bounce-cards aria-label="Bold and crispy pizzas">
-                <a class="bounce-card" href="assets/pizza-mare-crunch.webp" data-transform="rotate(-6deg) translateX(-150px)" aria-label="Mare Crunch"><img src="assets/pizza-mare-crunch.webp" alt="Mare Crunch pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Mare Crunch</span></a>
-                <a class="bounce-card" href="assets/pizza-diavola.webp" data-transform="rotate(4deg) translateX(-70px)" aria-label="Diavola"><img src="assets/pizza-diavola.webp" alt="Diavola pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Diavola</span></a>
-                <a class="bounce-card" href="assets/pizza-nonno-franco.webp" data-transform="rotate(-3deg)" aria-label="Nonno Franco"><img src="assets/pizza-nonno-franco.webp" alt="Nonno Franco pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Nonno Franco</span></a>
-                <a class="bounce-card" href="assets/pizza-mortadella-pistachio.webp" data-transform="rotate(6deg) translateX(70px)" aria-label="Mortadella and Pistachio"><img src="assets/pizza-mortadella-pistachio.webp" alt="Mortadella and pistachio pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Mortadella &amp; Pistachio</span></a>
-                <a class="bounce-card" href="assets/pizza-calzone.webp" data-transform="rotate(-4deg) translateX(150px)" aria-label="Calzone"><img src="assets/pizza-calzone.webp" alt="Folded Calzone pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Calzone</span></a>
+              <div class="bounceCardsContainer" data-bounce-cards="" aria-label="Bold and crispy pizzas">
+                <a class="bounce-card" href="#embedded-pizza-mare-crunch-webp" data-transform="rotate(-6deg) translateX(-150px)" aria-label="Mare Crunch" data-embedded-link="pizza-mare-crunch.webp"><img src="assets/asset-27-fd6813328d99.webp" alt="Mare Crunch pizza" loading="lazy" decoding="async" id="embedded-pizza-mare-crunch-webp" data-embedded-asset="pizza-mare-crunch.webp"><span class="bounce-card-label">Mare Crunch</span></a>
+                <a class="bounce-card" href="#embedded-pizza-diavola-webp" data-transform="rotate(4deg) translateX(-70px)" aria-label="Diavola" data-embedded-link="pizza-diavola.webp"><img src="assets/asset-28-e0dc33eb4f70.webp" alt="Diavola pizza" loading="lazy" decoding="async" id="embedded-pizza-diavola-webp" data-embedded-asset="pizza-diavola.webp"><span class="bounce-card-label">Diavola</span></a>
+                <a class="bounce-card" href="#embedded-pizza-nonno-franco-webp" data-transform="rotate(-3deg)" aria-label="Nonno Franco" data-embedded-link="pizza-nonno-franco.webp"><img src="assets/asset-29-b1fc48e1b290.webp" alt="Nonno Franco pizza" loading="lazy" decoding="async" id="embedded-pizza-nonno-franco-webp" data-embedded-asset="pizza-nonno-franco.webp"><span class="bounce-card-label">Nonno Franco</span></a>
+                <a class="bounce-card" href="#embedded-pizza-mortadella-pistachio-webp" data-transform="rotate(6deg) translateX(70px)" aria-label="Mortadella and Pistachio" data-embedded-link="pizza-mortadella-pistachio.webp"><img src="assets/asset-30-ab9de42c3661.webp" alt="Mortadella and pistachio pizza" loading="lazy" decoding="async" id="embedded-pizza-mortadella-pistachio-webp" data-embedded-asset="pizza-mortadella-pistachio.webp"><span class="bounce-card-label">Mortadella &amp; Pistachio</span></a>
+                <a class="bounce-card" href="#embedded-pizza-calzone-webp" data-transform="rotate(-4deg) translateX(150px)" aria-label="Calzone" data-embedded-link="pizza-calzone.webp"><img src="assets/asset-31-c26ff94872e9.webp" alt="Folded Calzone pizza" loading="lazy" decoding="async" id="embedded-pizza-calzone-webp" data-embedded-asset="pizza-calzone.webp"><span class="bounce-card-label">Calzone</span></a>
               </div>
             </article>
             <article class="bounce-menu-row reveal">
               <div class="bounce-menu-copy">
                 <span>Mamma Mia classics</span>
                 <h3>The whole table says wow.</h3>
-                <p>Margherita and signature Mamma Mia creations, served with a little coastal theatre.</p>
+                <p>Margherita and our signature Mamma Mia pizza.</p>
               </div>
-              <div class="bounceCardsContainer" data-bounce-cards aria-label="Mamma Mia classic pizzas">
-                <a class="bounce-card" href="assets/pizza-margherita.webp" data-transform="rotate(6deg) translateX(-112px)" aria-label="Margherita"><img src="assets/pizza-margherita.webp" alt="Margherita pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Margherita</span></a>
-                <a class="bounce-card" href="assets/pizza-mamma-mia.webp" data-transform="rotate(-4deg) translateX(-38px)" aria-label="Mamma Mia signature pizza"><img src="assets/pizza-mamma-mia.webp" alt="Mamma Mia signature pizza" loading="lazy" decoding="async" /><span class="bounce-card-label">Mamma Mia</span></a>
-                <a class="bounce-card" href="assets/pizza-cover.webp" data-transform="rotate(3deg) translateX(38px)" aria-label="Mamma Mia pizza selection"><img src="assets/pizza-cover.webp" alt="Mamma Mia pizza selection" loading="lazy" decoding="async" /><span class="bounce-card-label">Pizza Selection</span></a>
-                <a class="bounce-card" href="assets/pizza-close-up.webp" data-transform="rotate(-6deg) translateX(112px)" aria-label="Mamma Mia close up"><img src="assets/pizza-close-up.webp" alt="Close-up of Mamma Mia pizzas" loading="lazy" decoding="async" /><span class="bounce-card-label">From the Oven</span></a>
+              <div class="bounceCardsContainer" data-bounce-cards="" aria-label="Mamma Mia classic pizzas">
+                <a class="bounce-card" href="#embedded-pizza-margherita-webp" data-transform="rotate(6deg) translateX(-66px)" aria-label="Margherita" data-embedded-link="pizza-margherita.webp"><img src="assets/asset-32-5e77d8d7d5d0.webp" alt="Margherita pizza" loading="lazy" decoding="async" id="embedded-pizza-margherita-webp" data-embedded-asset="pizza-margherita.webp"><span class="bounce-card-label">Margherita</span></a>
+                <a class="bounce-card" href="#embedded-pizza-mamma-mia-webp" data-transform="rotate(-4deg) translateX(66px)" aria-label="Mamma Mia signature pizza" data-embedded-link="pizza-mamma-mia.webp"><img src="assets/asset-33-c046c03fd77b.webp" alt="Mamma Mia signature pizza" loading="lazy" decoding="async" id="embedded-pizza-mamma-mia-webp" data-embedded-asset="pizza-mamma-mia.webp"><span class="bounce-card-label">Mamma Mia</span></a>
               </div>
             </article>
           </div>
@@ -1580,14 +1635,30 @@
 
         <section class="section" id="full-menu">
           <div class="menu-book reveal">
-            <a class="menu-page-link" id="menu-preview" href="assets/menu-1.webp" aria-label="Enlarge the current menu page">
-              <img id="menu-page-image" src="assets/menu-1.webp" alt="Mamma Mia side orders and kids menu" loading="lazy" decoding="async" />
-            </a>
+            <div class="menu-book-media">
+              <a class="menu-page-link" id="menu-preview" href="#menu-page-image" aria-label="Enlarge the current menu page" data-embedded-link="menu-1.webp">
+                <img id="menu-page-image" src="assets/asset-34-de49a46cd15e.webp" alt="Mamma Mia side orders and kids menu" loading="lazy" decoding="async" data-embedded-asset="menu-1.webp">
+              </a>
+              <nav class="menu-thumbnails" aria-label="Menu page thumbnails">
+                <a class="menu-thumbnail" href="#menu-page-image" data-menu-thumb="0" aria-label="Show menu page 1: side orders and kids" data-embedded-link="menu-1.webp"><img src="assets/asset-34-de49a46cd15e.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-1-webp" data-embedded-asset="menu-1.webp"><span>1</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-2-webp" data-menu-thumb="1" aria-label="Show menu page 2: main courses" data-embedded-link="menu-2.webp"><img src="assets/asset-35-eb457e3d6416.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-2-webp" data-embedded-asset="menu-2.webp"><span>2</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-3-webp" data-menu-thumb="2" aria-label="Show menu page 3: pasta and gnocchi" data-embedded-link="menu-3.webp"><img src="assets/asset-36-bf963792f460.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-3-webp" data-embedded-asset="menu-3.webp"><span>3</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-4-webp" data-menu-thumb="3" aria-label="Show menu page 4: desserts" data-embedded-link="menu-4.webp"><img src="assets/asset-37-ea674ac86e85.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-4-webp" data-embedded-asset="menu-4.webp"><span>4</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-5-webp" data-menu-thumb="4" aria-label="Show menu page 5: pizza" data-embedded-link="menu-5.webp"><img src="assets/asset-38-f0f583a54355.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-5-webp" data-embedded-asset="menu-5.webp"><span>5</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-6-webp" data-menu-thumb="5" aria-label="Show menu page 6: starters" data-embedded-link="menu-6.webp"><img src="assets/asset-39-246469c2d2a1.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-6-webp" data-embedded-asset="menu-6.webp"><span>6</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-7-webp" data-menu-thumb="6" aria-label="Show menu page 7: pizza" data-embedded-link="menu-7.webp"><img src="assets/asset-40-80e817dfa2ba.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-7-webp" data-embedded-asset="menu-7.webp"><span>7</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-8-webp" data-menu-thumb="7" aria-label="Show menu page 8: starters" data-embedded-link="menu-8.webp"><img src="assets/asset-41-ade27e4bb810.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-8-webp" data-embedded-asset="menu-8.webp"><span>8</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-9-webp" data-menu-thumb="8" aria-label="Show menu page 9: salads and soups" data-embedded-link="menu-9.webp"><img src="assets/asset-42-5a162976c040.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-9-webp" data-embedded-asset="menu-9.webp"><span>9</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-10-webp" data-menu-thumb="9" aria-label="Show menu page 10: desserts" data-embedded-link="menu-10.webp"><img src="assets/asset-43-9f93f574e449.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-10-webp" data-embedded-asset="menu-10.webp"><span>10</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-11-webp" data-menu-thumb="10" aria-label="Show menu page 11: starters" data-embedded-link="menu-11.webp"><img src="assets/asset-44-60d830022c61.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-11-webp" data-embedded-asset="menu-11.webp"><span>11</span></a>
+                <a class="menu-thumbnail" href="#embedded-menu-12-webp" data-menu-thumb="11" aria-label="Show menu page 12: main courses" data-embedded-link="menu-12.webp"><img src="assets/asset-45-c688e2859530.webp" alt="" loading="lazy" decoding="async" id="embedded-menu-12-webp" data-embedded-asset="menu-12.webp"><span>12</span></a>
+              </nav>
+            </div>
             <div class="menu-reader-tools">
               <p class="eyebrow">The full menu</p>
-              <h2>Every craving,<br />covered.</h2>
+              <h2>Every craving,<br>covered.</h2>
               <p>Pizza, pasta, seafood and a little something sweet. Choose a page, then open it full-screen to read every detail.</p>
-              <div data-menu-reader-controls hidden>
+              <div data-menu-reader-controls="" hidden="">
                 <label class="menu-select-label" for="menu-page">Choose a menu page
                   <select class="menu-picker" id="menu-page">
                     <option value="0">Side orders &amp; kids</option>
@@ -1610,22 +1681,22 @@
                   <button class="small-button" id="menu-next" type="button" aria-label="Next menu page">Next →</button>
                 </div>
               </div>
-              <button class="button primary" id="menu-enlarge" type="button" hidden>Read full-screen ↗</button>
+              <button class="button primary" id="menu-enlarge" type="button" hidden="">Read full-screen ↗</button>
               <details class="menu-downloads">
                 <summary>Open individual menu pages</summary>
                 <ul class="menu-links">
-                  <li><a href="assets/menu-1.webp" target="_blank" rel="noopener">Side orders &amp; kids</a></li>
-                  <li><a href="assets/menu-2.webp" target="_blank" rel="noopener">Main courses · 1</a></li>
-                  <li><a href="assets/menu-3.webp" target="_blank" rel="noopener">Pasta &amp; gnocchi</a></li>
-                  <li><a href="assets/menu-4.webp" target="_blank" rel="noopener">Desserts · 1</a></li>
-                  <li><a href="assets/menu-5.webp" target="_blank" rel="noopener">Pizza · 1</a></li>
-                  <li><a href="assets/menu-6.webp" target="_blank" rel="noopener">Starters · 1</a></li>
-                  <li><a href="assets/menu-7.webp" target="_blank" rel="noopener">Pizza · 2</a></li>
-                  <li><a href="assets/menu-8.webp" target="_blank" rel="noopener">Starters · 2</a></li>
-                  <li><a href="assets/menu-9.webp" target="_blank" rel="noopener">Salads &amp; soups</a></li>
-                  <li><a href="assets/menu-10.webp" target="_blank" rel="noopener">Desserts · 2</a></li>
-                  <li><a href="assets/menu-11.webp" target="_blank" rel="noopener">Starters · 3</a></li>
-                  <li><a href="assets/menu-12.webp" target="_blank" rel="noopener">Main courses · 2</a></li>
+                  <li><a href="#menu-page-image" target="_blank" rel="noopener" data-embedded-link="menu-1.webp">Side orders &amp; kids</a></li>
+                  <li><a href="#embedded-menu-2-webp" target="_blank" rel="noopener" data-embedded-link="menu-2.webp">Main courses · 1</a></li>
+                  <li><a href="#embedded-menu-3-webp" target="_blank" rel="noopener" data-embedded-link="menu-3.webp">Pasta &amp; gnocchi</a></li>
+                  <li><a href="#embedded-menu-4-webp" target="_blank" rel="noopener" data-embedded-link="menu-4.webp">Desserts · 1</a></li>
+                  <li><a href="#embedded-menu-5-webp" target="_blank" rel="noopener" data-embedded-link="menu-5.webp">Pizza · 1</a></li>
+                  <li><a href="#embedded-menu-6-webp" target="_blank" rel="noopener" data-embedded-link="menu-6.webp">Starters · 1</a></li>
+                  <li><a href="#embedded-menu-7-webp" target="_blank" rel="noopener" data-embedded-link="menu-7.webp">Pizza · 2</a></li>
+                  <li><a href="#embedded-menu-8-webp" target="_blank" rel="noopener" data-embedded-link="menu-8.webp">Starters · 2</a></li>
+                  <li><a href="#embedded-menu-9-webp" target="_blank" rel="noopener" data-embedded-link="menu-9.webp">Salads &amp; soups</a></li>
+                  <li><a href="#embedded-menu-10-webp" target="_blank" rel="noopener" data-embedded-link="menu-10.webp">Desserts · 2</a></li>
+                  <li><a href="#embedded-menu-11-webp" target="_blank" rel="noopener" data-embedded-link="menu-11.webp">Starters · 3</a></li>
+                  <li><a href="#embedded-menu-12-webp" target="_blank" rel="noopener" data-embedded-link="menu-12.webp">Main courses · 2</a></li>
                 </ul>
               </details>
               <p style="font-size:0.85rem">For ingredients, allergens, current prices and availability, please ask the team.</p>
@@ -1637,7 +1708,7 @@
           <div class="contact-panel reveal">
             <h2>Come hungry. Leave sunlit.</h2>
             <p>
-              Mamma Mia Restaurant & Pizzeria is open Tuesday through Sunday, with the kitchen
+              Mamma Mia Restaurant &amp; Pizzeria is open Tuesday through Sunday, with the kitchen
               serving from 3-9:15 pm.
             </p>
             <div class="hours-panel" aria-label="Opening hours">
@@ -1672,7 +1743,7 @@
               <a href="https://www.instagram.com/mammamiariga" target="_blank" rel="noreferrer">@mammamiariga</a>
               <a href="https://www.google.com/maps/search/?api=1&amp;query=Mamma%20Mia%20Krisjana%20Valdemara%2034%20Riga" target="_blank" rel="noopener noreferrer">Krišjāņ Valdemāra Iela 34-25, Riga LV 1010 Latvia · Directions ↗</a>
               <a href="tel:+37126307986">Call +371 26307986</a>
-              <span>Restaurant & Pizzeria</span>
+              <span>Restaurant &amp; Pizzeria</span>
             </div>
             <div class="info-grid" aria-label="Restaurant details">
               <div class="info-card">
@@ -1702,16 +1773,19 @@
       </main>
     </div>
 
-    <a class="back-top icon-button" href="#top" aria-label="Back to top" hidden>↑</a>
+    <a class="back-top icon-button" href="#top" aria-label="Back to top" hidden="">↑</a>
     <dialog class="image-dialog" id="image-viewer" aria-labelledby="viewer-title">
       <div class="viewer-top">
-        <h2 id="viewer-title">Mamma Mia photographs</h2>
-        <button class="icon-button" id="viewer-close" type="button" aria-label="Close photo viewer" autofocus>✕</button>
+        <div class="viewer-heading">
+          <span class="viewer-brand">Mamma Mia · Riga</span>
+          <h2 id="viewer-title">A closer look</h2>
+        </div>
+        <button class="icon-button" id="viewer-close" type="button" aria-label="Close photo viewer" autofocus="">✕</button>
       </div>
       <figure class="viewer-figure" id="viewer-figure">
-        <img id="viewer-image" alt="" />
+        <img id="viewer-image" alt="">
       </figure>
-      <p class="viewer-error" id="viewer-error" role="status" hidden>This image could not load. Check the assets folder or open the original.</p>
+      <p class="viewer-error" id="viewer-error" role="status" hidden="">This photograph couldn't load. Please try again or open the original.</p>
       <div class="viewer-controls">
         <div class="viewer-actions">
           <button class="small-button" id="viewer-prev" type="button" aria-label="Previous image">← Previous</button>
@@ -1727,10 +1801,32 @@
 
     <!-- BounceCards and CardNav are adapted from the React Bits examples you supplied.
          GSAP is optional at runtime: native animation and readable static fallbacks are included. -->
-    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script defer="" src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script>
       (() => {
         "use strict";
+        // Full-size photo links for the single-file edition.
+        const embeddedImages = new Map();
+        document.querySelectorAll('img[data-embedded-asset]').forEach((image) => {
+          if (!embeddedImages.has(image.dataset.embeddedAsset)) embeddedImages.set(image.dataset.embeddedAsset, image.getAttribute('src'));
+        });
+        const embeddedURLs = new Map();
+        function embeddedImageURL(source) {
+          if (!source.startsWith('data:') || !URL.createObjectURL) return source;
+          if (!embeddedURLs.has(source)) {
+            const comma = source.indexOf(',');
+            const mime = source.slice(5, source.indexOf(';'));
+            const binary = atob(source.slice(comma + 1));
+            const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+            embeddedURLs.set(source, URL.createObjectURL(new Blob([bytes], { type: mime })));
+          }
+          return embeddedURLs.get(source);
+        }
+        document.querySelectorAll('[data-embedded-link]').forEach((link) => {
+          const source = embeddedImages.get(link.dataset.embeddedLink);
+          if (source) link.href = embeddedImageURL(source);
+        });
+
         const $ = (selector, root = document) => root.querySelector(selector);
         const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
         const motion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -1738,7 +1834,7 @@
         const wrap = (index, length) => (index + length) % length;
         const photoOf = (element) => {
           const img = $("img", element);
-          return { src: img.getAttribute("src"), alt: img.alt, title: $(".bounce-card-label", element)?.textContent || img.alt };
+          return { src: img.getAttribute("src"), alt: img.alt, title: element.dataset.photoTitle || $(".bounce-card-label", element)?.textContent || img.alt };
         };
 
         function revealOnScroll() {
@@ -1820,7 +1916,7 @@
           $("#viewer-image").src = item.src;
           $("#viewer-image").alt = item.alt;
           $("#viewer-title").textContent = item.title;
-          $("#viewer-original").href = item.src;
+          $("#viewer-original").href = embeddedImageURL(item.src);
           $("#viewer-counter").textContent = (viewerIndex + 1) + " / " + viewerItems.length;
           $("#viewer-prev").disabled = $("#viewer-next").disabled = viewerItems.length < 2;
           if (viewerOnChange) viewerOnChange(viewerIndex);
@@ -1860,6 +1956,47 @@
               moveViewer(event.key === "ArrowLeft" ? -1 : 1);
             }
           });
+        }
+
+        function initEditorialPhotos() {
+          const links = $$("[data-editorial-photo]");
+          const items = links.map(photoOf);
+          links.forEach((link, index) => link.addEventListener("click", (event) => {
+            if (openViewer(items, index)) event.preventDefault();
+          }));
+        }
+
+        function initKitchenClip() {
+          const image = $("#kitchen-gif");
+          const button = $("#kitchen-toggle");
+          if (!image || !button) return;
+          const animatedSource = image.getAttribute("src");
+          const reducedSource = image.parentElement.querySelector("source");
+          let inView = !("IntersectionObserver" in window), userPlaying = null;
+          button.hidden = false;
+          function syncPlayback() {
+            const requested = userPlaying ?? !motion.matches;
+            const playing = requested && inView && !document.hidden;
+            const source = playing ? animatedSource : image.dataset.poster;
+            if (image.getAttribute("src") !== source) image.src = source;
+            if (reducedSource) reducedSource.srcset = source;
+            button.setAttribute("aria-pressed", String(requested));
+            button.textContent = requested ? "Pause animation" : "Play animation";
+          }
+          button.addEventListener("click", () => {
+            userPlaying = !(userPlaying ?? !motion.matches);
+            syncPlayback();
+          });
+          if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver((entries) => {
+              inView = entries.some((entry) => entry.isIntersecting);
+              syncPlayback();
+            }, { threshold: 0.15 });
+            observer.observe(image);
+          }
+          motion.addEventListener("change", () => { userPlaying = null; syncPlayback(); });
+          document.addEventListener("visibilitychange", syncPlayback);
+          syncPlayback();
         }
 
         function initBounceCards() {
@@ -1984,7 +2121,7 @@
             });
             $("#clear-search").hidden = !query;
             $("#no-pizza-results").hidden = count > 0;
-            $("#pizza-count").textContent = count + (count === 1 ? " photograph" : " photographs");
+            $("#pizza-count").textContent = count + (count === 1 ? " pizza" : " pizzas");
             layouts.forEach((layout) => layout());
           }
           $("[data-menu-toolbar]").hidden = false;
@@ -2004,8 +2141,9 @@
 
         function initMenuReader() {
           const select = $("#menu-page");
+          const thumbnails = $$("[data-menu-thumb]");
           const items = Array.from(select.options).map((option, index) => ({
-            src: "assets/menu-" + (index + 1) + ".webp",
+            src: thumbnails[index].getAttribute("href"),
             title: option.textContent,
             alt: "Mamma Mia menu: " + option.textContent
           }));
@@ -2018,7 +2156,21 @@
             $("#menu-page-image").alt = item.alt;
             $("#menu-preview").href = item.src;
             $("#menu-counter").textContent = (current + 1) + " / " + items.length;
+            thumbnails.forEach((thumbnail, i) => {
+              if (i === current) thumbnail.setAttribute("aria-current", "true");
+              else thumbnail.removeAttribute("aria-current");
+            });
+            const active = thumbnails[current];
+            if (active) $(".menu-thumbnails").scrollTo({ left: Math.max(0, active.offsetLeft - ($(".menu-thumbnails").clientWidth - active.offsetWidth) / 2), behavior: "auto" });
           }
+          thumbnails.forEach((thumbnail) => {
+            thumbnail.setAttribute("role", "button");
+            thumbnail.setAttribute("aria-controls", "menu-preview");
+            thumbnail.addEventListener("click", (event) => { event.preventDefault(); show(Number(thumbnail.dataset.menuThumb)); });
+            thumbnail.addEventListener("keydown", (event) => {
+              if (event.key === " ") { event.preventDefault(); thumbnail.click(); }
+            });
+          });
           $("#menu-prev").addEventListener("click", () => show(current - 1));
           $("#menu-next").addEventListener("click", () => show(current + 1));
           select.addEventListener("change", () => show(Number(select.value)));
@@ -2041,9 +2193,11 @@
             current = wrap(index, cards.length);
             cards.forEach((card, i) => {
               const distance = wrap(i - current, cards.length);
+              const layer = Math.min(distance, 4);
               card.style.zIndex = String(cards.length - distance);
-              card.style.opacity = String(1 - distance * 0.07);
-              card.style.transform = "translate(" + (distance * 5) + "px," + (distance * 4) + "px) rotate(" + (distance ? (distance % 2 ? 1 : -1) * distance * 2 : -2) + "deg) scale(" + (1 - distance * 0.04) + ")";
+              card.style.visibility = distance < 5 ? "visible" : "hidden";
+              card.style.opacity = String(1 - layer * 0.07);
+              card.style.transform = "translate(" + (layer * 5) + "px," + (layer * 4) + "px) rotate(" + (layer ? (layer % 2 ? 1 : -1) * layer * 2 : -2) + "deg) scale(" + (1 - layer * 0.04) + ")";
               card.style.pointerEvents = distance ? "none" : "auto";
               card.tabIndex = distance ? -1 : 0;
               card.setAttribute("aria-hidden", String(Boolean(distance)));
@@ -2159,7 +2313,7 @@
         }
 
         // Keep individual enhancements independent; the underlying content stays readable.
-        [initNavigation, initBounceCards, initMenuReader, initTableGallery, initPageDetails, initRadio, revealOnScroll].forEach((initialise) => {
+        [initNavigation, initEditorialPhotos, initKitchenClip, initBounceCards, initMenuReader, initTableGallery, initPageDetails, initRadio, revealOnScroll].forEach((initialise) => {
           try { initialise(); } catch (error) { console.error("Mamma Mia enhancement:", initialise.name, error); }
         });
         motion.addEventListener("change", () => {
@@ -2167,5 +2321,6 @@
         });
       })();
     </script>
-  </body>
-</html>
+  
+
+</body></html>
